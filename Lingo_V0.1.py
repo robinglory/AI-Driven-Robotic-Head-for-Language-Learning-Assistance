@@ -10,6 +10,7 @@ load_dotenv()
 deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
 minstral_api_key = os.getenv("MINSTRAL_API_KEY")
 
+
 # Default model and client
 current_model = "qwen/qwen3-coder:free"
 current_key = deepseek_api_key
@@ -38,6 +39,16 @@ def switch_to_backup_client():
         "HTTP-Referer": "http://localhost:3000",
         "X-Title": "Lingo Language Tutor"
     }
+
+
+# --- Print with Typing Effect --- #
+def lingo_print(text, delay=0.05, end='\n'):
+    """Print text with a typing effect"""
+    for char in text:
+        print(char, end='', flush=True)
+        time.sleep(delay)
+    print(end=end)
+
 
 # --- Student Database --- #
 students = {
