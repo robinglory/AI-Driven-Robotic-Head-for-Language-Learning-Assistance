@@ -1,0 +1,76 @@
+{
+  "lesson_id": "a2_grammar_03",
+  "type": "Grammar",
+  "level": "A2",
+  "title": "Present Simple vs Present Continuous",
+  "summary": "Comparative infographic showing forms, uses, and contrast between Present Simple and Present Continuous tenses.",
+  "content": {
+    "present_simple": {
+      "form": [
+        "Base form (+s/es for he/she/it)",
+        "Negative: do/does + not + base form",
+        "Questions: Do/Does + subject + base form"
+      ],
+      "spelling_rules": [
+        "Add -s (works)",
+        "Add -es (goes, watches)",
+        "Change y to i + es (studies)",
+        "Irregulars (has)"
+      ],
+      "uses": [
+        "Habits/routines (I eat breakfast daily)",
+        "Permanent situations (She lives in Paris)",
+        "General truths (Water boils at 100°C)",
+        "With frequency adverbs (always, sometimes)"
+      ]
+    },
+    "present_continuous": {
+      "form": [
+        "am/is/are + verb-ing",
+        "Negative: am/is/are + not + verb-ing",
+        "Questions: Am/Is/Are + subject + verb-ing"
+      ],
+      "spelling_rules": [
+        "Base + ing (going)",
+        "Drop e + ing (making)",
+        "Double consonant + ing (sitting)"
+      ],
+      "uses": [
+        "Actions happening now (I'm working)",
+        "Temporary situations (I'm staying at a hotel)",
+        "Changing situations (Her English is improving)",
+        "With 'now' expressions (this week, today)"
+      ]
+    },
+    "contrasts": [
+      "Stative verbs (know, want) don't use continuous",
+      "Temporary vs permanent situations",
+      "Habits vs current actions"
+    ]
+  },
+  "examples": {
+    "present_simple": [
+      "She works at a bank",
+      "They don't eat meat",
+      "Does he play tennis?",
+      "I usually wake up early"
+    ],
+    "present_continuous": [
+      "I'm studying English now",
+      "They aren't watching TV",
+      "Is it raining?",
+      "She's staying with friends this month"
+    ],
+    "contrast": [
+      "I live in Rome (permanent) vs I'm living in Rome (temporary)",
+      "He eats cereal for breakfast (habit) vs He's eating cereal now (current action)"
+    ]
+  },
+ 
+  "tips": [
+    "3rd person -s: 'She works', NOT 'She work'",
+    "Non-action verbs use simple form",
+    "'Now' usually signals continuous tense",
+    "Frequency adverbs (always, usually) go before main verb"
+  ],
+}

@@ -1,0 +1,37 @@
+{
+  "lesson_id": "a2_grammar_02",
+  "type": "Grammar",
+  "level": "A2",
+  "title": "Subject Questions and Object Questions",
+  "summary": "Grammar diagram illustrating the structure of subject questions in English, contrasting correct and incorrect usage with examples.",
+  "content":  {  [
+    "In present and past simple, we don't use auxiliary verbs (do/does/did) when the question word is the subject.",
+    "For other tenses (continuous, perfect etc.), we include auxiliary verbs in subject questions.",
+    "Object questions follow normal question order: auxiliary verb + subject.",
+    "In informal English, prepositions go at the end of questions."
+  ],
+  "contrast_examples": [
+    {
+      "subject": "Who called Teresa? (asking about subject)",
+      "object": "Who did Jack call? (asking about object)"
+    },
+    {
+      "subject": "What happened?",
+      "object": "What did you do?"
+    }
+  ],
+ }'
+  "examples": [
+    "Subject Q: Who won the match? (NOT Who did win the match?)",
+    "Subject Q: What happened last night?",
+    "Subject Q (other tenses): Who is cooking dinner?",
+    "Object Q: Who did Jack call?",
+    "Preposition Q: Who did you play tennis with?",
+    "Preposition Q: What company do you work for?"
+  ],
+  "tips": [
+    "Subject questions = no auxiliary in simple tenses",
+    "Object questions = follow normal QWASM order",
+    "Prepositions go at the end in spoken English"
+  ],
+}

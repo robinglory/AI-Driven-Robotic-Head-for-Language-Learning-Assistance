@@ -1,0 +1,125 @@
+{
+  "lesson_id": "a2_vocabulary02",
+  "type": "Vocabulary",
+  "level": "A2",
+  "title": "Describing People's Appearance",
+  "summary": "Adjectives and phrases for describing physical appearance, including height, build, hair, and distinctive features.",
+  "sections": [
+    {
+      "heading": "Introduction",
+      "content": "In this lesson, you will learn how to use certain adjectives and words to describe people's physical appearance. We'll cover height, build, hair characteristics, and other distinctive features."
+    },
+    {
+      "heading": "Height and Build",
+      "content": "Terms to describe a person's height and body type:",
+      "examples": [
+        {
+          "phrase": "tall",
+          "example": "My brother is very tall - he's 6 feet 3 inches."
+        },
+        {
+          "phrase": "short",
+          "example": "She's quite short compared to her classmates."
+        },
+        {
+          "phrase": "medium height",
+          "example": "Most people in my family are of medium height."
+        },
+        {
+          "phrase": "slim",
+          "example": "The dancer had a slim, graceful figure."
+        },
+        {
+          "phrase": "thin",
+          "example": "He became very thin after his illness."
+        },
+        {
+          "phrase": "overweight",
+          "example": "The doctor said I'm slightly overweight."
+        },
+        {
+          "phrase": "fit",
+          "example": "You can tell he's fit from his muscular arms."
+        },
+        {
+          "phrase": "curvy",
+          "example": "Many models today have curvy bodies."
+        },
+        {
+          "phrase": "petite",
+          "example": "My petite sister wears size small clothes."
+        }
+      ]
+    },
+    {
+      "heading": "Hair",
+      "content": "Describing hair by length, shape and color (in this order: length > shape > color):",
+      "examples": [
+        {
+          "phrase": "long straight hair",
+          "example": "She has long straight black hair."
+        },
+        {
+          "phrase": "short curly hair",
+          "example": "The boy with short curly hair is my cousin."
+        },
+        {
+          "phrase": "medium-length wavy hair",
+          "example": "I prefer medium-length wavy hairstyles."
+        },
+        {
+          "phrase": "blonde",
+          "example": "Many Scandinavian people have naturally blonde hair."
+        },
+        {
+          "phrase": "brunette",
+          "example": "The brunette woman is our new manager."
+        }
+      ]
+    },
+    {
+      "heading": "Other Features",
+      "content": "Additional terms for describing distinctive appearance features:",
+      "examples": [
+        {
+          "phrase": "wear glasses",
+          "example": "Does your father wear glasses?"
+        },
+        {
+          "phrase": "a beard",
+          "example": "He grew a beard during his vacation."
+        },
+        {
+          "phrase": "a moustache",
+          "example": "The man with a moustache is my uncle."
+        },
+        {
+          "phrase": "wrinkles",
+          "example": "His face showed wrinkles from years of smiling."
+        },
+        {
+          "phrase": "freckles",
+          "example": "The child had cute freckles across her nose."
+        }
+      ]
+    },
+    {
+      "heading": "Asking About Appearance",
+      "content": "Common phrases for describing and asking about physical appearance:",
+      "examples": [
+        {
+          "phrase": "What does he/she look like?",
+          "example": "'What does your new teacher look like?' 'She's tall with short brown hair.'"
+        },
+        {
+          "phrase": "[height] tall",
+          "example": "My sister is five feet six inches tall."
+        },
+        {
+          "phrase": "weigh [amount]",
+          "example": "The athlete weighs 180 pounds."
+        }
+      ]
+    }
+  ]
+}

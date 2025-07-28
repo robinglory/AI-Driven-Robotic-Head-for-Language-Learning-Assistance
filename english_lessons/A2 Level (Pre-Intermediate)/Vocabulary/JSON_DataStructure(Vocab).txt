@@ -1,0 +1,19 @@
+{
+  "lesson_id": "",
+  "type": "Vocabulary",
+  "level": "",
+  "title": "",
+  "summary": "",
+  "sections": [
+    {
+      "heading": "",
+      "content": "",
+      "examples": [
+        {
+          "phrase": "",
+          "example": ""
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "lesson_id": "a2_reading02",
+  "type": "reading",
+  "level": "A2",
+  "title": "What rainbows mean around the world",
+  "task_instruction": "Read a text about the meaning of rainbows in different cultures. For questions 1–6, choose the correct paragraph (A–E). You can choose each paragraph more than once.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Ireland",
+      "text": "In Ireland, it rains a lot and there isn’t much sun. But sometimes, when the sun comes out after the rain, you can see pretty colours in the sky–that’s a rainbow. Old stories from Ireland say that a leprechaun, a small magical man, hides his pot full of gold at the end of the rainbow. You must follow the rainbow to find the gold, but it’s very hard. Rainbows always move when you get near, and no one can find the gold. In Irish culture, if you see a rainbow, good things will happen."
+    },
+    {
+      "id": "B",
+      "title": "Hawaii",
+      "text": "Hawaii is called the rainbow capital of the world. After light rain, often the sun comes out, and you can see the rainbow. In Native Hawaiian culture, rainbows are signs that people receive from the gods. Some people believe that rainbows help the spirits of dead people travel from the human world to another world. In Hawaii, a rainbow reminds people they are not alone because someone always looks after them."
+    },
+    {
+      "id": "C",
+      "title": "Africa",
+      "text": "In some African cultures, a rainbow may be a spirit that looks like a snake, bringing good or bad luck, depending on how it feels. For this reason, many people think that a rainbow is a message that something big–good or bad–is going to happen soon."
+    },
+    {
+      "id": "D",
+      "title": "Australia",
+      "text": "In Aboriginal Australian stories, there’s a powerful snake called the Rainbow Serpent that lives in water, and it’s very old. The Rainbow Serpent made rivers, mountains, and lakes when planet Earth was born. If people respect the land, the snake will be good to them. If they don’t, it may bring storms or floods. For Aboriginal people, the rainbow helps us remember that we must respect nature."
+    },
+    {
+      "id": "E",
+      "title": "Scandinavia",
+      "text": "In the north of Europe, old stories say that the rainbow is a bridge called Bifröst. It’s the bridge between our world and Asgard, the home of the gods like Odin and Thor. Only gods and brave people can walk across it. The guardian at the beginning of the bridge stops bad people from entering Asgard."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which paragraph talks about rainbows as a path to another world?",
+      "options": ["A", "B", "C", "D", "E"],
+      "answer": "B"
+    },
+    {
+      "id": 2,
+      "question": "Which paragraph says a rainbow means something important is coming?",
+      "options": ["A", "B", "C", "D", "E"],
+      "answer": "C"
+    },
+    {
+      "id": 3,
+      "question": "Which paragraph describes rainbows in stories from a European country?",
+      "options": ["A", "B", "C", "D", "E"],
+      "answer": "A"
+    },
+    {
+      "id": 4,
+      "question": "Which paragraph talks about gods walking on a rainbow?",
+      "options": ["A", "B", "C", "D", "E"],
+      "answer": "E"
+    },
+    {
+      "id": 5,
+      "question": "Which paragraph says people must protect the natural world?",
+      "options": ["A", "B", "C", "D", "E"],
+      "answer": "D"
+    },
+    {
+      "id": 6,
+      "question": "Which paragraph says rainbows can be good or bad?",
+      "options": ["A", "B", "C", "D", "E"],
+      "answer": "C"
+    }
+  ]
+}

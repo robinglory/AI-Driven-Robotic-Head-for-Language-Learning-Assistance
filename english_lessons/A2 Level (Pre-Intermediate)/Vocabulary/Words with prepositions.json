@@ -1,0 +1,97 @@
+{
+  "lesson_id" : "a2_vocabulary01", 
+  "type": "Vocabulary",
+  "level" : "A2",
+  "title": "Words with Prepositions",
+  "summary": "Common combinations of adjectives and verbs with specific prepositions, with example sentences to aid learning.",
+  "sections": [
+    {
+      "heading": "Introduction",
+      "content": "Prepositions typically come before nouns or pronouns, helping to express aspects like time, location, direction, and more within a sentence. In English, some adjectives and verbs are commonly used with certain prepositions. Learning these combinations helps you express ideas more accurately."
+    },
+    {
+      "heading": "Adjectives + Prepositions",
+      "content": "Some adjectives are usually followed by specific prepositions. Learning example sentences helps you remember these combinations better.",
+      "examples": [
+        {
+          "phrase": "good at",
+          "example": "Tom is good at football."
+        },
+        {
+          "phrase": "surprised at",
+          "example": "I was surprised at the news."
+        },
+        {
+          "phrase": "interested in",
+          "example": "Alice is interested in art."
+        },
+        {
+          "phrase": "excited about",
+          "example": "We are excited about our holiday."
+        },
+        {
+          "phrase": "disappointed with",
+          "example": "I was disappointed with our meal."
+        }
+      ]
+    },
+    {
+      "heading": "Verbs + Prepositions",
+      "content": "Many verbs are followed by specific prepositions. Example sentences help you understand and remember their correct usage.",
+      "examples": [
+        {
+          "phrase": "arrive in",
+          "example": "We arrived in Rome yesterday."
+        },
+        {
+          "phrase": "arrive at",
+          "example": "I arrived at the station at noon."
+        },
+        {
+          "phrase": "ask for",
+          "example": "I asked the man for directions."
+        },
+        {
+          "phrase": "invite to",
+          "example": "They didn’t invite us to the party."
+        },
+        {
+          "phrase": "wait for",
+          "example": "I’m waiting for Tom."
+        },
+        {
+          "phrase": "spend on",
+          "example": "We spent all the money on a trip."
+        }
+      ]
+    },
+    {
+      "heading": "Vocabulary Chart",
+      "content": "A quick-reference chart of common adjective and verb + preposition combinations with examples.",
+      "examples": [
+        {
+          "phrase": "interested in",
+          "example": "He’s interested in science."
+        },
+        {
+          "phrase": "angry with",
+          "example": "She’s angry with her brother."
+        },
+        {
+          "phrase": "depend on",
+          "example": "We depend on our teachers."
+        },
+        {
+          "phrase": "laugh at",
+          "example": "They laughed at my joke."
+        },
+        {
+          "phrase": "good at",
+          "example": "She is good at cooking."
+        }
+      ]
+    }
+  ]
+}
+
+

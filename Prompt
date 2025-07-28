@@ -1,0 +1,358 @@
+ok now let's create some database about the students/users!
+
+1. Yan Naing Kyaw Tint --> Pre-intermediate User
+2. Ngwe Thant Sin --> Intermediate User
+3. Wai Yan Aung --> Intermediate User
+4. Aye Mrat San --> Pre-Intermediate User
+
+Also change the name of the robot into "Lingo".
+this is my current main.py and dont forget about what we are doing here ok.
+We are doing my thesis together. This is very important!
+This is my main.py!
+from openai import OpenAI
+import time
+import os
+import json
+
+
+# Initialize client
+client = OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key="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",
+    timeout=10.0
+)
+
+# Global memory to simulate short-term memory
+conversation_history = [
+    {
+        "role": "system",
+        "content": (
+            "You are an AI-powered speaking robot assistant that helps users practice English. "
+            "Keep your responses in 2-3 sentences. If the sentence has a mistake, kindly correct it. "
+            "If the pronunciation is difficult, offer one helpful tip. "
+            "Do NOT respond with large paragraphs or go off-topic."
+        )
+    }
+]
+## This is the local lessons!
+# Global variable for current lesson
+current_lesson = {}
+
+def load_lesson(filepath):
+    global current_lesson
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            current_lesson = json.load(f)
+        print(f"DEBUG: Loaded lesson '{current_lesson.get('title')}' successfully.")
+    except Exception as e:
+        print(f"DEBUG: Failed to load lesson: {e}")
+        
+lesson_path = "/home/robinglory/Desktop/AI Projects/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Reading/What rainbows mean around the world.json"
+load_lesson(lesson_path)
+
+
+def ask_robot(question):
+    """Returns a concise AI response based on lesson + question."""
+    try:
+        context = f"Lesson Title: {current_lesson.get('title')}\n" \
+                  f"Text: {current_lesson.get('text')}\n" \
+                  f"Vocabulary: {current_lesson.get('vocabulary')}\n" \
+                  f"Question: {question}"
+
+        conversation_history.append({"role": "user", "content": context})
+
+        response = client.chat.completions.create(
+            model="mistralai/mistral-7b-instruct:free",
+            messages=conversation_history[-6:],  # Keep it light
+            max_tokens=150,
+            temperature=0.7,
+        )
+        
+        reply = response.choices[0].message.content.strip()
+        conversation_history.append({"role": "assistant", "content": reply})
+        return reply
+    
+    except Exception as e:
+        return f"Sorry, I encountered an error: {str(e)}"
+
+        
+
+# Interactive loop
+print("Robot: Hi! Let's practice English. Type a sentence or question. (type 'quit' to exit)")
+
+while True:
+    try:
+        user_input = input("You: ").strip()
+        
+        if not user_input:
+            print("Robot: Please type something!")
+            continue
+        
+        if user_input.lower() in ['quit', 'exit', 'bye']:
+            print("Robot: It was great practicing with you. Bye!")
+            break
+        
+        print("Robot: Hmm...")
+        response = ask_robot(user_input)
+        print("Robot:", response or "Hmm, I didn't catch that. Try again.")
+    
+    except KeyboardInterrupt:
+        print("\nRobot: See you next time!")
+        break
+    except Exception as e:
+        print(f"Robot: Error occurred: {str(e)}")
+
+
+
+When i type my name into Ligo in cmd, the robot should know who i am and track my lessons immediately.
+Says, "hello, yan naing, let's get back to your lessons. what do you want to study first, Reading or Vocab" like this.
+Then, Lingo will use LLM and local lessons to facilate me. 
+After i have finished, i should just say, "That is for the day, Lingo" or similar phrase then it will go back to just and LLM.
+
+How can i achieve this.
+I have add the lessons and .json lessons in strict data structure
+
+This is my data structure!
+{
+  "lesson_id": "",
+  "type": "Reading",
+  "level": "",
+  "title": "",
+  "task_instruction": "",
+  "passages": [
+    {
+      "id": "",
+      "title": "",
+      "text": ""
+    }
+  ],
+  "questions": [
+    {
+      "id": 0,
+      "question": "",
+      "options": [],
+      "answer": ""
+    }
+  ]
+}
+
+{
+  "lesson_id": "",
+  "type": "Grammar",
+  "level": "",
+  "title": "",
+  "summary": "",
+  "content": [
+    ""
+  ],
+  "contrast_examples": [
+    {
+      "subject": "",
+      "object": ""
+    }
+  ],
+  "examples": [
+    ""
+  ],
+  "tips": [
+    ""
+  ]
+}
+
+{
+  "lesson_id": "",
+  "type": "Vocabulary",
+  "level": "",
+  "title": "",
+  "summary": "",
+  "sections": [
+    {
+      "heading": "",
+      "content": "",
+      "examples": [
+        {
+          "phrase": "",
+          "example": ""
+        }
+      ]
+    }
+  ]
+}
+
+This is the program that i have wrote but
+No, not good enough!
+
+import time
+import os
+import json
+from openai import OpenAI
+
+# --- Init LLM Client --- #
+client = OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key="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",
+    timeout=10.0
+)
+
+# --- Student Database --- #
+students = {
+    "yan naing kyaw tint": {"level": "A2", "name": "Yan Naing Kyaw Tint"},
+    "ngwe thant sin": {"level": "B1", "name": "Ngwe Thant Sin"},
+    "wai yan aung": {"level": "B1", "name": "Wai Yan Aung"},
+    "aye mrat san": {"level": "A2", "name": "Aye Mrat San"}
+}
+
+# --- Global State --- #
+conversation_history = []
+current_user = None
+current_lesson = {}
+
+# --- Load Lessons by Type --- #
+def get_lesson_by_type(user_level, lesson_type):
+    root = "/home/robinglory/Desktop/AI Projects/Thesis/english_lessons"
+    folder = os.path.join(root, f"{user_level} Level (Pre-Intermediate)" if user_level == "A2" else f"{user_level} Level (Intermediate)", lesson_type.capitalize())
+    if not os.path.isdir(folder):
+        return None
+    files = [f for f in os.listdir(folder) if f.endswith(".json")]
+    if not files:
+        return None
+    filepath = os.path.join(folder, files[0])
+    with open(filepath, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+# --- Lingo AI Response --- #
+def ask_lingo(question):
+    global current_lesson
+
+    if question.lower().startswith("that is for the day"):
+        print("Lingo: Okay! See you next time!")
+        return None
+
+    context = f"Lesson Title: {current_lesson.get('title', '')}\n"
+    if 'text' in current_lesson:
+        context += f"Text: {current_lesson['text']}\n"
+    if 'summary' in current_lesson:
+        context += f"Summary: {current_lesson['summary']}\n"
+    context += f"User Question: {question}"
+
+    conversation_history.append({"role": "user", "content": context})
+    response = client.chat.completions.create(
+        model="mistralai/mistral-7b-instruct:free",
+        messages=conversation_history[-6:],
+        max_tokens=150,
+        temperature=0.7,
+    )
+    reply = response.choices[0].message.content.strip()
+    conversation_history.append({"role": "assistant", "content": reply})
+    return reply
+
+# --- Start Interaction --- #
+print("Lingo: Hello! What's your name?")
+while True:
+    name_input = input("You: ").strip().lower()
+    if name_input in students:
+        current_user = students[name_input]
+        print(f"Lingo: Hello, {current_user['name'].split()[0]}! Let's get back to your lessons. What do you want to study first — Reading, Grammar, or Vocabulary?")
+        break
+    else:
+        print("Lingo: Sorry, I don’t recognize you. Please try again with your full name.")
+
+while True:
+    try:
+        user_input = input(f"{current_user['name'].split()[0]}: ").strip()
+        if user_input.lower() in ['quit', 'exit', 'bye']:
+            print("Lingo: It was great practicing with you. Bye!")
+            break
+
+        if user_input.lower() in ['reading', 'grammar', 'vocabulary']:
+            lesson = get_lesson_by_type(current_user['level'], user_input.capitalize())
+            if lesson:
+                current_lesson = lesson
+                print(f"Lingo: Great! Loaded lesson: {current_lesson.get('title')} — let's begin! You can ask me anything about it.")
+            else:
+                print("Lingo: Sorry, I couldn't find a lesson in that category.")
+            continue
+
+        print("Lingo: Thinking...")
+        response = ask_lingo(user_input)
+        if response:
+            print("Lingo:", response)
+
+    except KeyboardInterrupt:
+        print("\nLingo: See you next time!")
+        break
+    except Exception as e:
+        print(f"Lingo: Error occurred: {str(e)}")
+
+
+I want it to be like a real teacher!
+I want it to be interactive with me, not just showing the things in the lessons.
+When i type my name and when i recognised me. It should greet me warmly.
+Like hello, yan naing blah, blah,
+then i will select the lessons and it will really teach me using both 
+Lessons that i have stored in Json and LLM.
+Just like you. I don't want it to be just showing thing like a robot!
+
+here observed!
+Lingo: Hello! What's your name?
+You: Yan Naing
+Lingo: Sorry, I don’t recognize you. Please try again with your full name.
+You: Yan Naing Kyaw Tint
+Lingo: Hello, Yan! Let's get back to your lessons. What do you want to study first — Reading, Grammar, or Vocabulary?
+Yan: Vocab? 
+Lingo: Thinking...
+Lingo: Lesson Title: Expanding Your English Vocabulary
+
+Objective: Students will be able to learn and understand new English words and phrases through effective strategies and engaging activities.
+
+Materials:
+- Flashcards with new vocabulary words and definitions
+- Word origin and usage examples
+- Synonyms, antonyms, and homophones worksheets
+- Word games (e.g., crosswords, word searches, Hangman, etc.)
+- Vocabulary journal for students to record new words and usage in context
+
+Procedure:
+
+1. Introduction (5 minutes)
+   - Review previous vocabulary words learned in class
+   - Introduce new vocabulary
+Yan: ok what about grammar
+Lingo: Thinking...
+Lingo: Lesson Title: Enhancing English Grammar Skills
+
+Objective: Students will be able to apply grammar rules correctly to improve their written and spoken English.
+
+Materials:
+- Grammar workbooks or textbooks
+- Grammar exercises (e.g., correcting sentences, completing sentences, filling in the blanks, etc.)
+- Whiteboard and markers for class practice
+- Peer editing worksheets
+- Grammar reference sheets (e.g., verb tenses, subject-verb agreement, punctuation, etc.)
+
+Procedure:
+
+1. Introduction (5 minutes)
+   - Review grammar rules previously covered in class
+   - Introduce new gram
+Yan: thanks
+Lingo: Thinking...
+Lingo: Lesson Title: Mastering English Pronunciation
+
+Objective: Students will be able to improve their pronunciation skills to effectively communicate in English.
+
+Materials:
+- Audio recordings of native English speakers
+- Phonetic transcriptions of words
+- Tongue twisters and pronunciation drills
+- Pronunciation games (e.g., "I Spy," "Question Game," etc.)
+- Visual aids (e.g., pictures, diagrams, charts)
+
+Procedure:
+
+1. Introduction (5 minutes)
+   - Review previous pronunciation concepts learned in class
+   - Introduce new pronunciation sounds or stress patterns
+Yan: quit
+Lingo: It was great practicing with you. Bye!
+

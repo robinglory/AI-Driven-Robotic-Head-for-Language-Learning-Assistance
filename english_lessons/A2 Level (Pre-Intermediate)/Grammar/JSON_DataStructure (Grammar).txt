@@ -1,0 +1,22 @@
+{
+  "lesson_id": "",
+  "type": "Grammar",
+  "level": "",
+  "title": "",
+  "summary": "",
+  "content": [
+    ""
+  ],
+  "contrast_examples": [
+    {
+      "subject": "",
+      "object": ""
+    }
+  ],
+  "examples": [
+    ""
+  ],
+  "tips": [
+    ""
+  ]
+}
