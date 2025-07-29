@@ -2,7 +2,7 @@
 
 ## Table of Contents
 1. [Overview](#overview)
-2. [The UI Design](#UIDesign)
+2. [The UI Design](#GUIDesign)
 3. [System Architecture](#system-architecture)
 4. [Technical Specifications](#technical-specifications)
 5. [Installation Guide](#installation-guide)
@@ -25,8 +25,8 @@ Key features include:
 - Dual-API fallback system
 - Modular architecture for maintainability
 
-## GUI Interface Overview
-
+#GUIDesign
+### GUI Interface Overview
 The application features a responsive Tkinter-based interface with multiple interactive screens. Below are key screenshots of the workflow:
 
 ### Main Components
