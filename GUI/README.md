@@ -36,25 +36,25 @@ The application features a responsive Tkinter-based interface with multiple inte
    *Entry point with AI assistant chat functionality*
 
 2. **Login Screen**  
-   ![Login](GUI/GUI_IMG/log_in.png)  
+   ![Login](GUI_IMG/log_in.png)  
    *Student authentication interface*
 
 3. **Student Dashboard**  
-   ![Dashboard](GUI/GUI_IMG/student_dashboard.png)  
+   ![Dashboard](GUI_IMG/student_dashboard.png)  
    *Lesson selection with progress tracking*
 
 ### Lesson Modules
 
 4. **Reading Lesson**  
-   ![Reading](GUI/GUI_IMG/reading_lesson.png)  
+   ![Reading](GUI_IMG/reading_lesson.png)  
    *Interactive reading comprehension interface*
 
 5. **Grammar Lesson**  
-   ![Grammar](GUI/GUI_IMG/grammar_lesson.png)  
+   ![Grammar](GUI_IMG/grammar_lesson.png)  
    *Grammar concept explanation screen*
 
 6. **Vocabulary Lesson**  
-   ![Vocabulary](GUI/GUI_IMG/vocab_lesson.png)  
+   ![Vocabulary](GUI_IMG/vocab_lesson.png)  
    *Word learning module with contextual examples*
 
 ---
