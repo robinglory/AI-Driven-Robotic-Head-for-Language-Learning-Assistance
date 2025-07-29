@@ -1,4 +1,6 @@
 from datetime import datetime
+from lesson_manager import LessonManager
+from tkinter import messagebox
 
 class StudentManager:
     def __init__(self):
@@ -13,25 +15,33 @@ class StudentManager:
                 "level": "B1",
                 "name": "Ngwe Thant Sin",
                 "last_visited": "2023-11-15",
-                "progress": {"vocabulary": 0.4, "grammar": 0.2}
+                "progress": {"vocabulary": 0.4, "grammar": 0.2 , "reading":0.4 }
             },
             "wai yan aung": {
                 "level": "B1",
                 "name": "Wai Yan Aung",
                 "last_visited": "2023-11-20",
-                "progress": {"reading": 0.7, "vocabulary": 0.5}
+                "progress": {"reading": 0.7, "vocabulary": 0.5, "grammar": 0.4}
             },
             "aye mrat san": {
                 "level": "A2",
                 "name": "Aye Mrat San",
                 "last_visited": "2023-11-18",
-                "progress": {"grammar": 0.3, "reading": 0.6}
+                "progress": {"grammar": 0.3, "reading": 0.6, "vocabulary": 0.5}
             }
         }
         self.current_user = None
         self.current_lesson = {}
         self.current_topic = None
         self.conversation_history = []
+        self.lesson_manager = LessonManager()
+
+    def get_lesson_by_type(self, user_level, lesson_type):
+        return self.lesson_manager.get_lesson_by_type(
+            user_level=user_level,
+            lesson_type=lesson_type,
+            current_user=self.current_user
+        )
 
     def get_student(self, name):
         return self.students.get(name.lower())

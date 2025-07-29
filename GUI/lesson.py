@@ -1,7 +1,6 @@
 import tkinter as tk
-from tkinter import ttk, scrolledtext
+from tkinter import ttk, scrolledtext, messagebox
 from styles import configure_styles
-from lesson_manager import LessonManager
 
 class LessonScreen:
     def __init__(self, root, main_app, student_manager, lesson_type):
@@ -9,7 +8,6 @@ class LessonScreen:
         self.main_app = main_app
         self.student_manager = student_manager
         self.lesson_type = lesson_type
-        self.lesson_manager = LessonManager()
         
         self.root.title(f"Lingo - {lesson_type.capitalize()} Lesson")
         configure_styles()
@@ -76,7 +74,7 @@ class LessonScreen:
         self.user_input.focus()
     
     def load_lesson(self):
-        lesson = self.lesson_manager.get_lesson_by_type(
+        lesson = self.student_manager.get_lesson_by_type(
             self.student_manager.current_user['level'],
             self.lesson_type.capitalize()
         )
@@ -120,7 +118,7 @@ class LessonScreen:
         else:
             self.lesson_content.tag_config("user", foreground="blue")
             self.lesson_content.tag_add("user", "end-2l linestart", "end-1c")
-            
+                    
         self.lesson_content.see(tk.END)
         self.lesson_content.configure(state='disabled')
     
@@ -137,8 +135,8 @@ class LessonScreen:
             self.return_to_dashboard()
             return
             
-        # Get AI response
-        response = self.lesson_manager.ask_lingo(
+        # Get AI response through student_manager
+        response = self.student_manager.lesson_manager.ask_lingo(
             user_input,
             self.student_manager.current_user,
             self.student_manager.current_lesson,

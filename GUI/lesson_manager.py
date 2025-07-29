@@ -2,6 +2,9 @@ import os
 import json
 import random
 from api_manager import APIManager
+import random
+from datetime import datetime
+from tkinter import messagebox
 
 class LessonManager:
     GREETINGS = [
@@ -23,24 +26,26 @@ class LessonManager:
     def __init__(self):
         self.api_manager = APIManager()
 
-    def get_lesson_by_type(self, user_level, lesson_type):
+    def get_lesson_by_type(self, user_level, lesson_type, current_user):
         try:
             root = "/home/robinglory/Desktop/AI Projects/Thesis/english_lessons"
             folder = os.path.join(
                 root,
-                f"{user_level} Level (Pre-Intermediate)" if user_level == "A2"
-                else f"{user_level} Level (Intermediate)",
+                f"{user_level} Level (Pre-Intermediate)" if user_level == "A2" 
+                else f"{user_level} Level (Intermediate)", 
                 lesson_type.capitalize()
             )
             
             if not os.path.isdir(folder):
+                messagebox.showerror("Error", f"Directory not found: {folder}")
                 return None
             
             files = [f for f in os.listdir(folder) if f.endswith(".json")]
             if not files:
+                messagebox.showerror("Error", f"No lesson files found in {folder}")
                 return None
             
-            progress = self.current_user['progress'].get(lesson_type.lower(), 0)
+            progress = current_user['progress'].get(lesson_type.lower(), 0)
             lesson_index = min(int(progress * len(files)), len(files)-1)
             filepath = os.path.join(folder, files[lesson_index])
             
@@ -50,7 +55,7 @@ class LessonManager:
                 return lesson
             
         except Exception as e:
-            print(f"Error loading lesson: {str(e)}")
+            messagebox.showerror("Error", f"Error loading lesson: {str(e)}")
             return None
 
     def ask_lingo(self, question, current_user, current_lesson, conversation_history):

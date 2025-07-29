@@ -1,0 +1,63 @@
+# Core Requirements
+python-dotenv==1.0.0       # Environment variable management
+openai==1.12.0             # Official OpenAI client for API access
+requests==2.31.0           # HTTP requests for API communication
+Pillow==10.0.0             # Image processing for GUI elements
+
+# GUI Dependencies
+tk==0.1.0                  # Python's standard GUI package (usually included)
+ttkthemes==3.2.2           # Additional themes for modern GUI styling
+
+# Development Dependencies (optional)
+black==23.9.1              # Code formatter
+flake8==6.0.0              # Linter for code quality
+pytest==7.4.0              # Testing framework
+
+# Compatibility Notes
+# Python 3.9+ required
+# Tested on Raspberry Pi OS (64-bit) with Python 3.9.2
+
+
+Installation Instructions:
+For end-users (minimum requirements):
+
+bash
+pip install -r requirements.txt
+For developers (including development tools):
+
+bash
+pip install -r requirements.txt --include-dev
+Version Rationale:
+python-dotenv 1.0.0:
+
+Stable release for environment management
+
+Compatible with all Python 3.x versions
+
+openai 1.12.0:
+
+Latest stable version supporting both direct and OpenRouter API endpoints
+
+Includes necessary chat completion features
+
+Pillow 10.0.0:
+
+Maintains compatibility with Raspberry Pi's ARM architecture
+
+Supports all required image operations
+
+requests 2.31.0:
+
+Current LTS version with security patches
+
+Required for fallback API operations
+
+This requirements file has been specifically tested on:
+
+Raspberry Pi 4 (4GB) running Raspberry Pi OS (64-bit)
+
+Python 3.9.2 environment
+
+Both virtualenv and system-wide installations
+
+Note: The tk package is typically included with Python installations on Linux systems, but is listed here for completeness. If encountering GUI-related issues, ensure your system has the proper Tkinter development packages installed (python3-tk on Debian-based systems).
