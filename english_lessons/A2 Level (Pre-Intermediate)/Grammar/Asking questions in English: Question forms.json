@@ -29,5 +29,5 @@
     "QWASM = Question word, Auxiliary verb, Subject, Main verb.",
     "Use 'which' when the possible answers are limited. Use 'what' for general choices.",
     "‘Have got’ is only present tense. Use 'did you have' for the past."
-  ],
+  ]
 }

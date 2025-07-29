@@ -112,10 +112,12 @@ def get_lesson_by_type(user_level, lesson_type):
                             lesson_type.capitalize())
         
         if not os.path.isdir(folder):
+            lingo_print(f"Lingo: No {lesson_type} lessons found for your level")
             return None
         
         files = [f for f in os.listdir(folder) if f.endswith(".json")]
         if not files:
+            lingo_print(f"Lingo: No lesson files found in {lesson_type} folder")
             return None
         
         # Select lesson based on progress
@@ -124,14 +126,19 @@ def get_lesson_by_type(user_level, lesson_type):
         filepath = os.path.join(folder, files[lesson_index])
         
         with open(filepath, "r", encoding="utf-8") as f:
-            lesson = json.load(f)
-            lesson['filepath'] = filepath
-            return lesson
+            try:
+                lesson = json.load(f)
+                lesson['filepath'] = filepath
+                return lesson
+            except json.JSONDecodeError as e:
+                lingo_print(f"Lingo: Error reading lesson file: {filepath}")
+                lingo_print(f"Lingo: Please check the file format is valid JSON")
+                return None
             
     except Exception as e:
-        lingo_print(f"Lingo: Error loading lesson: {e}")
+        lingo_print(f"Lingo: Error loading lesson: {str(e)}")
         return None
-
+    
 # --- Update Student Progress --- #
 def update_progress(lesson_type):
     if current_user and current_lesson:
@@ -220,6 +227,8 @@ def understand_lesson_choice(input_text):
         return 'grammar'
     elif any(word in input_text for word in ['vocab', '3', 'word']):
         return 'vocabulary'
+    elif any(word in input_text for word in ['4', 'quit', 'exit', 'bye', 'stop', 'end']):
+        return 'quit'
     return None
 
 # --- Improved Lesson Interaction --- #
@@ -290,9 +299,14 @@ def main():
                 break
                 
             # Get lesson type
+            # In your main loop where you handle lesson selection:
             lesson_type = understand_lesson_choice(choice)
-            if not lesson_type:
-                lingo_print("Lingo: I didn't understand. Please choose Reading, Grammar, or Vocabulary.")
+            if lesson_type == 'quit':
+                lingo_print("\nLingo: It was great working with you today! Goodbye!")
+                break
+            elif not lesson_type:
+                lingo_print("Lingo: I didn't understand. Please choose:")
+                lingo_print("1. Reading\n2. Grammar\n3. Vocabulary\n4. Quit", delay=0.02)
                 continue
                 
             # Load lesson
