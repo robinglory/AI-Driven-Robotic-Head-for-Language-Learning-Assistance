@@ -5,9 +5,9 @@ from datetime import datetime
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
-import login
 import sys
 import os
+import threading  # Add this import at the top
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from GUI.styles import configure_styles
@@ -44,9 +44,9 @@ class LLMHandler:
     def get_ai_response(self, message, conversation_history):
         try:
             messages = [
-                {"role": "system", "content": "You are Lingo, a friendly AI assistant. "
+                {"role": "system", "content": "You are Lingo, a friendly AI English Teacher. "
                  "Be helpful, concise and engaging in your responses. "
-                 "Keep responses under 3 sentences unless explaining complex concepts."}
+                 "Keep responses under 3 sentences unless explaining complex english concepts."}
             ]
             
             messages.extend(conversation_history[-4:])
@@ -69,7 +69,7 @@ class LLMHandler:
 class MainAIChat:
     def __init__(self, root):
         self.root = root
-        self.root.title("Lingo - AI Assistant")
+        self.root.title("Lingo - AI English Teacher")
         self.root.geometry("800x600")
         configure_styles()
         
@@ -91,7 +91,7 @@ class MainAIChat:
         
         ttk.Label(
             header_frame,
-            text="Lingo AI Assistant",
+            text="Lingo AI English Teacher",
             font=("Helvetica", 18, "bold"),
             foreground="#2c3e50"
         ).pack(side=tk.LEFT)
@@ -137,7 +137,7 @@ class MainAIChat:
         send_btn.pack(side=tk.RIGHT)
         
         # Welcome message
-        self.display_message("Lingo", "Hello! I'm Lingo, your AI assistant. How can I help you today?")
+        self.display_message("Lingo", "Hello! I'm Lingo, an AI English Teacher. How can I help you today?")
         
     def display_message(self, sender, message):
         self.chat_display.configure(state='normal')

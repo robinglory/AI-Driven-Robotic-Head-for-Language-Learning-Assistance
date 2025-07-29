@@ -61,7 +61,7 @@ class LoginScreen:
     def handle_login(self):
         name = self.name_entry.get().strip()
         if not name:
-            self.error_label.config(text="Please enter your name")
+            self.error_label.config(text="Please enter your full name")
             return
             
         student = self.student_manager.get_student(name)
