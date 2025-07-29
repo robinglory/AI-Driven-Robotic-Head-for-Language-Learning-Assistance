@@ -2,16 +2,17 @@
 
 ## Table of Contents
 1. [Overview](#overview)
-2. [System Architecture](#system-architecture)
-3. [Technical Specifications](#technical-specifications)
-4. [Installation Guide](#installation-guide)
-5. [Configuration](#configuration)
-6. [Usage](#usage)
-7. [API Integration](#api-integration)
-8. [File Structure](#file-structure)
-9. [Dependencies](#dependencies)
-10. [Known Issues](#known-issues)
-11. [Future Enhancements](#future-enhancements)
+2. [The UI Design] (#UIDesign)
+3. [System Architecture](#system-architecture)
+4. [Technical Specifications](#technical-specifications)
+5. [Installation Guide](#installation-guide)
+6. [Configuration](#configuration)
+7. [Usage](#usage)
+8. [API Integration](#api-integration)
+9. [File Structure](#file-structure)
+10. [Dependencies](#dependencies)
+11. [Known Issues](#known-issues)
+12. [Future Enhancements](#future-enhancements)
 
 ## Overview
 
@@ -23,6 +24,40 @@ Key features include:
 - Adaptive lesson selection
 - Dual-API fallback system
 - Modular architecture for maintainability
+
+## GUI Interface Overview
+
+The application features a responsive Tkinter-based interface with multiple interactive screens. Below are key screenshots of the workflow:
+
+### Main Components
+
+1. **Main Chat Interface**  
+   ![Main Page](GUI/GUI_IMG/main_page.png)  
+   *Entry point with AI assistant chat functionality*
+
+2. **Login Screen**  
+   ![Login](GUI/GUI_IMG/log_in.png)  
+   *Student authentication interface*
+
+3. **Student Dashboard**  
+   ![Dashboard](GUI/GUI_IMG/student_dashboard.png)  
+   *Lesson selection with progress tracking*
+
+### Lesson Modules
+
+4. **Reading Lesson**  
+   ![Reading](GUI/GUI_IMG/reading_lesson.png)  
+   *Interactive reading comprehension interface*
+
+5. **Grammar Lesson**  
+   ![Grammar](GUI/GUI_IMG/grammar_lesson.png)  
+   *Grammar concept explanation screen*
+
+6. **Vocabulary Lesson**  
+   ![Vocabulary](GUI/GUI_IMG/vocab_lesson.png)  
+   *Word learning module with contextual examples*
+
+---
 
 ## System Architecture
 
