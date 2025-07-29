@@ -25,8 +25,10 @@ Key features include:
 - Dual-API fallback system
 - Modular architecture for maintainability
 
-#GUIDesign
+# GUIDesign
+
 ### GUI Interface Overview
+
 The application features a responsive Tkinter-based interface with multiple interactive screens. Below are key screenshots of the workflow:
 
 ### Main Components
