@@ -2,7 +2,7 @@
 
 ## Table of Contents
 1. [Overview](#overview)
-2. [The UI Design] (#UIDesign)
+2. [The UI Design](#UIDesign)
 3. [System Architecture](#system-architecture)
 4. [Technical Specifications](#technical-specifications)
 5. [Installation Guide](#installation-guide)
@@ -32,7 +32,7 @@ The application features a responsive Tkinter-based interface with multiple inte
 ### Main Components
 
 1. **Main Chat Interface**  
-   ![Main Page](GUI/GUI_IMG/main_page.png)  
+   ![Main Page](GUI_IMG/main_page.png)  
    *Entry point with AI assistant chat functionality*
 
 2. **Login Screen**  
