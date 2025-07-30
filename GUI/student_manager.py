@@ -15,7 +15,7 @@ class StudentManager:
                 "level": "B1",
                 "name": "Ngwe Thant Sin",
                 "last_visited": "2023-11-15",
-                "progress": {"vocabulary": 0.4, "grammar": 0.2 , "reading":0.4 }
+                "progress": {"vocabulary": 0.4, "grammar": 0.2, "reading": 0.4}
             },
             "wai yan aung": {
                 "level": "B1",
