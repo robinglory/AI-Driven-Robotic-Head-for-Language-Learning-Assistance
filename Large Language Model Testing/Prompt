@@ -1,0 +1,19 @@
+deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian-security/ bookworm-security main contrib non-free no>
+deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firm>
+
+deb http://mirror.ox.ac.uk/debian/ bookworm main
+deb http://mirror.ox.ac.uk/debian-security bookworm-security main
+deb http://mirror.ox.ac.uk/debian/ bookworm-updates main
+# Uncomment deb-src lines below then 'apt-get update' to enable 'apt-get source'
+#deb-src http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
+#deb-src http://deb.debian.org/debian-security/ bookworm-security main contrib non-fr>
+#deb-src http://deb.debian.org/debian bookworm-updates main contrib non-free non-free>
+
+
+
+
+
+
+
+
