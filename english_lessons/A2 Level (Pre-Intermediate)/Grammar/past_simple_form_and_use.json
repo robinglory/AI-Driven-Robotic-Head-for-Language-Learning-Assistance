@@ -1,0 +1,47 @@
+{
+  "lesson_id": "a2_grammar_05",
+  "type": "Grammar",
+  "level": "A2",
+  "title": "Past Simple: Form and Use",
+  "summary": "This lesson explains the formation and usage of the past simple tense, including regular verb spelling rules and different contexts for using the past simple.",
+  "content": [
+    "The past simple is used to talk about completed actions, past habits, situations that were true in the past, and events in chronological order.",
+    "Regular verbs form the past simple by adding '-ed' to the base form, with specific spelling rules depending on the verb ending.",
+    "The past simple has different structures for positive, negative, and question forms."
+  ],
+  "examples": [
+    {
+      "rule": "Positive form of past simple",
+      "examples": ["I saw Jim yesterday.", "She moved to Chester three years ago."]
+    },
+    {
+      "rule": "Negative form of past simple",
+      "examples": ["We didn't go out last Saturday.", "She didn't work as a teacher."]
+    },
+    {
+      "rule": "Question form of past simple",
+      "examples": ["Did you see the movie?", "When did they arrive?"]
+    },
+    {
+      "rule": "Completed actions in the past",
+      "examples": ["I finished my homework an hour ago.", "They visited Paris last summer."]
+    },
+    {
+      "rule": "Past habits",
+      "examples": ["She washed her hair every day.", "I often played in the park when we were children."]
+    },
+    {
+      "rule": "Situations that were true in the past",
+      "examples": ["My grandfather had two brothers.", "He lived with my grandparents as a child."]
+    },
+    {
+      "rule": "Events in chronological order",
+      "examples": ["When I arrived home, I took off my shoes and then I relaxed on the sofa."]
+    }
+  ],
+  "tips": [
+    "Remember the spelling rules for regular verbs: add '-ed' to most verbs, '-d' to verbs ending in 'e', and double the final consonant for some verbs before adding '-ed'.",
+    "Use the past simple when you know or mention when the action happened.",
+    "For irregular verbs, you need to memorize the past simple forms as they don't follow regular patterns."
+  ]
+}

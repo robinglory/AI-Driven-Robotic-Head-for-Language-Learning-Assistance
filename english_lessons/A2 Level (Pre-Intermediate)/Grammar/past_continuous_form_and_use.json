@@ -1,0 +1,55 @@
+{
+  "lesson_id": "a2_grammar_06",
+  "type": "Grammar",
+  "level": "A2",
+  "title": "Past Continuous: Form and Use",
+  "summary": "This lesson explains the formation and usage of the past continuous tense, including its contrast with the past simple and how to describe ongoing past actions.",
+  "content": [
+    "The past continuous describes actions that were in progress at a specific moment in the past.",
+    "We often use it to set the scene at the beginning of a story or to describe interrupted actions.",
+    "The past continuous is typically used for longer background actions, while the past simple describes shorter, completed actions."
+  ],
+  "examples": [
+    {
+      "rule": "Positive form of past continuous",
+      "examples": ["I was studying at 9 p.m.", "They were arguing when I saw them."]
+    },
+    {
+      "rule": "Negative form of past continuous",
+      "examples": ["I wasn't watching TV at that time.", "They weren't listening to the teacher."]
+    },
+    {
+      "rule": "Question form of past continuous",
+      "examples": ["What were you doing at 9?", "Were they working all morning?"]
+    },
+    {
+      "rule": "Actions in progress at specific moments",
+      "examples": ["They were swimming at 7 in the morning.", "At midday, they were still working."]
+    },
+    {
+      "rule": "Describing a scene",
+      "examples": ["It was getting dark, and I was walking fast. Suddenly...", "The sun was shining and birds were singing when I woke up."]
+    },
+    {
+      "rule": "Past continuous for longer background actions",
+      "examples": ["When I met Susan, she was having a drink.", "We didn't go out because it was raining."]
+    },
+    {
+      "rule": "Past simple interrupting past continuous",
+      "examples": ["He was playing football when he broke his arm.", "When I went to bed, it was raining."]
+    },
+    {
+      "rule": "Contrast with past simple",
+      "examples": [
+        "When he arrived, she was having a shower. (shower started before)",
+        "When he arrived, she had a shower. (shower started after)"
+      ]
+    }
+  ],
+  "tips": [
+    "Remember the structure: was/were + verb-ing",
+    "Use time expressions (at 9, all morning, when...) to specify when the action was in progress",
+    "The past continuous often describes the 'background situation' while the past simple describes the 'main events'",
+    "When telling stories, use past continuous to set the scene at the beginning"
+  ]
+}

@@ -1,17 +1,22 @@
 from picamera2 import Picamera2
-import cv2
+from datetime import datetime
+import time
 
+# Initialize camera
 picam2 = Picamera2()
-picam2.preview_configuration.main.size = (640, 480)
-picam2.preview_configuration.main.format = "RGB888"
-picam2.configure("preview")
+
+# Configure preview
+camera_config = picam2.create_still_configuration()
+picam2.configure(camera_config)
+
+# Start camera
 picam2.start()
+time.sleep(2)  # Give the camera time to adjust
 
-while True:
-    frame = picam2.capture_array()
-    cv2.imshow("PiCam Preview", frame)
-    
-    if cv2.waitKey(1) & 0xFF == ord("q"):
-        break
+# Create filename with timestamp
+filename = f"test_image_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg"
 
-cv2.destroyAllWindows()
+# Capture image
+picam2.capture_file(filename)
+
+print(f"Image saved as {filename}")
