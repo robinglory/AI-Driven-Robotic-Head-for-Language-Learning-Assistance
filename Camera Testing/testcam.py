@@ -1,22 +1,42 @@
-from picamera2 import Picamera2
-from datetime import datetime
+import subprocess
+import sys
+import termios
+import tty
 import time
+import signal
+import os
 
-# Initialize camera
-picam2 = Picamera2()
+def get_key():
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(fd)
+        ch = sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return ch
 
-# Configure preview
-camera_config = picam2.create_still_configuration()
-picam2.configure(camera_config)
+def main():
+    print("Starting camera preview... Press 'c' to capture, 'q' to quit.")
 
-# Start camera
-picam2.start()
-time.sleep(2)  # Give the camera time to adjust
+    # Start libcamera-hello in the background (detached)
+    preview = subprocess.Popen(["libcamera-hello"], start_new_session=True)
 
-# Create filename with timestamp
-filename = f"test_image_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg"
+    try:
+        while True:
+            key = get_key()
+            if key == 'c':
+                print("Capturing image...")
+                subprocess.run(["libcamera-still", "-o", "capture.jpg"])
+                print("Image saved as capture.jpg")
+            elif key == 'q':
+                print("Exiting...")
+                # Kill the preview process group
+                os.killpg(preview.pid, signal.SIGTERM)
+                break
+    except KeyboardInterrupt:
+        os.killpg(preview.pid, signal.SIGTERM)
+        print("\nInterrupted and exiting")
 
-# Capture image
-picam2.capture_file(filename)
-
-print(f"Image saved as {filename}")
+if __name__ == "__main__":
+    main()
