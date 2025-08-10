@@ -1,0 +1,81 @@
+{
+  "lesson_id": "b1_grammar_08",
+  "type": "Grammar",
+  "level": "B1",
+  "title": "Another / Other / Others / The other / The others",
+  "summary": "This lesson explains the difference between 'another', 'other', 'others', 'the other', and 'the others'. It includes usage as determiners and pronouns with examples and highlights common mistakes.",
+  "content": [
+    "'Another' and 'other' can be used as determiners before nouns.",
+    "Use 'another' + singular noun: for one more of the same kind.",
+    "Use 'other' + plural noun: for different or additional items/people.",
+    "'Another' and 'others' can also be used as pronouns (not followed by nouns).",
+    "'Others' is only a pronoun and never followed by a noun.",
+    "'The other' can be followed by a singular or plural noun to refer to the rest or remaining in a specific set.",
+    "'The other' and 'the others' can both function as pronouns to refer to remaining items or people."
+  ],
+  "examples": [
+    {
+      "rule": "Use 'another' + singular noun.",
+      "examples": [
+        "I need another cup of coffee.",
+        "She wants another chance."
+      ]
+    },
+    {
+      "rule": "Use 'other' + plural noun.",
+      "examples": [
+        "I want to talk to other doctors.",
+        "We need to contact other clients."
+      ]
+    },
+    {
+      "rule": "Use 'another' as a pronoun (not followed by a noun).",
+      "examples": [
+        "I’ve already had one beer, but I’ll have another.",
+        "You can take one now and another later."
+      ]
+    },
+    {
+      "rule": "Use 'others' as a pronoun (not followed by a noun).",
+      "examples": [
+        "I don’t want to use these glasses. Aren’t there any others?",
+        "A lot of volunteers have joined us, but we need to find others."
+      ]
+    },
+    {
+      "rule": "'The other' + singular noun: to refer to the second of two.",
+      "examples": [
+        "This computer here is new. The other computer is about five years old.",
+        "We can meet at the other restaurant."
+      ]
+    },
+    {
+      "rule": "'The other' + plural noun: to refer to the remaining group.",
+      "examples": [
+        "Joel and Karen are here, but where are the other kids?",
+        "We’ve called two members; the other participants are arriving later."
+      ]
+    },
+    {
+      "rule": "Use 'the other' as a pronoun.",
+      "examples": [
+        "This computer is new. The other is five years old.",
+        "One belongs to me, the other is yours."
+      ]
+    },
+    {
+      "rule": "Use 'the others' as a pronoun.",
+      "examples": [
+        "Joel and Karen are here, but where are the others?",
+        "Some of the players are here, the others are still on their way."
+      ]
+    }
+  ],
+  "tips": [
+    "Use 'another' only with singular nouns.",
+    "'Others' is always a pronoun, never followed by a noun.",
+    "Do not say 'others doctors' – say 'other doctors'.",
+    "'The other' refers to something specific, while 'other' is more general.",
+    "Use 'the others' to refer to the remaining people or things in a group."
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "lesson_id": "a2_grammar_05",
+  "type": "Grammar",
+  "level": "A2",
+  "title": "Past Continuous: Form and Use",
+  "summary": "This lesson explains how to form and use the past continuous tense, including its contrast with the past simple tense.",
+  "content": [
+    "The past continuous describes actions that were in progress at a specific moment in the past.",
+    "We often use it at the beginning of stories to set the scene.",
+    "The past continuous is typically used for longer background actions, while the past simple describes shorter completed actions.",
+    "The past simple is often used for actions that interrupt longer past continuous actions."
+  ],
+  "examples": [
+    {
+      "rule": "Positive form: was/were + verb-ing",
+      "examples": [
+        "I was studying at 9 p.m.",
+        "They were swimming at 7 in the morning."
+      ]
+    },
+    {
+      "rule": "Negative form: was/were not + verb-ing",
+      "examples": [
+        "She wasn't listening when I spoke.",
+        "We weren't working at that time."
+      ]
+    },
+    {
+      "rule": "Question form: Was/Were + subject + verb-ing",
+      "examples": [
+        "What were you doing at 9?",
+        "Was it raining when you left?"
+      ]
+    },
+    {
+      "rule": "Actions in progress at specific moments",
+      "examples": [
+        "When I saw them yesterday, they were arguing.",
+        "At midday, they were still working."
+      ]
+    },
+    {
+      "rule": "Describing a scene/situation",
+      "examples": [
+        "It was getting dark, and I was walking fast. Suddenly...",
+        "The sun was shining and birds were singing."
+      ]
+    },
+    {
+      "rule": "Past continuous (long action) interrupted by past simple (short action)",
+      "examples": [
+        "He was playing football when he broke his arm.",
+        "When I went to bed, it was raining."
+      ]
+    },
+    {
+      "rule": "Contrast with past simple",
+      "examples": [
+        "We ate out yesterday. (completed action)",
+        "We were eating at 9. (action in progress)",
+        "When he arrived, she was having a shower. (shower started before)",
+        "When he arrived, she had a shower. (shower started after)"
+      ]
+    }
+  ],
+  "tips": [
+    "Remember the structure: was/were + verb-ing",
+    "Use time expressions like 'at 9 a.m.', 'at midday', 'all morning' with past continuous",
+    "The past continuous often sets the background scene in stories",
+    "Short interrupting actions use past simple",
+    "For sequential completed actions, use past simple",
+    "Be careful with -ing spelling rules (e.g., run → running, write → writing)"
+  ]
+}

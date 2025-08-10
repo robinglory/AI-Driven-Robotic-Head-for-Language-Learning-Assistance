@@ -1,0 +1,91 @@
+{
+  "lesson_id": "a2_grammar_08",
+  "type": "Grammar",
+  "level": "A2",
+  "title": "Will vs Be Going To: Future Forms",
+  "summary": "This lesson explains the differences between 'will' and 'be going to' for expressing future actions, focusing on predictions and decisions.",
+  "content": [
+    "Both 'will' and 'be going to' can express future actions but with different meanings.",
+    "'Will' is used for predictions based on opinion and instant decisions.",
+    "'Be going to' is used for predictions based on evidence and pre-made plans.",
+    "The choice between them depends on the context and the speaker's intention."
+  ],
+  "examples": [
+    {
+      "category": "Predictions",
+      "rules": [
+        {
+          "rule": "Will (predictions based on opinion/belief)",
+          "examples": [
+            "I think he'll win the election.",
+            "He will be a good doctor."
+          ],
+          "notes": "Used when the speaker thinks something will happen"
+        },
+        {
+          "rule": "Be going to (predictions based on present evidence)",
+          "examples": [
+            "Don't drive like that! We're going to have an accident!",
+            "The doctor said I'm going to have a girl."
+          ],
+          "notes": "Used when there's visible evidence something will happen"
+        },
+        {
+          "rule": "When both are possible (with slight difference in meaning)",
+          "examples": [
+            "The conference starts in 10 minutes. We are going to be late. (visible evidence)",
+            "We need to hurry up. We'll be late for the conference. (personal opinion)"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Decisions",
+      "rules": [
+        {
+          "rule": "Will (instant decisions made at speaking moment)",
+          "examples": [
+            "'We don't have sugar.' 'Don't worry, I'll buy some.'",
+            "'The phone's ringing.' 'I'll get it.'"
+          ],
+          "notes": "Used for spontaneous decisions"
+        },
+        {
+          "rule": "Be going to (pre-made plans/intentions)",
+          "examples": [
+            "'Why are you undressing?' 'Because I'm going to go for a swim.'",
+            "'I'm going to visit my parents this weekend.'"
+          ],
+          "notes": "Used for planned future actions"
+        },
+        {
+          "rule": "Comparing decision contexts",
+          "examples": [
+            "'Sarah needs to talk to you.' 'Oh, I'll call her now.' (just decided)",
+            "'Sarah needs to talk to you.' 'Yes, I'm going to call her.' (already planned)"
+          ]
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Use 'will' when you're making a promise, offer, or instant decision",
+    "Use 'be going to' when you can see the future event coming (evidence)",
+    "For personal plans you've already made, use 'be going to'",
+    "In informal speech, 'going to' often becomes 'gonna'",
+    "Remember: 'will' doesn't change form ('he will', not 'he wills')",
+    "Negative forms: 'won't' vs 'not going to'"
+  ],
+  "common_errors": [
+    "Incorrect: 'I think it's going to rain tomorrow.' (no evidence) Correct: 'I think it will rain tomorrow.'",
+    "Incorrect: 'Look at those clouds! It will rain!' Correct: 'Look at those clouds! It's going to rain!'",
+    "Incorrect: 'I'll study medicine next year.' (pre-planned) Correct: 'I'm going to study medicine next year.'"
+  ],
+  "additional_resources": {
+    "charts": "Will vs Be Going To comparison chart",
+    "interactive_exercises": [
+      "Prediction scenarios",
+      "Decision-making dialogues"
+    ]
+  }
+}

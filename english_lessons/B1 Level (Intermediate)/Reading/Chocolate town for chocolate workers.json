@@ -1,0 +1,107 @@
+{
+  "lesson_id": "b1_reading_15",
+  "type": "Reading",
+  "level": "B1",
+  "title": "Chocolate Town for Chocolate Workers",
+  "task_instruction": "Read a text about Bournville village and for questions 1 to 6, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "The Origins of Bournville",
+      "text": "If you love chocolate, maybe you have eaten a bar of Cadbury's Bournville chocolate. But Bournville isn't just the name of an English chocolate bar. It's the name of a village which was built especially for workers at the Cadbury's chocolate factory. George and Richard Cadbury took over the cocoa and chocolate business from their father in 1861. A few years later, they decided to move the factory out of the centre of Birmingham, a city in the middle of England, to a new location where they could expand."
+    },
+    {
+      "id": "B",
+      "title": "Choosing the Location",
+      "text": "They chose an area close to the railways and canals so that they could receive milk deliveries easily and send the finished products to stores across the country. Here, the air was much cleaner than in the city centre, and the Cadbury brothers thought it would be a much healthier place for their employees to work. They named the site Bournville after a local river called 'The Bourn'. 'Ville', the French word for town, was used because at the time, people thought French chocolate was the highest quality. The new factory opened in 1879."
+    },
+    {
+      "id": "C",
+      "title": "Building the Village",
+      "text": "Close to it, they built a village where the factory workers could live. By 1900, there were 313 houses on the site, and many more were built later. The Cadbury family were religious and believed that it was right to help other people. They thought their workers deserved to live and work in good conditions. In the factory, workers were given a fair wage, a pension and access to medical treatment. The village was also designed to provide the best possible conditions for workers too."
+    },
+    {
+      "id": "D",
+      "title": "Village Facilities",
+      "text": "The houses, although traditional in style, had modern interiors, indoor bathrooms and large gardens. The village provided everything that workers needed including a shop, a school and a community centre where evening classes were held to train young members of the workforce. Since the Cadbury family believed that their workers and their families should be fit and healthy, they added a park with hockey and football pitches, a running track, bowling green, fishing lake, and an outdoor swimming pool."
+    },
+    {
+      "id": "E",
+      "title": "Community Life",
+      "text": "A large clubhouse was built in the park so that players could change their clothes and relax after a game. Dances and dinners were also held here for the factory workers, who were never charged to use any of the sports facilities. However, because the Cadbury's believed that alcohol was bad for health and society, no pubs were ever built in Bourneville! The Cadbury brothers were among the first business owners to ensure that their workers had good standards of living."
+    },
+    {
+      "id": "F",
+      "title": "Bournville Today",
+      "text": "Soon, other British factory owners were copying their ideas by providing homes and communities for their workers designed with convenience and health in mind. Today, over 25,000 people live in Bournville village. There are several facilities there to help people with special needs, such as care homes for the elderly, a hostel for people with learning difficulties and affordable homes for first-time homeowners and single people. Over a hundred years since the first house in Bournville Village was built, the aims of its founders are still carried out."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "Why did the Cadbury brothers move their factory from Birmingham city centre?",
+      "options": [
+        "To be closer to cocoa farms",
+        "To find cleaner air and space to expand",
+        "Because the city centre was too noisy",
+        "To avoid paying city taxes"
+      ],
+      "answer": "To find cleaner air and space to expand"
+    },
+    {
+      "id": 2,
+      "question": "Why was the name 'Bournville' chosen?",
+      "options": [
+        "It combined a local river name with a French word for town",
+        "It was the name of the Cadbury family home",
+        "It sounded similar to their chocolate recipe name",
+        "It was the name of the first worker to live there"
+      ],
+      "answer": "It combined a local river name with a French word for town"
+    },
+    {
+      "id": 3,
+      "question": "What benefits did Cadbury factory workers receive?",
+      "options": [
+        "Free chocolate for life",
+        "A fair wage, pension and medical treatment",
+        "Company cars and holiday homes",
+        "Shares in the business"
+      ],
+      "answer": "A fair wage, pension and medical treatment"
+    },
+    {
+      "id": 4,
+      "question": "What was NOT included in Bournville village?",
+      "options": [
+        "A school",
+        "Sports facilities",
+        "A community center",
+        "Pubs"
+      ],
+      "answer": "Pubs"
+    },
+    {
+      "id": 5,
+      "question": "What was the purpose of the clubhouse in the park?",
+      "options": [
+        "Only for management meetings",
+        "For changing clothes and relaxing after sports",
+        "As a storage space for sports equipment",
+        "To host visiting chocolate buyers"
+      ],
+      "answer": "For changing clothes and relaxing after sports"
+    },
+    {
+      "id": 6,
+      "question": "How does Bournville continue the Cadbury brothers' vision today?",
+      "options": [
+        "By maintaining the original chocolate recipes",
+        "By providing facilities for people with special needs",
+        "By banning all modern technology",
+        "By only employing local residents"
+      ],
+      "answer": "By providing facilities for people with special needs"
+    }
+  ]
+}

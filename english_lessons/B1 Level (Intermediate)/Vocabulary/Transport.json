@@ -1,0 +1,154 @@
+{
+  "lesson_id": "b1_vocabulary_07",
+  "type": "Vocabulary",
+  "level": "B1",
+  "title": "Transport",
+  "summary": "Essential vocabulary to talk about different modes of transportation, road infrastructure, and common phrases used in travel situations.",
+  "sections": [
+    {
+      "heading": "Means of Transport",
+      "content": "This section covers different vehicles used for transportation.",
+      "examples": [
+        {
+          "phrase": "Train",
+          "definition": "Series of connected vehicles on tracks for transporting people or goods.",
+          "example": "We took the train from London to Edinburgh."
+        },
+        {
+          "phrase": "Tram",
+          "definition": "Rail vehicle that runs on city streets for short-distance travel.",
+          "example": "The tram is the easiest way to get around the city center."
+        },
+        {
+          "phrase": "Bus",
+          "definition": "Large road vehicle that carries passengers on a fixed route.",
+          "example": "I catch the bus to work every morning."
+        },
+        {
+          "phrase": "Subway/Underground/Tube",
+          "definition": "Train system that operates in tunnels below cities.",
+          "example": "The underground is the fastest way to travel across London."
+        },
+        {
+          "phrase": "Ferry",
+          "definition": "Large boat for transporting passengers and vehicles.",
+          "example": "We took the ferry across the river."
+        }
+      ]
+    },
+    {
+      "heading": "Road Infrastructure",
+      "content": "Vocabulary related to roads and transportation systems.",
+      "examples": [
+        {
+          "phrase": "Bus/Tram stop",
+          "definition": "Place where these vehicles stop to pick up or drop off passengers.",
+          "example": "Wait for me at the bus stop near the park."
+        },
+        {
+          "phrase": "Platform",
+          "definition": "Area where passengers board a train.",
+          "example": "Our train leaves from platform 3."
+        },
+        {
+          "phrase": "Motorway/Highway",
+          "definition": "Major road with multiple lanes for long-distance travel.",
+          "example": "There was heavy traffic on the motorway this morning."
+        },
+        {
+          "phrase": "Roundabout",
+          "definition": "Circular intersection where several roads meet.",
+          "example": "Take the second exit at the roundabout."
+        },
+        {
+          "phrase": "Traffic jam",
+          "definition": "Long line of vehicles that cannot move.",
+          "example": "We were late because of a traffic jam on the highway."
+        }
+      ]
+    },
+    {
+      "heading": "Tickets and Travel",
+      "content": "Vocabulary related to tickets and travel arrangements.",
+      "examples": [
+        {
+          "phrase": "Single ticket",
+          "definition": "Ticket for a one-way journey.",
+          "example": "I need a single ticket to Manchester, please."
+        },
+        {
+          "phrase": "Return ticket",
+          "definition": "Ticket for a round trip (going and coming back).",
+          "example": "A return ticket is cheaper than two single tickets."
+        },
+        {
+          "phrase": "Speed limit",
+          "definition": "Maximum legal speed for vehicles on a road.",
+          "example": "The speed limit in town is 30 miles per hour."
+        },
+        {
+          "phrase": "Commute",
+          "definition": "Regular journey between home and work.",
+          "example": "My commute takes about 45 minutes each way."
+        }
+      ]
+    },
+    {
+      "heading": "Transport Verbs",
+      "content": "Common verbs and phrases used with transportation.",
+      "examples": [
+        {
+          "phrase": "Get on/Get off",
+          "definition": "Enter/exit large vehicles like buses or trains.",
+          "example": "Get off at the next stop for the museum."
+        },
+        {
+          "phrase": "Get in/Get out",
+          "definition": "Enter/exit smaller vehicles like cars or taxis.",
+          "example": "Get in the car, we're leaving now."
+        },
+        {
+          "phrase": "Pick up",
+          "definition": "Collect someone in a vehicle.",
+          "example": "Can you pick me up from the station at 6?"
+        },
+        {
+          "phrase": "Fill up (the tank)",
+          "definition": "Put fuel in a vehicle.",
+          "example": "We need to fill up the tank before our trip."
+        },
+        {
+          "phrase": "Run out of petrol/gas",
+          "definition": "Have no more fuel left.",
+          "example": "We nearly ran out of petrol on the motorway."
+        }
+      ]
+    },
+    {
+      "heading": "Travel Time",
+      "content": "Phrases for talking about journey duration.",
+      "examples": [
+        {
+          "phrase": "It takes...",
+          "definition": "Used to describe journey duration.",
+          "example": "It takes about two hours to get to the airport."
+        },
+        {
+          "phrase": "How long does it take...",
+          "definition": "Question about journey duration.",
+          "example": "How long does it take you to get to work?"
+        },
+        {
+          "phrase": "Miss (a transport)",
+          "definition": "Fail to catch a vehicle.",
+          "example": "I missed my train by just one minute!"
+        },
+        {
+          "phrase": "Get to",
+          "definition": "Arrive at a destination.",
+          "example": "What time do you usually get to the office?"
+        }
+      ]
+    }
+  ]
+}

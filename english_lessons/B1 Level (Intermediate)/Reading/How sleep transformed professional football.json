@@ -1,0 +1,117 @@
+{
+  "lesson_id": "b1_reading_11",
+  "type": "Reading",
+  "level": "B1",
+  "title": "How Sleep Transformed Professional Football",
+  "task_instruction": "Read a text about how sleep transformed professional football, and for questions 1 to 6, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "The Sleep Revolution in Football",
+      "text": "A few decades ago, professional footballers spent their nights partying. Now, they are much more aware of the benefits of a good night's sleep. The change began in the mid-1990s, when mattress salesman Nick Littlehales contacted the manager of the Manchester United football team, Alex Ferguson, asking whether he had ever considered how sleep affected performance on the pitch."
+    },
+    {
+      "id": "B",
+      "title": "Early Adoption by Top Teams",
+      "text": "Interested, Ferguson arranged for Littlehales to give a presentation to his team. Before long, the whole team had new mattresses and pillows, and Littlehales soon became football's leading mattress advisor. In 1998, he supplied mattresses for England's World Cup team, and at the 2004 Euros, he created individual sleep routines for every player."
+    },
+    {
+      "id": "C",
+      "title": "Scientific Evidence for Sleep Benefits",
+      "text": "Gradually, club managers began to pay more attention to scientific sleep research, and for good reason. In 2011, sleep specialist Cheri Mah discovered that increasing sleep to 8-10 hours per night massively increased the speed and shot accuracy of basketball players. Other research shows that a single night of inadequate sleep can increase the risk of injury, and 64 hours of bad sleep reduces strength, power and balance, and can even cause the body to eat its own muscles!"
+    },
+    {
+      "id": "D",
+      "title": "Practical Applications by Clubs",
+      "text": "Consequently, managers started trying to improve their players' sleep. Southampton Football Club's manager Alek Gross, for example, forbade his players from consuming caffeine, sugar or fatty foods, which prevent sleep, in the evenings. Instead, they were given milky protein drinks which made them tired. The Mexico team manager was also concerned about sleep loss when travelling to their World Cup group games in Russia. Together with Manchester United sports scientist Robin Thorpe, he drew up a sleep and training schedule to optimize performance."
+    },
+    {
+      "id": "E",
+      "title": "Player Commitment to Sleep Routines",
+      "text": "Even the hotel bedrooms were set to the ideal sleeping temperature. The players supported the routine. In fact, on the evening of a game, their captain Rafael Marquez even asked fans who were celebrating at the same hotel to keep quiet because the team were sleeping. The intervention was a great success. Mexico won their next game versus South Korea and even beat Germany in their group."
+    },
+    {
+      "id": "F",
+      "title": "Individualized Sleep Solutions",
+      "text": "Now, many teams and players are making an effort to improve their sleep patterns, using various means. Manchester City player Sergio Aguero, for example, was finding it hard to sleep because his muscular body prevented his legs from closing when he lay on his side. He got a new mattress which matched his height and weight, thus keeping his neck and back aligned in the night."
+    },
+    {
+      "id": "G",
+      "title": "Sleep Solutions for Different Needs",
+      "text": "Meanwhile, James Milner from Manchester City found it hard to sleep after evening games, so would play computer games into the early hours. As a result, he was too tired to train the following morning. Setting a routine with a late bedtime, early rise and afternoon nap helped to fix this problem. Since these interventions are cheap and effective, even the less well-known teams can benefit."
+    },
+    {
+      "id": "H",
+      "title": "Accessible Technology for All Teams",
+      "text": "Brentford, for example, has the smallest budget in the championship league. Even so, the club's head of performance, Chris Haslam, introduced wrist trackers to monitor player's sleep, and these have led to a clear improvement in players' attentiveness. Whereas in the past, playing after a party and a few hours' sleep was seen as a badge of honour, a good sleep is now considered an essential part of performance."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "What started the change in footballers' sleep habits?",
+      "options": [
+        "A scientific study about sleep and performance",
+        "A mattress salesman contacting Alex Ferguson",
+        "Players complaining about tiredness",
+        "New rules about player rest periods"
+      ],
+      "answer": "A mattress salesman contacting Alex Ferguson"
+    },
+    {
+      "id": 2,
+      "question": "What did Cheri Mah's research show?",
+      "options": [
+        "Sleep has no effect on athletic performance",
+        "More sleep improves speed and accuracy",
+        "Footballers need less sleep than other athletes",
+        "Sleep only affects mental performance"
+      ],
+      "answer": "More sleep improves speed and accuracy"
+    },
+    {
+      "id": 3,
+      "question": "What did Southampton FC change about their players' evening routine?",
+      "options": [
+        "They introduced earlier bedtimes",
+        "They replaced unhealthy foods with sleep-inducing drinks",
+        "They made players sleep in special chambers",
+        "They banned all evening activities"
+      ],
+      "answer": "They replaced unhealthy foods with sleep-inducing drinks"
+    },
+    {
+      "id": 4,
+      "question": "How did Mexico's team show their commitment to sleep routines?",
+      "options": [
+        "By traveling with their own mattresses",
+        "By asking fans to be quiet so they could sleep",
+        "By refusing to play evening games",
+        "By sleeping in special tents"
+      ],
+      "answer": "By asking fans to be quiet so they could sleep"
+    },
+    {
+      "id": 5,
+      "question": "What problem did Sergio Aguero have with sleep?",
+      "options": [
+        "His muscular body made side-sleeping difficult",
+        "He suffered from insomnia",
+        "He preferred to sleep very little",
+        "His mattress was too soft"
+      ],
+      "answer": "His muscular body made side-sleeping difficult"
+    },
+    {
+      "id": 6,
+      "question": "How did Brentford improve their players' sleep on a small budget?",
+      "options": [
+        "By using wrist trackers to monitor sleep",
+        "By buying expensive mattresses",
+        "By hiring sleep specialists",
+        "By building a special sleep center"
+      ],
+      "answer": "By using wrist trackers to monitor sleep"
+    }
+  ]
+}

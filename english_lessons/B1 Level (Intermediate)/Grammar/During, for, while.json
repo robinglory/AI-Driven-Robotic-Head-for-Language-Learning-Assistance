@@ -1,0 +1,61 @@
+{
+  "lesson_id": "b1_grammar_05",
+  "type": "Grammar",
+  "level": "B1",
+  "title": "During / For / While",
+  "summary": "This lesson explains how to use 'during', 'for', and 'while' to express time. It focuses on their structure, usage differences, and examples.",
+  "content": [
+    "'During' is used with a noun to say when something happens.",
+    "'For' is used with a length of time to say how long something happens.",
+    "'While' is used with a subject and verb to say two things happen at the same time.",
+    "'During' answers the question 'when?'; 'for' answers 'how long?'.",
+    "'During' is followed by a noun; 'while' is followed by a clause (subject + verb)."
+  ],
+  "examples": [
+    {
+      "rule": "Use 'during' + noun to describe when something happens.",
+      "examples": [
+        "Some people got lost during the journey.",
+        "I will finish the novel during the summer break.",
+        "Most burglaries happen during the night."
+      ]
+    },
+    {
+      "rule": "Use 'for' + length of time to describe how long something happens.",
+      "examples": [
+        "We have known each other for a long time.",
+        "I waited for more than an hour, but I finally left.",
+        "He worked in this company for over twenty years."
+      ]
+    },
+    {
+      "rule": "Use 'while' + subject + verb to describe two simultaneous actions.",
+      "examples": [
+        "I had breakfast while you were in the shower.",
+        "I always listen to the radio while I’m cleaning.",
+        "You shouldn’t use your phone while you are driving."
+      ]
+    },
+    {
+      "rule": "Compare 'during' and 'for': 'during' = when, 'for' = how long.",
+      "examples": [
+        "Every day I run for one hour. (= How long?)",
+        "I usually run during the weekend. (= When?)"
+      ]
+    },
+    {
+      "rule": "Compare 'during' and 'while': 'during' + noun, 'while' + clause.",
+      "examples": [
+        "I fell asleep during the film.",
+        "I fell asleep while I was watching the film."
+      ]
+    }
+  ],
+  "tips": [
+    "Use 'during' with nouns only, not full clauses.",
+    "Use 'for' to measure duration of time, like minutes, hours, or years.",
+    "Use 'while' with a subject and verb for actions happening at the same time.",
+    "'During' answers 'when?', 'for' answers 'how long?', and 'while' describes simultaneous actions.",
+    "Avoid using 'during' with time lengths (e.g., ✘ during three hours). Use 'for' instead."
+  ]
+}

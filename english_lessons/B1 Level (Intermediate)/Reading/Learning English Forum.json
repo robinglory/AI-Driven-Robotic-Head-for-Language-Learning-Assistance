@@ -1,0 +1,102 @@
+{
+  "lesson_id": "b1_reading_13",
+  "type": "Reading",
+  "level": "B1",
+  "title": "American vs. British English and Cultural Differences",
+  "task_instruction": "Read a forum discussion about differences between American and British English and culture, and for questions 1 to 6, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Banjo_Boy's Concerns",
+      "text": "I was in the USA on a language course last summer. It was a fantastic learning experience! People were so friendly and welcoming. I'm going on a British summer course this year. I heard that English people are more unfriendly and polite. Is that true? I'm worried about the language as well. I learned American English at school, and I've heard that British English is different. I'm worried that I'll misunderstand everyone, make errors and appear impolite. Can anyone help?"
+    },
+    {
+      "id": "B",
+      "title": "Sara_May's Reassurance",
+      "text": "Don't worry about the language! It's mostly the same. In terms of grammar, there are no differences at all. There are a few vocabulary differences though, like in the USA they say 'subway', 'gas' and 'apartment', while in Britain they say 'underground', 'petrol' and 'flat'. But it won't be a problem. You'll understand those unfamiliar words from the context. What's more, British people will understand you if you use American words. After all, they watch lots of American shows on television. The British accent is very different from the American one, but personally, I find it easier to understand."
+    },
+    {
+      "id": "C",
+      "title": "Paulo_Riviera_166's Perspective",
+      "text": "You won't find the language confusing, but people's behaviour is very different, in my opinion. Americans are more informal and open. They talk about anything – their money, their weight, their health. They are enthusiastic and friendly, and it's easy to get to know them. British people aren't like that. They don't like to talk about their personal lives until they know you well, and they think it is respectful to give you privacy. As a result, it isn't easy to make friends with British people. They are friendly and polite, but they often remain rather distant."
+    },
+    {
+      "id": "D",
+      "title": "Nellie_111's Observations",
+      "text": "Don't worry about making social errors in Britain. People are so polite that if you do something wrong, they won't comment! I agree with Paulo_Riviera_166 in some ways. British people are more distant, but they aren't more formal, in my opinion. For example, in the States, kids sometimes call their dads 'Sir', but British people never do that! In America, success is important, so people will often tell you how great they are. In Britain, it's considered rude to boast about your achievements. If you do, people may tease you or gossip about you. Also, British people hate being complimented. If you say something nice about them, they often look embarrassed and don't know what to say!"
+    },
+    {
+      "id": "E",
+      "title": "Bubbles' Experience",
+      "text": "I don't know where Sara_May was staying in the UK, but I was in the north of the country on a school trip a couple of years ago. We all stayed with host families, and the only person I could understand was the mother of the family. I couldn't understand anyone else, even after three weeks! The people didn't sound anything like the people I had heard in my course books at school, and I learned British English! I guess people sound different in different areas of the country. All I can say is, good luck, and if you don't understand someone, ask them to write down what they are trying to say!"
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is Banjo_Boy's main concern about visiting Britain?",
+      "options": [
+        "The weather will be bad",
+        "British people might be unfriendly and the language different",
+        "The food will be strange",
+        "The course will be too difficult"
+      ],
+      "answer": "British people might be unfriendly and the language different"
+    },
+    {
+      "id": 2,
+      "question": "According to Sara_May, what is true about British and American English?",
+      "options": [
+        "The grammar is completely different",
+        "There are no vocabulary differences",
+        "British people won't understand American words",
+        "The main differences are in vocabulary and accent"
+      ],
+      "answer": "The main differences are in vocabulary and accent"
+    },
+    {
+      "id": 3,
+      "question": "How does Paulo_Riviera_166 describe British people's behavior?",
+      "options": [
+        "Very open about personal matters",
+        "Friendly but private until they know you well",
+        "Rude to foreigners",
+        "Always talking about their achievements"
+      ],
+      "answer": "Friendly but private until they know you well"
+    },
+    {
+      "id": 4,
+      "question": "What does Nellie_111 say about compliments in Britain?",
+      "options": [
+        "People expect many compliments",
+        "People know how to respond gracefully to compliments",
+        "People often feel uncomfortable receiving compliments",
+        "Compliments are considered very formal"
+      ],
+      "answer": "People often feel uncomfortable receiving compliments"
+    },
+    {
+      "id": 5,
+      "question": "What was Bubbles' main difficulty in Britain?",
+      "options": [
+        "Understanding regional accents",
+        "Finding vegetarian food",
+        "Using public transportation",
+        "Making friends with locals"
+      ],
+      "answer": "Understanding regional accents"
+    },
+    {
+      "id": 6,
+      "question": "Which of these would be considered rude in Britain according to the text?",
+      "options": [
+        "Being quiet in public",
+        "Boasting about your achievements",
+        "Using American vocabulary",
+        "Asking someone to repeat themselves"
+      ],
+      "answer": "Boasting about your achievements"
+    }
+  ]
+}

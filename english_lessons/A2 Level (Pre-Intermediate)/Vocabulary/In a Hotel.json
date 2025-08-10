@@ -1,0 +1,131 @@
+{
+  "lesson_id": "a2_vocabulary_10",
+  "type": "Vocabulary",
+  "level": "A2",
+  "title": "In a Hotel",
+  "summary": "Vocabulary related to hotel accommodations, services, and common phrases used when staying at a hotel.",
+  "sections": [
+    {
+      "heading": "Introduction",
+      "content": "In this Pre-intermediate Vocabulary Lesson about Hotels, you will learn the different types of rooms and accommodations available, what amenities and services you can expect, and useful verb phrases to use at a hotel. Check the pictures and read the definitions and examples below."
+    },
+    {
+      "heading": "Types of rooms and accommodation",
+      "content": "Different room types and meal plan options available in hotels.",
+      "examples": [
+        {
+          "phrase": "single room",
+          "definition": "a room with a single bed for one person",
+          "example": "I stayed in a single room with just a narrow bed and a desk in it."
+        },
+        {
+          "phrase": "double room",
+          "definition": "a room with a double bed for two people",
+          "example": "Lucy and Fred booked a double room with a huge bed in the middle of it."
+        },
+        {
+          "phrase": "twin room",
+          "definition": "a room with two single beds for two people",
+          "example": "The children slept in a twin room right next to their parents' room."
+        },
+        {
+          "phrase": "sea view",
+          "definition": "a room with a view of the sea",
+          "example": "I stayed in a big room with a sea view."
+        },
+        {
+          "phrase": "half board",
+          "definition": "includes breakfast and one meal (usually dinner) in the room price",
+          "example": "We only booked half board because we wanted to try different places to eat."
+        },
+        {
+          "phrase": "full board",
+          "definition": "includes all meals in the room price",
+          "example": "As we'd booked full board, we ate all our meals in the hotel restaurant."
+        }
+      ]
+    },
+    {
+      "heading": "Places and services in a hotel",
+      "content": "Common facilities and services offered by hotels.",
+      "examples": [
+        {
+          "phrase": "reception desk/front desk",
+          "definition": "the main desk where guests check in and get information",
+          "example": "I waited at the reception desk to ask for some information."
+        },
+        {
+          "phrase": "room service",
+          "definition": "food and drinks delivered to your room",
+          "example": "It was too cold to go outside, so I called room service and ordered a sandwich."
+        },
+        {
+          "phrase": "housekeeping",
+          "definition": "room cleaning and maintenance service",
+          "example": "The housekeeping service was excellent, and the rooms were cleaned each day."
+        },
+        {
+          "phrase": "spa",
+          "definition": "facility offering beauty treatments and relaxation services",
+          "example": "I spent an hour in the spa getting a relaxing massage."
+        },
+        {
+          "phrase": "conference room",
+          "definition": "large room for meetings and events",
+          "example": "The company had booked the conference room for their three-day national conference."
+        },
+        {
+          "phrase": "internet access",
+          "definition": "Wi-Fi connection available in the hotel",
+          "example": "I need a room with internet access, so that I can work and have video calls."
+        },
+        {
+          "phrase": "laundry service",
+          "definition": "clothes washing service provided by the hotel",
+          "example": "I used the laundry service to have my shirt cleaned."
+        },
+        {
+          "phrase": "parking facilities",
+          "definition": "space available for guests to park their cars",
+          "example": "Unless the hotel has parking facilities, we won't be able to take the car."
+        },
+        {
+          "phrase": "wake-up call",
+          "definition": "phone call from reception to wake you at a specified time",
+          "example": "Tom requested a wake-up call for 7 am the next day."
+        }
+      ]
+    },
+    {
+      "heading": "Verb Phrases",
+      "content": "Common verbs and phrases used when staying at a hotel.",
+      "examples": [
+        {
+          "phrase": "book a room",
+          "definition": "to reserve a hotel room",
+          "example": "I booked the room online as soon as I'd finished booking our flights."
+        },
+        {
+          "phrase": "check in",
+          "definition": "to register your arrival at the hotel",
+          "example": "As soon as we arrived, we checked in at the reception desk."
+        },
+        {
+          "phrase": "check out",
+          "definition": "to leave the hotel after paying your bill",
+          "example": "We were told we would have to check out of the hotel by 11:30 at the latest."
+        },
+        {
+          "phrase": "pay the bill",
+          "definition": "to settle your payment for the stay",
+          "example": "I paid the bill at the reception desk before leaving the hotel."
+        },
+        {
+          "phrase": "request",
+          "definition": "to ask for something politely",
+          "example": "Peter was feeling hungry, so he called the reception desk to request room service."
+        }
+      ]
+    }
+  ]
+}

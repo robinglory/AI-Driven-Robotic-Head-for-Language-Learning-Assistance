@@ -1,0 +1,38 @@
+{
+  "lesson_id": "b1_grammar_15",
+  "type": "Grammar",
+  "level": "B1",
+  "title": "Passive Voice in Different Verb Tenses",
+  "summary": "This lesson explains the passive voice in different verb tenses. It shows how to form the passive voice using the correct tense of 'be' and the past participle of the main verb.",
+  "content": [
+    "In a passive sentence, the object of an active sentence becomes the subject.",
+    "The passive voice is formed by using the verb 'be' in the correct tense, followed by the past participle of the main verb.",
+    "In passive sentences, the subject receives the action instead of performing it.",
+    "The structure of a passive sentence is: subject + 'be' in the correct tense + past participle.",
+    "Different tenses in the passive voice are formed by using 'be' in the correct tense and the past participle of the main verb."
+  ],
+  "examples": [
+    {
+      "rule": "Active to passive: The object becomes the subject in the passive sentence.",
+      "examples": [
+        "They take the photos in Africa. (active)",
+        "The photos are taken in Africa. (passive)"
+      ]
+    },
+    {
+      "rule": "Use the correct form of 'be' and the past participle to form the passive voice in different tenses.",
+      "examples": [
+        "The house is cleaned every day. (present simple)",
+        "The house was cleaned yesterday. (past simple)",
+        "The house will be cleaned tomorrow. (future simple)",
+        "The documents have been signed. (present perfect)"
+      ]
+    }
+  ],
+  "tips": [
+    "Remember, in passive sentences, the focus is on the action and the receiver, not the doer.",
+    "Use 'be' in the correct tense based on the time frame of the action (present, past, future, etc.).",
+    "The past participle of the main verb is always used in passive voice.",
+    "To form passive sentences, identify the object in the active sentence and make it the subject in the passive sentence."
+  ]
+}

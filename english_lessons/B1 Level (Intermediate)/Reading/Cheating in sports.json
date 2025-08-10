@@ -1,0 +1,94 @@
+{
+  "lesson_id": "b1_reading_10",
+  "type": "Reading",
+  "level": "B1",
+  "title": "Cheating in Sports",
+  "task_instruction": "Read a text about cheating in sports, and for questions 1 to 8, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "What Counts as Cheating?",
+      "text": "Anyone who loves sports will agree that cheating is bad. For example, it was wrong for Spain to include players who were not actually disabled in the 2000 Sydney Paralympics basketball team. However, sometimes it is hard to decide what is cheating and what is not. Many sports encourage players to be 'sporting' – to play honestly and accept losing. But the rewards for winning can be great, so it is natural for players to find different ways to win. Sometimes they bend the rules or cheat to get an advantage."
+    },
+    {
+      "id": "B",
+      "title": "Gamesmanship",
+      "text": "Gamesmanship is when you try to win by bending the rules or using doubtful tactics. For example, at the 2012 Olympics, British cyclist Philip Hindes had a bad start in a team race. Knowing that if a rider fell early the race would be restarted, he crashed his bike on purpose. Britain went on to win gold."
+    },
+    {
+      "id": "C",
+      "title": "Psychological Tactics",
+      "text": "Other examples of gamesmanship include faking injuries or wasting time. This can give players a rest or annoy their opponents, affecting their concentration. At the 2016 Rio Olympics, badminton player Carolina Marins shouted every time her opponent made a mistake. This upset her opponent, but Marins won gold without breaking any rules."
+    },
+    {
+      "id": "D",
+      "title": "The Role of Referees",
+      "text": "In unclear situations, it is the referee’s job to decide if cheating is happening. Players can take advantage because referees can’t see everything. For example, in cricket, if the ball hits a batter’s legs, he is out. Most batters know when they are out, but they often wait for the umpire’s decision in case it goes in their favour. This is not considered cheating."
+    },
+    {
+      "id": "E",
+      "title": "Famous Cases",
+      "text": "In the 1986 World Cup, Diego Maradona scored a goal with his hand. The referee didn’t see it, and Maradona didn’t admit it. In contrast, in the 2002 World Cup, Rivaldo faked an injury but was caught and fined."
+    },
+    {
+      "id": "F",
+      "title": "Losing on Purpose",
+      "text": "At the 2012 London Olympics, four women’s badminton doubles teams from China, Indonesia, and South Korea purposely played badly to get an easier match later. They broke no rules but were disqualified for poor sportsmanship."
+    },
+    {
+      "id": "G",
+      "title": "A Question to Consider",
+      "text": "Where there are games, people will try different ways to win. But is bending the rules the same as cheating, or does it just make the game more interesting?"
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "Why was Spain’s basketball team in the 2000 Sydney Paralympics criticised?",
+      "options": ["Because they cheated during a match", "Because they included players who were not disabled", "Because they refused to play fairly", "Because they won unfairly against the host team"],
+      "answer": "Because they included players who were not disabled"
+    },
+    {
+      "id": 2,
+      "question": "What is gamesmanship?",
+      "options": ["Breaking all the rules to win", "Trying to win by bending the rules", "Winning without using any tactics", "Using only fair play"],
+      "answer": "Trying to win by bending the rules"
+    },
+    {
+      "id": 3,
+      "question": "Why did Philip Hindes crash his bike in the 2012 Olympics?",
+      "options": ["Because he had a mechanical problem", "Because he wanted to restart the race", "Because he was injured", "Because he wanted to avoid finishing last"],
+      "answer": "Because he wanted to restart the race"
+    },
+    {
+      "id": 4,
+      "question": "How did Carolina Marins affect her opponent in the 2016 Rio Olympics?",
+      "options": ["By shouting to upset her opponent", "By faking an injury", "By wasting time", "By playing slowly"],
+      "answer": "By shouting to upset her opponent"
+    },
+    {
+      "id": 5,
+      "question": "Why do some cricketers wait for the umpire’s decision even when they know they are out?",
+      "options": ["Because it’s part of the game’s strategy", "Because they want to challenge the umpire", "Because they hope the umpire might not notice", "Because they are not sure if they are out"],
+      "answer": "Because they hope the umpire might not notice"
+    },
+    {
+      "id": 6,
+      "question": "How did Maradona cheat in the 1986 World Cup?",
+      "options": ["By scoring a goal with his hand", "By faking an injury", "By wasting time", "By distracting the referee"],
+      "answer": "By scoring a goal with his hand"
+    },
+    {
+      "id": 7,
+      "question": "Why were four badminton teams disqualified at the 2012 London Olympics?",
+      "options": ["Because they played too aggressively", "Because they broke equipment", "Because they purposely lost to get easier matches", "Because they refused to play"],
+      "answer": "Because they purposely lost to get easier matches"
+    },
+    {
+      "id": 8,
+      "question": "What question does the text leave for the reader?",
+      "options": ["Should all sports be fair?", "Is bending the rules the same as cheating?", "Can sports be played without rules?", "Should referees be removed from games?"],
+      "answer": "Is bending the rules the same as cheating?"
+    }
+  ]
+}

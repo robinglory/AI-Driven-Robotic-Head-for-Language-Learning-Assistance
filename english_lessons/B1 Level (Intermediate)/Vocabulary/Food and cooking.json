@@ -1,0 +1,138 @@
+{
+  "lesson_id": "b1_vocabulary_05",
+  "type": "Vocabulary",
+  "level": "B1",
+  "title": "Food and Cooking",
+  "summary": "Essential vocabulary to talk about food types and cooking methods, including fruits, vegetables, meats, seafood, and preparation techniques.",
+  "sections": [
+    {
+      "heading": "Fruits and Vegetables",
+      "content": "This section covers common fruits and vegetables with descriptions and examples.",
+      "examples": [
+        {
+          "phrase": "Grapes",
+          "definition": "Small round fruits used to make wine.",
+          "example": "Grapes are used to make wine."
+        },
+        {
+          "phrase": "Cherries",
+          "definition": "Small, round fruit with red skins, often used in desserts.",
+          "example": "Cherries are small, round fruit with red skins, often used in desserts."
+        },
+        {
+          "phrase": "Peach",
+          "definition": "Sweet summer fruit with pinky-orange skin.",
+          "example": "A peach is a sweet summer fruit with pinky-orange skin."
+        },
+        {
+          "phrase": "Carrots",
+          "definition": "Long, thin vegetables with orange skin and flesh.",
+          "example": "Carrots are long, thin vegetables with orange skin and flesh."
+        },
+        {
+          "phrase": "Broccoli",
+          "definition": "Nutritious green vegetable.",
+          "example": "Broccoli is a nutritious green vegetable."
+        },
+        {
+          "phrase": "Aubergine/Eggplant",
+          "definition": "Vegetable with smooth, dark purple skin.",
+          "example": "An aubergine (UK) or eggplant (US) has a smooth, dark purple skin."
+        }
+      ]
+    },
+    {
+      "heading": "Meat, Fish & Seafood",
+      "content": "This section covers different types of meat, fish and seafood.",
+      "examples": [
+        {
+          "phrase": "Beef",
+          "definition": "Meat of a cow.",
+          "example": "Beef is the meat of a cow."
+        },
+        {
+          "phrase": "Chicken",
+          "definition": "White meat from a bird, considered healthy.",
+          "example": "Chicken is white meat from a bird, and it's considered to be healthy."
+        },
+        {
+          "phrase": "Pork",
+          "definition": "Meat of a pig.",
+          "example": "Pork is the meat of a pig."
+        },
+        {
+          "phrase": "Salmon",
+          "definition": "Popular fish with pink meat.",
+          "example": "Salmon is a popular fish with pink meat."
+        },
+        {
+          "phrase": "Prawns",
+          "definition": "Seafood with tasty, soft meat inside.",
+          "example": "Prawns have a tasty, soft meat inside."
+        },
+        {
+          "phrase": "Mussels",
+          "definition": "Seafood with smooth black shell and orange flesh.",
+          "example": "Mussels have a smooth black shell and orange flesh."
+        }
+      ]
+    },
+    {
+      "heading": "Cooking Methods",
+      "content": "This section covers different ways to prepare and cook food.",
+      "examples": [
+        {
+          "phrase": "Steamed",
+          "definition": "Cooked in vapour over boiling water, considered healthy.",
+          "example": "I ordered steamed fish with vegetables."
+        },
+        {
+          "phrase": "Boiled",
+          "definition": "Cooked in very hot water, a healthy preparation method.",
+          "example": "Boiled eggs are healthier than fried eggs."
+        },
+        {
+          "phrase": "Fried",
+          "definition": "Cooked in oil or fat in a frying pan.",
+          "example": "I had a fried egg for breakfast."
+        },
+        {
+          "phrase": "Baked",
+          "definition": "Cooked in the oven using flour and yeast.",
+          "example": "I could smell the freshly baked bread."
+        },
+        {
+          "phrase": "Roasted",
+          "definition": "Cooked for a long time in the oven or over a fire.",
+          "example": "The chicken was served with roasted potatoes."
+        }
+      ]
+    },
+    {
+      "heading": "Food-related Phrasal Verbs",
+      "content": "This section covers common phrasal verbs used when talking about food and eating habits.",
+      "examples": [
+        {
+          "phrase": "Eat out",
+          "definition": "To eat away from home, in a restaurant.",
+          "example": "We often eat out at the weekend."
+        },
+        {
+          "phrase": "Cut down on",
+          "definition": "To consume less of something.",
+          "example": "I'm trying to cut down on red meat."
+        },
+        {
+          "phrase": "Go on a diet",
+          "definition": "To follow a special eating plan to lose weight.",
+          "example": "Tom went on a diet because he needed to lose a few kilos."
+        },
+        {
+          "phrase": "Put on weight",
+          "definition": "To become heavier.",
+          "example": "I put on all the weight that I had lost."
+        }
+      ]
+    }
+  ]
+}

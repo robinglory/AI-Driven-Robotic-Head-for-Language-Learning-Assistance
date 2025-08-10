@@ -1,0 +1,77 @@
+{
+  "lesson_id": "b1_reading_05",
+  "type": "Reading",
+  "level": "B1",
+  "title": "A Town that Lives in One Building",
+  "task_instruction": "Read the text about Whittier, Alaska, and for questions 1 to 6, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "A Hidden Gem in Alaska",
+      "text": "Located in the beautiful state of Alaska, a little town called Whittier is tucked away in a picturesque area surrounded by mountains and the ocean. This hidden gem is hard to reach: the only ways to and from Whittier are either by ferry or through a one-lane tunnel that cuts through the mountains. This tunnel is unique because it is shared by both vehicles and trains, necessitating a precisely managed schedule to accommodate both modes of transportation and both directions of traffic."
+    },
+    {
+      "id": "B",
+      "title": "Whittier’s Economy",
+      "text": "Whittier’s economy thrives on its port, the town’s main source of employment, where cargo ships drop off their containers for rail transportation across Alaska. The town also has a grocery store, a museum, two hotels, and various other job opportunities for all its citizens: police officers, municipal workers, educators at the local school, and marina staff. Tourism has grown over the last few years to become an alternative source of income, drawing visitors to attractions such as the Anton Anderson Memorial Tunnel, glacier jet ski tours, and scenic boat excursions that offer breathtaking views of marine wildlife and icebergs."
+    },
+    {
+      "id": "C",
+      "title": "Living Under One Roof",
+      "text": "Nearly all of Whittier’s 200-odd residents live under the same roof in the Begich Towers, a 14-story building that is more than just an apartment complex; it’s a self-contained town. Harsh winter weather with heavy snowfalls and fierce winds explains the convenience of this arrangement. All necessary facilities and services are in one building, so residents don’t have to go outside for errands or to go to church. Even the school is connected through a tunnel. This makes life in such an extreme climate much more manageable."
+    },
+    {
+      "id": "D",
+      "title": "Military Origins",
+      "text": "The origins of Whittier’s unique living situation date back to the early 20th century when the area was chosen for a military base. Shielded by mountains and located by a bay with unfreezing waters, it was ideal strategically. Initially, soldiers lived in wooden camps, but later, two significant buildings were built: the Buckner Building and the Begich Towers. The tunnel was constructed in the 1940s for railway access, turning Whittier into an important cargo and passenger port. After the military left in the 1960s, the Buckner Building was abandoned, and the Begich Towers became the main residential space."
+    },
+    {
+      "id": "E",
+      "title": "Life Today in Whittier",
+      "text": "Today, Whittier’s residents can take the elevator to go grocery shopping, visit the police station, or eat ‘out’—though in this case, ‘eat in’ might be more accurate. There’s even a health clinic for minor medical needs. Everything is a few steps away, fostering a strong community bond. Whether sharing coffee at the café or attending a community meeting, residents enjoy a unique and supportive environment."
+    },
+    {
+      "id": "F",
+      "title": "A Remarkable Town",
+      "text": "Whittier might be small, but it’s a remarkable example of adaptability and community spirit. Its single-building town, surrounded by Alaska’s breathtaking landscape, is a testament to human ingenuity and resilience."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is unusual about Whittier’s tunnel?",
+      "options": ["It is underwater", "It is shared by cars and trains", "It changes direction daily", "It only works in summer"],
+      "answer": "It is shared by cars and trains"
+    },
+    {
+      "id": 2,
+      "question": "What is Whittier’s main source of employment?",
+      "options": ["Tourism", "Its port", "The museum", "The hotel industry"],
+      "answer": "Its port"
+    },
+    {
+      "id": 3,
+      "question": "Why do residents live in one building?",
+      "options": ["It is a tradition", "It is safer during earthquakes", "To avoid harsh winter weather", "Because the other buildings are abandoned"],
+      "answer": "To avoid harsh winter weather"
+    },
+    {
+      "id": 4,
+      "question": "What was Whittier’s original purpose?",
+      "options": ["A fishing village", "A mining town", "A military base", "A tourist destination"],
+      "answer": "A military base"
+    },
+    {
+      "id": 5,
+      "question": "What happened to the Buckner Building?",
+      "options": ["It was turned into a hotel", "It was abandoned", "It became the school", "It burned down"],
+      "answer": "It was abandoned"
+    },
+    {
+      "id": 6,
+      "question": "Which of these is NOT mentioned as being inside Begich Towers?",
+      "options": ["A café", "A police station", "A health clinic", "A swimming pool"],
+      "answer": "A swimming pool"
+    }
+  ]
+}

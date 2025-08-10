@@ -1,0 +1,117 @@
+{
+  "lesson_id": "a2_vocabulary_09",
+  "type": "Vocabulary",
+  "level": "A2",
+  "title": "The Weather",
+  "summary": "Vocabulary for describing different weather conditions, temperature, humidity, and weather phenomena.",
+  "sections": [
+    {
+      "heading": "Introduction",
+      "content": "In this Pre-intermediate Vocabulary Lesson about The Weather, you will learn about different weather conditions, how to describe them in English, and the vocabulary associated with various weather phenomena. The pictures, descriptions, and examples below will help you understand and remember the terms."
+    },
+    {
+      "heading": "Weather Adjectives",
+      "content": "Common adjectives used to describe weather conditions, often formed by adding -y to nouns.",
+      "examples": [
+        {
+          "phrase": "sunny",
+          "example": "On sunny days, we like to go to the park."
+        },
+        {
+          "phrase": "cloudy",
+          "example": "It was very cloudy, so we couldn't see the sun."
+        },
+        {
+          "phrase": "rainy",
+          "example": "It was a rainy day, so we decided to stay indoors."
+        },
+        {
+          "phrase": "snowy",
+          "example": "On snowy days like this, we like to play in the snow."
+        },
+        {
+          "phrase": "windy",
+          "example": "It was so windy in the park that my papers blew away."
+        }
+      ]
+    },
+    {
+      "heading": "Temperature",
+      "content": "Vocabulary related to temperature measurements and descriptions.",
+      "examples": [
+        {
+          "phrase": "degrees",
+          "example": "They are expecting the temperature to go up to 30 degrees tomorrow."
+        },
+        {
+          "phrase": "hot",
+          "example": "It was too hot at the beach, so we decided to go home."
+        },
+        {
+          "phrase": "warm",
+          "example": "On warm days like this, we like to spend time outdoors."
+        },
+        {
+          "phrase": "cold",
+          "example": "It was a cold day, so I was wearing a hat and gloves."
+        },
+        {
+          "phrase": "freezing",
+          "example": "It's absolutely freezing out here! I need to go inside."
+        }
+      ]
+    },
+    {
+      "heading": "Humidity",
+      "content": "Terms describing moisture levels in the air.",
+      "examples": [
+        {
+          "phrase": "humid",
+          "example": "The humid weather made walking long distances uncomfortable."
+        },
+        {
+          "phrase": "wet",
+          "example": "It had rained and everything was very wet."
+        },
+        {
+          "phrase": "dry",
+          "example": "It hasn't rained in a long time and the ground is very dry."
+        }
+      ]
+    },
+    {
+      "heading": "Weather Phenomena",
+      "content": "Vocabulary for different weather events and conditions.",
+      "examples": [
+        {
+          "phrase": "lightning",
+          "example": "The lightning lit up the whole sky during the storm."
+        },
+        {
+          "phrase": "thunder",
+          "example": "Every time there was thunder, the dog hid under the bed."
+        },
+        {
+          "phrase": "thunderstorm",
+          "example": "There was a thunderstorm last night with lots of heavy rain and lightning."
+        },
+        {
+          "phrase": "snowstorm",
+          "example": "We are expecting a snowstorm this evening."
+        },
+        {
+          "phrase": "shower",
+          "example": "We are expecting showers this morning, so I am going to stay indoors."
+        },
+        {
+          "phrase": "drizzle",
+          "example": "There was a bit of drizzle when I walked to work this morning."
+        },
+        {
+          "phrase": "hail",
+          "example": "We were surprised to see balls of hail on the roof of our car."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "lesson_id": "a2_reading_05",
+  "type": "Reading",
+  "level": "A2",
+  "title": "The Edinburgh Festival",
+  "task_instruction": "Read the text about The Edinburgh Festival. For questions 1 to 10, fill in each gap with ONE word from the text.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Introduction",
+      "text": "One of the most popular summer festivals in the UK is the Edinburgh Festival. It isn't actually one festival; eight festivals are held in the city simultaneously, including the Art Festival, the Book Festival, the International Festival, the Fringe and the Royal Edinburgh Military Tattoo."
+    },
+    {
+      "id": "B",
+      "title": "History",
+      "text": "The Edinburgh Festival has happened in August every year since 1947, except for 2020. The idea for a festival came from Rudolf Bing, an Austrian who loved and sponsored the arts. Bing was the general manager of the famous Opera House at Glyndebourne in the South of England. He wanted to organise an international festival of music and opera to help fund the Opera House. Different cities were considered, including Oxford, but finally, Edinburgh, which already had a long history of festivals, was chosen."
+    },
+    {
+      "id": "C",
+      "title": "The First Year",
+      "text": "Two important events took place during the first International Festival. Firstly, a week-long film festival was organised by the Edinburgh Film Guild. Secondly, eight theatre groups arrived uninvited. They were not allowed to perform in the International Festival, so they set up their shows in other venues in the city. That became the 'Edinburgh Festival Fringe'."
+    },
+    {
+      "id": "D",
+      "title": "The Fringe Festival",
+      "text": "The Fringe Festival is now the largest of the festivals. In 2018, it featured more than 55,000 performances of 3,548 different shows in 317 venues. There are circus, music, dance, comedy, theatre performances and much more. Comedy is the most common performance: over a third of the shows are comedy."
+    },
+    {
+      "id": "E",
+      "title": "Military Festival",
+      "text": "A popular event of the Military Festival is the Tattoo. It takes place at the castle each night. Military musicians from across the world perform, and there is a great light and fireworks display. Another popular event is its grand finale: a classical music concert in Princes Street Gardens, when fireworks shoot into the sky, in time to the music."
+    },
+    {
+      "id": "F",
+      "title": "Tips for Visitors",
+      "text": "Attending the festival is a great experience, but planning ahead is a good idea. Hundreds of thousands of people attend each year, so you'll need to book accommodation and tickets for popular shows in advance. But don't plan too much! You'll find out about great, little-known shows and performers while you are there, and you'll be disappointed if you are too busy to attend."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "The Edinburgh Festival actually consists of _________ separate festivals.",
+      "answer": "eight",
+      "hint": "Number mentioned in the first paragraph"
+    },
+    {
+      "id": 2,
+      "question": "The festival was originally created to help fund the _________ House.",
+      "answer": "Opera",
+      "hint": "Capitalized word in the history section"
+    },
+    {
+      "id": 3,
+      "question": "The first International Festival took place in the year _________.",
+      "answer": "1947",
+      "hint": "Year mentioned in the history section"
+    },
+    {
+      "id": 4,
+      "question": "The Fringe Festival began when theatre groups came to Edinburgh _________.",
+      "answer": "uninvited",
+      "hint": "How the theatre groups arrived (first year section)"
+    },
+    {
+      "id": 5,
+      "question": "In 2018, the Fringe Festival had over _________ performances.",
+      "answer": "55,000",
+      "hint": "Large number in the Fringe section"
+    },
+    {
+      "id": 6,
+      "question": "The most common type of performance at the Fringe is _________.",
+      "answer": "comedy",
+      "hint": "Type mentioned as being over a third of shows"
+    },
+    {
+      "id": 7,
+      "question": "The Military Tattoo happens at the _________ each night.",
+      "answer": "castle",
+      "hint": "Location in the Military Festival section"
+    },
+    {
+      "id": 8,
+      "question": "The grand finale includes fireworks timed to _________ music.",
+      "answer": "classical",
+      "hint": "Type of music in the finale"
+    },
+    {
+      "id": 9,
+      "question": "Visitors should book accommodation and tickets in _________.",
+      "answer": "advance",
+      "hint": "What you need to do before arriving (tips section)"
+    },
+    {
+      "id": 10,
+      "question": "You might discover _________ shows while at the festival.",
+      "answer": "little-known",
+      "hint": "Adjective describing unexpected shows (tips section)"
+    }
+  ]
+}

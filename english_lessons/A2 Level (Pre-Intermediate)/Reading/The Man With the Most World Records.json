@@ -1,0 +1,116 @@
+{
+  "lesson_id": "a2_reading_08",
+  "type": "Reading",
+  "level": "A2",
+  "title": "The Man With the Most World Records",
+  "task_instruction": "Read the text about Ashrita Furman, the record-breaking record-breaker. For questions 1-10, choose the correct answer based on the text.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Introduction",
+      "text": "Ashrita Furman is a record-breaking record-breaker: He has set more records than anyone else in the world! In the last 40 years, he has established more than 600 records!"
+    },
+    {
+      "id": "B",
+      "title": "Childhood Dream",
+      "text": "As a child, Ashrita loved reading the Guinness Book of World Records. He wanted to be in it too. But he thought people had to be good at sports to be in the book. He wasn't a good athlete. He felt his dream would never come true."
+    },
+    {
+      "id": "C",
+      "title": "Finding Inspiration",
+      "text": "But later in life, Ashrita learned meditation, and with this, he learned that nothing is impossible. He tested this idea in 1978 by entering a 24-hour bike race in New York. Without any training, Ashrita came third! After that, he started thinking about breaking records again."
+    },
+    {
+      "id": "D",
+      "title": "First Record",
+      "text": "First, he tried to break the record for the most jumping jacks. He failed at first, but, remembering that 'anything is possible', he trained, meditated and tried again. This time, he did 27,000 jumping jacks in 6 hours 45 minutes and became the new record holder. His achievement appeared in the 1980 Guinness Book of Records."
+    },
+    {
+      "id": "E",
+      "title": "Current Records",
+      "text": "Today, Ashrita has a long list of records, including: walking the furthest distance with a bike on his chin, cycling the longest distance with a bottle on his head and lighting the most candles on a birthday cake. He says: 'I choose ideas which are challenging, fun and childish! I enjoy practising and seeing my progress.'"
+    },
+    {
+      "id": "F",
+      "title": "Favorite Records",
+      "text": "He says his favourite record was 'the longest distance on a pogo stick'. While he was on holiday in Japan, he saw Mount Fuji and thought it was beautiful, so he decided to try to break a record there. He did 11.5 miles. The most difficult record was 'the most forward rolls'. In 10 hours, 30 minutes, he did 8,341 of them, travelling 12 miles!"
+    },
+    {
+      "id": "G",
+      "title": "Ashrita's Advice",
+      "text": "If you want to break a world record too, Ashrita gives this advice. 'Choose something you enjoy because you will need to practise. And don't give up. Your mind will tell you that something is impossible, but it isn't. If someone else has done something, and you work hard, you can do it too!'"
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "How many world records has Ashrita Furman set?",
+      "options": ["About 100", "Over 600", "Exactly 40", "Nearly 1,000"],
+      "answer": "Over 600",
+      "explanation": "The introduction states he has 'established more than 600 records' in 40 years."
+    },
+    {
+      "id": 2,
+      "question": "As a child, what did Ashrita think about getting in the Guinness Book?",
+      "options": ["Anyone could do it", "You needed to be good at sports", "It was impossible", "You needed to be famous"],
+      "answer": "You needed to be good at sports",
+      "explanation": "He thought 'people had to be good at sports to be in the book' and he wasn't a good athlete."
+    },
+    {
+      "id": 3,
+      "question": "What changed Ashrita's belief about what was possible?",
+      "options": ["Winning a competition", "Learning meditation", "Meeting a record holder", "Reading a book"],
+      "answer": "Learning meditation",
+      "explanation": "He 'learned meditation, and with this, he learned that nothing is impossible.'"
+    },
+    {
+      "id": 4,
+      "question": "What was Ashrita's first successful world record?",
+      "options": ["24-hour bike race", "Jumping jacks", "Pogo stick", "Forward rolls"],
+      "answer": "Jumping jacks",
+      "explanation": "His first record was for 'the most jumping jacks' which appeared in the 1980 book."
+    },
+    {
+      "id": 5,
+      "question": "How many jumping jacks did Ashrita do for his first record?",
+      "options": ["6,000 in 1 hour", "15,000 in 5 hours", "27,000 in 6h45m", "8,341 in 10h30m"],
+      "answer": "27,000 in 6h45m",
+      "explanation": "He did '27,000 jumping jacks in 6 hours 45 minutes' for his first record."
+    },
+    {
+      "id": 6,
+      "question": "What kind of records does Ashrita prefer to attempt?",
+      "options": ["Serious sports records", "Challenging and childish ideas", "Only athletic records", "Dangerous stunts"],
+      "answer": "Challenging and childish ideas",
+      "explanation": "He says he chooses ideas which are 'challenging, fun and childish!'"
+    },
+    {
+      "id": 7,
+      "question": "Where was Ashrita when he set his pogo stick record?",
+      "options": ["New York", "Japan", "London", "Australia"],
+      "answer": "Japan",
+      "explanation": "He was 'on holiday in Japan' when he saw Mount Fuji and decided to attempt the record there."
+    },
+    {
+      "id": 8,
+      "question": "What was Ashrita's most difficult record?",
+      "options": ["Jumping jacks", "Bike on chin", "Forward rolls", "Candle lighting"],
+      "answer": "Forward rolls",
+      "explanation": "He states 'the most difficult record was the most forward rolls' where he did 8,341."
+    },
+    {
+      "id": 9,
+      "question": "What does Ashrita say is important when choosing a record to attempt?",
+      "options": ["It should be famous", "You should enjoy it", "It must be dangerous", "It should impress people"],
+      "answer": "You should enjoy it",
+      "explanation": "His advice is to 'choose something you enjoy because you will need to practise.'"
+    },
+    {
+      "id": 10,
+      "question": "What is Ashrita's main message about achieving goals?",
+      "options": ["Only talented people succeed", "Nothing is impossible", "Records aren't important", "You need lots of money"],
+      "answer": "Nothing is impossible",
+      "explanation": "His core belief from meditation is that 'nothing is impossible' which he demonstrates through his records."
+    }
+  ]
+}

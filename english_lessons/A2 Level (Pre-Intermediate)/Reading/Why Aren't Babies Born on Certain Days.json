@@ -1,0 +1,111 @@
+{
+  "lesson_id": "a2_reading_09",
+  "type": "Reading",
+  "level": "A2",
+  "title": "Why Aren't Babies Born on Certain Days?",
+  "task_instruction": "Read the text about birthday patterns. For questions 1-10, choose the correct answer based on the text.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Introduction",
+      "text": "Do you know anyone whose birthday is Christmas Day? You may know a few, but actually, having a birthday on that day is quite rare."
+    },
+    {
+      "id": "B",
+      "title": "Rare Birthday Dates",
+      "text": "December 25th is the least common birthday in the USA, Australia and New Zealand. Between 30% and 40% fewer babies are born on this day than on the peak days. In England, Wales and Ireland, Christmas Day is the second rarest day for a birthday. There, the fewest birthdays are on December 26th, the national holiday called Boxing Day. Other festival dates are also uncommon. In the USA, the four least common birthdays are Christmas, New Year, Thanksgiving and Independence Day."
+    },
+    {
+      "id": "C",
+      "title": "Reasons for the Pattern",
+      "text": "So why does this happen? Actually, there is a very logical reason. A third of babies in the USA are born by caesarean. Obviously, doctors can plan the date for these operations. They don't schedule them for the national holidays because they want to be celebrating, not working. Also, if babies don't arrive on time, doctors give the mothers drugs to make them give birth. However, they probably won't do this during holidays."
+    },
+    {
+      "id": "D",
+      "title": "April Fool's Day Exception",
+      "text": "Interestingly, though, there are relatively few birthdays on April 1st in England, Wales and New Zealand. It's not a national holiday, so doctors carry out operations as usual. But in those countries, this day is called April Fool's Day. Traditionally people play jokes and trick other people on this day. Maybe mothers avoid giving birth then because they are worried that people will bully or play jokes on their child."
+    },
+    {
+      "id": "E",
+      "title": "Common Birthday Months",
+      "text": "Some times of year are more common for birthdays than others. In the USA and New Zealand, the most popular month is September. In the UK, it's September or early October. The reason for this is because many babies are conceived in the cold, winter months when days are short. Australia, where it is warm in February and March, doesn't show this pattern. In countries further north than the UK, like Norway and Russia, the peak months are earlier: in July or August."
+    },
+    {
+      "id": "F",
+      "title": "Conclusion",
+      "text": "Think about your birthday. Is it at a common time of year? Would you prefer your birthday to be at a different time of year?"
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "In which countries is Christmas Day the least common birthday?",
+      "options": ["USA, Australia, New Zealand", "England, Wales, Ireland", "Norway and Russia", "All European countries"],
+      "answer": "USA, Australia, New Zealand",
+      "explanation": "The text states December 25th is least common in USA, Australia and New Zealand."
+    },
+    {
+      "id": 2,
+      "question": "What is the rarest birthday in England and Wales?",
+      "options": ["Christmas Day", "Boxing Day", "New Year's Day", "April Fool's Day"],
+      "answer": "Boxing Day",
+      "explanation": "In England and Wales, December 26th (Boxing Day) has the fewest birthdays."
+    },
+    {
+      "id": 3,
+      "question": "Why don't doctors schedule many C-sections on holidays?",
+      "options": ["Hospitals are closed", "They want to celebrate", "It's against the law", "Equipment doesn't work"],
+      "answer": "They want to celebrate",
+      "explanation": "Doctors don't schedule operations on holidays 'because they want to be celebrating, not working.'"
+    },
+    {
+      "id": 4,
+      "question": "What percentage of US babies are born by C-section?",
+      "options": ["About 10%", "Around 25%", "A third", "Nearly half"],
+      "answer": "A third",
+      "explanation": "The text states 'A third of babies in the USA are born by caesarean.'"
+    },
+    {
+      "id": 5,
+      "question": "Why might mothers avoid April 1st births?",
+      "options": ["Doctors charge more", "Hospitals are full", "Worried about jokes", "Bad weather"],
+      "answer": "Worried about jokes",
+      "explanation": "Mothers may worry 'people will bully or play jokes on their child' born on April Fool's Day."
+    },
+    {
+      "id": 6,
+      "question": "What is the most common birthday month in the USA?",
+      "options": ["July", "August", "September", "December"],
+      "answer": "September",
+      "explanation": "In the USA, 'the most popular month is September.'"
+    },
+    {
+      "id": 7,
+      "question": "Why are September birthdays common in northern countries?",
+      "options": ["Nice weather for parties", "Babies conceived in winter", "School starts then", "Doctors work more"],
+      "answer": "Babies conceived in winter",
+      "explanation": "Many babies 'are conceived in the cold, winter months' leading to September births."
+    },
+    {
+      "id": 8,
+      "question": "Which country doesn't follow the September birthday pattern?",
+      "options": ["USA", "Australia", "UK", "New Zealand"],
+      "answer": "Australia",
+      "explanation": "Australia 'doesn't show this pattern' because it's warm in their February/March."
+    },
+    {
+      "id": 9,
+      "question": "In Norway and Russia, when are most birthdays?",
+      "options": ["June-July", "July-August", "August-September", "September-October"],
+      "answer": "July-August",
+      "explanation": "In northern countries like Norway and Russia, peak months are 'July or August.'"
+    },
+    {
+      "id": 10,
+      "question": "What is the main reason for birthday patterns according to the text?",
+      "options": ["Hospital schedules", "Weather conditions", "Cultural traditions", "Doctors' preferences"],
+      "answer": "Hospital schedules",
+      "explanation": "The primary reason given is doctors scheduling births around holidays and seasonal conception patterns."
+    }
+  ]
+}

@@ -4,7 +4,7 @@
   "level": "A2",
   "title": "Subject Questions and Object Questions",
   "summary": "Grammar diagram illustrating the structure of subject questions in English, contrasting correct and incorrect usage with examples.",
-  "content":  {  [
+  "content": [
     "In present and past simple, we don't use auxiliary verbs (do/does/did) when the question word is the subject.",
     "For other tenses (continuous, perfect etc.), we include auxiliary verbs in subject questions.",
     "Object questions follow normal question order: auxiliary verb + subject.",
@@ -20,7 +20,6 @@
       "object": "What did you do?"
     }
   ],
- }'
   "examples": [
     "Subject Q: Who won the match? (NOT Who did win the match?)",
     "Subject Q: What happened last night?",

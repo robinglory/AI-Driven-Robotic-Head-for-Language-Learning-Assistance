@@ -1,0 +1,67 @@
+{
+  "lesson_id": "b1_reading_02",
+  "type": "Reading",
+  "level": "B1",
+  "title": "How LED Lights Can Save Sea Turtles’ Lives",
+  "task_instruction": "Read a text about how LED lights can help protect sea turtles, and for questions 1 to 6, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Introduction to Sea Turtles",
+      "text": "Sea turtles are amazing animals that have lived in our oceans for millions of years. However, today, they face many dangers. One of these comes from non-natural light. When baby sea turtles, also called hatchlings, come out of their eggs, they need to find the ocean quickly. They usually do this by following the natural light of the Moon and stars reflecting off the water. But in many places, artificial lights – from streets, buildings, and homes – are much brighter than the Moon. These lights can confuse baby sea turtles and make it hard for them to find their way to the ocean. This causes them to lose their way and head toward the land instead of the sea. When this happens, the baby turtles can get lost, dehydrated, or even be eaten by other animals."
+    },
+    {
+      "id": "B",
+      "title": "Using Turtle-Friendly Lights",
+      "text": "Although artificial light is usually a problem for sea turtles, we don’t have to live in the dark to protect them. Research shows that using special artificial lights, placed low to the ground and slightly covered so they can’t be seen from the beach, reduces the chances of sea turtles getting confused. These turtle-friendly lights are also better for people as they can improve visibility while driving by reducing the shine on the car windows. If you live near the coast or are visiting a beach where sea turtles live, you can help. Use lights that are not bright and low to the ground. Close curtains at night to reduce the amount of light coming from inside buildings."
+    },
+    {
+      "id": "C",
+      "title": "LED Lights in Fishing Nets",
+      "text": "Sea turtles have another enemy. Every year, hundreds of thousands of these sea animals are caught by large fishing boats in their fishing nets by accident – this means six to eight turtles daily for each boat in Mexico alone. Surprisingly, in this case, artificial lights can be helpful for sea turtles.\n\nStudies show that turtles use their sight to find food, but when swimming underwater at night, it’s hard to see the fishing net. So, different organisations have developed fishing nets with LED lights. By adding lights to fishing nets, scientists have found a way to prevent turtles and other animals from getting caught in the nets, reducing the number of unwanted catches by 60% to 95% without lowering the amount of fish caught."
+    },
+    {
+      "id": "D",
+      "title": "Benefits of LED Lights for Fishing Nets",
+      "text": "Using LED lights on fishing nets doesn’t just help sea turtles. When sea animals get stuck in the net by mistake, they might damage it. It costs time and money to remove sea turtles from their nets and to fix or replace the broken nets. In addition, LED lights are energy-efficient and last a long time. This new design of fishing nets reduces costs, making it a less expensive option."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "What do baby sea turtles usually follow to find the ocean?",
+      "options": ["The Moon and stars", "Street lights", "Fishing nets", "Artificial lights"],
+      "answer": "The Moon and stars"
+    },
+    {
+      "id": 2,
+      "question": "How can artificial lights help protect sea turtles?",
+      "options": ["By attracting more turtles", "By reducing confusion for baby turtles", "By increasing the brightness of the moon", "By creating more moonlight"],
+      "answer": "By reducing confusion for baby turtles"
+    },
+    {
+      "id": 3,
+      "question": "Where should turtle-friendly lights be placed?",
+      "options": ["At the beach", "High above the ground", "Low to the ground and slightly covered", "In the ocean"],
+      "answer": "Low to the ground and slightly covered"
+    },
+    {
+      "id": 4,
+      "question": "How can artificial lights on fishing nets help turtles?",
+      "options": ["By attracting more fish", "By confusing the turtles", "By preventing turtles from getting caught", "By scaring turtles away"],
+      "answer": "By preventing turtles from getting caught"
+    },
+    {
+      "id": 5,
+      "question": "What happens when sea animals get stuck in fishing nets?",
+      "options": ["They help clean the nets", "The nets get damaged", "They find their way out", "They escape easily"],
+      "answer": "The nets get damaged"
+    },
+    {
+      "id": 6,
+      "question": "Why are LED lights a good option for fishing nets?",
+      "options": ["They attract fish", "They are expensive", "They are energy-efficient and long-lasting", "They make the nets heavier"],
+      "answer": "They are energy-efficient and long-lasting"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "lesson_id": "a2_grammar_10",
+  "type": "Grammar",
+  "level": "A2",
+  "title": "Defining Relative Clauses",
+  "summary": "This lesson explains how to use defining relative clauses (who, which, where, that) to specify which person, thing or place we are talking about.",
+  "content": [
+    "Defining relative clauses identify exactly which person, thing or place we mean.",
+    "Different relative pronouns are used for people, things/animals, and places.",
+    "These clauses provide essential information about the noun they modify.",
+    "There are common mistakes to avoid when forming these clauses."
+  ],
+  "examples": [
+    {
+      "category": "Relative Pronouns",
+      "rules": [
+        {
+          "rule": "Who (for people)",
+          "examples": [
+            "He met the police officer who saved his life.",
+            "That's the teacher who helped me."
+          ]
+        },
+        {
+          "rule": "Which (for things and animals)",
+          "examples": [
+            "He put on the suit which he wore for special occasions.",
+            "This is the book which changed my life."
+          ]
+        },
+        {
+          "rule": "Where (for places)",
+          "examples": [
+            "This is the hotel where we spent our honeymoon.",
+            "I visited the town where I was born."
+          ]
+        },
+        {
+          "rule": "That (can replace who or which)",
+          "examples": [
+            "He's the neighbor that helped us move.",
+            "Change the cable that connects the computer."
+          ],
+          "notes": "More common for things than people in formal English"
+        }
+      ]
+    },
+    {
+      "category": "Common Mistakes",
+      "rules": [
+        {
+          "rule": "Incorrect use of 'what'",
+          "examples": [
+            "Incorrect: That's the student what I told you about.",
+            "Correct: That's the student that/who I told you about."
+          ]
+        },
+        {
+          "rule": "Incorrect pronoun repetition",
+          "examples": [
+            "Incorrect: That's the man he tried to steal my wallet.",
+            "Correct: That's the man who/that tried to steal my wallet."
+          ]
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Use 'who' for people, 'which' for things/animals, 'where' for places",
+    "'That' can replace 'who' or 'which' in defining clauses",
+    "No commas are used in defining relative clauses",
+    "The relative pronoun can often be omitted when it's the object",
+    "Remember: Never use 'what' as a relative pronoun",
+    "Avoid repeating the subject pronoun after the relative pronoun"
+  ],
+  "common_errors": [
+    "Incorrect: 'This is the car what I want.' Correct: 'This is the car that/which I want.'",
+    "Incorrect: 'She's the woman she works with my sister.' Correct: 'She's the woman who works with my sister.'",
+    "Incorrect: 'The restaurant where we went there was nice.' Correct: 'The restaurant where we went was nice.'"
+  ],
+  "additional_resources": {
+    "charts": [
+      "Relative pronouns usage chart",
+      "Common mistakes to avoid"
+    ],
+    "interactive_exercises": [
+      "Relative pronoun selection",
+      "Error correction practice"
+    ]
+  }
+}

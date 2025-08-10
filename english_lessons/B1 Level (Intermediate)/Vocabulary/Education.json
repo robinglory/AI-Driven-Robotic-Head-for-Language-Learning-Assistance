@@ -1,0 +1,121 @@
+{
+  "lesson_id": "b1_vocabulary_02",
+  "type": "Vocabulary",
+  "level": "B1",
+  "title": "Education",
+  "summary": "Common verb phrases used to talk about education, differences between the British and American education systems, and vocabulary related to different types of schools.",
+  "sections": [
+    {
+      "heading": "Verb Phrases",
+      "content": "This section covers common verb phrases used in the context of education.",
+      "examples": [
+        {
+          "phrase": "Take/sit an exam",
+          "definition": "Attend an exam.",
+          "example": "I always feel nervous before taking exams."
+        },
+        {
+          "phrase": "Pass an exam",
+          "definition": "Obtain successful results in an exam.",
+          "example": "I was pleased when I heard that I’d passed my exam."
+        },
+        {
+          "phrase": "Fail an exam",
+          "definition": "Obtain unsuccessful results in an exam.",
+          "example": "Mum was angry because I’d failed my exam."
+        },
+        {
+          "phrase": "Revise/review/study for an exam",
+          "definition": "Prepare for an exam.",
+          "example": "I have to revise for my exams this weekend."
+        },
+        {
+          "phrase": "Hand in an assignment/essay",
+          "definition": "Give an assignment to a teacher or lecturer.",
+          "example": "I handed in my assignment yesterday morning."
+        },
+        {
+          "phrase": "Give a presentation",
+          "definition": "Give a talk delivering information to a class or group.",
+          "example": "Tom gave a presentation on solar energy."
+        },
+        {
+          "phrase": "Write an essay",
+          "definition": "Write a piece of writing on a particular subject as part of a course.",
+          "example": "I wrote an essay on crime for English class."
+        },
+        {
+          "phrase": "Attend a class/lecture",
+          "definition": "Go to and be present in a class/lecture.",
+          "example": "Sam has attended all his classes this term."
+        },
+        {
+          "phrase": "Do homework/research/a project",
+          "definition": "Carry out the action of homework, etc.",
+          "example": "I usually do my homework when I get home."
+        },
+        {
+          "phrase": "Take notes",
+          "definition": "Write down what the teacher is saying.",
+          "example": "I always take notes when the teacher is talking."
+        },
+        {
+          "phrase": "Graduate from school",
+          "definition": "Leave school having obtained a diploma.",
+          "example": "After I graduate from school, I’ll look for a job."
+        },
+        {
+          "phrase": "Enrol in a course",
+          "definition": "Sign up for a course.",
+          "example": "I’ve enrolled in a business course which starts next week."
+        },
+        {
+          "phrase": "Drop a class",
+          "definition": "Stop taking a class.",
+          "example": "I decided to drop my history class as I wasn’t enjoying it."
+        },
+        {
+          "phrase": "Get a grade",
+          "definition": "Receive a mark (A, B, C / 50%, 70%, etc.) for a test, essay, etc.",
+          "example": "I was pleased when I got a good grade for my essay."
+        },
+        {
+          "phrase": "Study abroad",
+          "definition": "Study in another country.",
+          "example": "I would love to study abroad, preferably in an Asian country."
+        },
+        {
+          "phrase": "Be expelled",
+          "definition": "Be asked to leave school as punishment for bad behaviour.",
+          "example": "Sid was expelled after being caught cheating in his exams."
+        }
+      ]
+    },
+    {
+      "heading": "Education Systems and Schools",
+      "content": "Learn about the differences between the British and American education systems, as well as different types of schools.",
+      "examples": [
+        {
+          "phrase": "Nursery (Pre-school in the US)",
+          "definition": "Where British children go between the ages of three and five. In the US, it’s called pre-school. Children experience a taste of school life without formal academic learning."
+        },
+        {
+          "phrase": "Primary School (Elementary School in the US)",
+          "definition": "Where British children attend from the ages of five to eleven. The American equivalent is elementary school, where children stay until they are eleven or twelve. The first year is kindergarten in the US."
+        },
+        {
+          "phrase": "Secondary School (Middle School and High School in the US)",
+          "definition": "British children attend secondary school from ages eleven to sixteen. In the US, children first attend middle school or junior high school from ages eleven to fourteen, followed by high school until seventeen or eighteen."
+        },
+        {
+          "phrase": "College (6th Form in the UK)",
+          "definition": "After secondary school, some British teens begin college (also called 6th form) to study until they are eighteen. They may then go to university for higher education. In the US, college refers to higher education after high school, and university is often interchangeable with college."
+        },
+        {
+          "phrase": "University",
+          "definition": "Higher education institution where students study for a degree. In the US, the term college is used interchangeably with university."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "lesson_id": "a2_reading_07",
+  "type": "Reading",
+  "level": "A2",
+  "title": "Why Do People Collect?",
+  "task_instruction": "Read the text about different reasons people collect things. For questions 1-10, choose the correct answer based on the text.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Introduction",
+      "text": "Petra Engels owns 19,571 erasers, Carol Vaughn has 1,221 bars of soap, and Ralf Shrőder has a collection of 14,502 packets of sugar. Many people love to collect things, but why? Psychologists and collectors have different opinions."
+    },
+    {
+      "id": "B",
+      "title": "Carl Jung's Theory",
+      "text": "The psychologist Carl Jung believed that collecting is part of our ancient human history. Thousands of years ago, humans collected nuts and berries. They kept them carefully and ate them when there was no food. The best collectors survived long cold winters or seasons without rain. Their genes passed to future generations. Nowadays, we still have a collecting instinct."
+    },
+    {
+      "id": "C",
+      "title": "Philipp Bloom's View",
+      "text": "Historian Philipp Bloom has a different opinion. He thinks collectors want to make something that will remain after their death. By bringing many similar items together, the collector gains historical importance. Sometimes their collections become museums or libraries, for example, Henry Huntington, who founded a library in Los Angeles to house his collection of books."
+    },
+    {
+      "id": "D",
+      "title": "Steve Roach's Idea",
+      "text": "Author Steve Roach thinks that people collect things to remember their childhood. Many children collect things, but few have enough money to buy the things they really want, and they lose interest. In later life, they remember their collections fondly. Now, they have enough money and opportunity to find special items, and they start collecting again. This way, they can re-live and enjoy their childhood years."
+    },
+    {
+      "id": "E",
+      "title": "Werner Muensterberger's Theory",
+      "text": "Art collector, Werner Muensterberger, agrees that collecting is linked to childhood. But he believes we collect in order to feel safe and secure. While babies hold blankets or toys to feel safe when their mother isn't there, adults collect things to stop feeling lonely or anxious."
+    },
+    {
+      "id": "F",
+      "title": "Mark Baker's Experience",
+      "text": "Autograph collector Mark Baker agrees that collecting is emotional, but he doesn't collect to reduce anxiety. 'For me, it's the excitement,' he says. 'I love trying to get a famous person's autograph. Sometimes I succeed, and sometimes I fail. Also, by collecting autographs, I feel connected to famous people. I don't just watch them on television. I actually meet them.'"
+    },
+    {
+      "id": "G",
+      "title": "Conclusion",
+      "text": "These are just a few reasons for collecting. Do you know any people with collections? Why do they collect?"
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "How many erasers does Petra Engels own?",
+      "options": ["1,221", "14,502", "19,571", "20,000"],
+      "answer": "19,571",
+      "explanation": "The introduction states Petra Engels owns 19,571 erasers."
+    },
+    {
+      "id": 2,
+      "question": "According to Carl Jung, why did ancient humans collect food?",
+      "options": ["For trading", "To survive hard times", "To show wealth", "For fun"],
+      "answer": "To survive hard times",
+      "explanation": "Jung believed they collected food to eat 'when there was no food' and to survive winters or dry seasons."
+    },
+    {
+      "id": 3,
+      "question": "What does Philipp Bloom think collectors want to create?",
+      "options": ["A business", "Something that lasts after death", "A family tradition", "An art gallery"],
+      "answer": "Something that lasts after death",
+      "explanation": "Bloom thinks collectors want 'to make something that will remain after their death.'"
+    },
+    {
+      "id": 4,
+      "question": "Which famous collector founded a library in Los Angeles?",
+      "options": ["Petra Engels", "Henry Huntington", "Ralf Shrőder", "Mark Baker"],
+      "answer": "Henry Huntington",
+      "explanation": "The text mentions Henry Huntington founded a library for his book collection."
+    },
+    {
+      "id": 5,
+      "question": "According to Steve Roach, why do adults start collecting again?",
+      "options": ["To make money", "To remember childhood", "To impress friends", "To learn history"],
+      "answer": "To remember childhood",
+      "explanation": "Roach believes people collect 'to remember their childhood' and re-live those years."
+    },
+    {
+      "id": 6,
+      "question": "What comparison does Werner Muensterberger make?",
+      "options": ["Collectors and artists", "Adults and babies", "Collections and museums", "Ancient and modern collectors"],
+      "answer": "Adults and babies",
+      "explanation": "He compares how babies hold blankets for security and adults collect for similar feelings."
+    },
+    {
+      "id": 7,
+      "question": "What does Mark Baker collect?",
+      "options": ["Erasers", "Books", "Autographs", "Soap"],
+      "answer": "Autographs",
+      "explanation": "Baker is described as an 'autograph collector.'"
+    },
+    {
+      "id": 8,
+      "question": "What emotion does Mark Baker associate with collecting?",
+      "options": ["Fear", "Excitement", "Sadness", "Anger"],
+      "answer": "Excitement",
+      "explanation": "Baker says 'For me, it's the excitement' of getting autographs."
+    },
+    {
+      "id": 9,
+      "question": "Which two experts connect collecting to childhood?",
+      "options": ["Jung and Bloom", "Roach and Muensterberger", "Bloom and Baker", "Jung and Roach"],
+      "answer": "Roach and Muensterberger",
+      "explanation": "Both Roach and Muensterberger discuss connections to childhood in their theories."
+    },
+    {
+      "id": 10,
+      "question": "What is the main purpose of this text?",
+      "options": ["To advertise collections", "To explain different views on collecting", "To teach how to start a collection", "To list valuable collections"],
+      "answer": "To explain different views on collecting",
+      "explanation": "The text presents various experts' opinions about why people collect things."
+    }
+  ]
+}

@@ -1,0 +1,185 @@
+{
+  "lesson_id": "b1_vocabulary_13",
+  "type": "Vocabulary",
+  "level": "B1",
+  "title": "Animals",
+  "summary": "Essential vocabulary to talk about common animals, their body parts, and the sounds they make.",
+  "sections": [
+    {
+      "heading": "Common Animals",
+      "content": "This section covers various animals with descriptions and examples.",
+      "examples": [
+        {
+          "phrase": "Puppy",
+          "definition": "A young dog.",
+          "example": "The children played with the adorable puppy in the park."
+        },
+        {
+          "phrase": "Kitten",
+          "definition": "A young cat.",
+          "example": "The kitten chased a ball of yarn across the floor."
+        },
+        {
+          "phrase": "Bee",
+          "definition": "An insect known for making honey.",
+          "example": "The bee buzzed around the flowers in the garden."
+        },
+        {
+          "phrase": "Wasp",
+          "definition": "A yellow and black flying insect with a painful sting.",
+          "example": "A wasp flew by and everyone moved away quickly."
+        },
+        {
+          "phrase": "Peacock",
+          "definition": "A bird known for its colorful feathers.",
+          "example": "The peacock displayed its beautiful tail feathers."
+        },
+        {
+          "phrase": "Crab",
+          "definition": "A sea animal with a hard shell and claws.",
+          "example": "We saw a crab walking sideways on the beach."
+        }
+      ]
+    },
+    {
+      "heading": "More Animals",
+      "content": "Additional animals with their descriptions.",
+      "examples": [
+        {
+          "phrase": "Hedgehog",
+          "definition": "A small brown animal with spines on its back.",
+          "example": "We saw a hedgehog in the garden at night."
+        },
+        {
+          "phrase": "Tadpole",
+          "definition": "The larval stage of a frog.",
+          "example": "We watched the tadpoles swimming in the pond."
+        },
+        {
+          "phrase": "Bat",
+          "definition": "A nocturnal flying animal with wings made of skin.",
+          "example": "We saw a bat flying in the evening sky."
+        },
+        {
+          "phrase": "Seagull",
+          "definition": "A bird that lives near the sea.",
+          "example": "The seagulls flew above us looking for food."
+        },
+        {
+          "phrase": "Snail",
+          "definition": "A slow-moving animal with a soft body and hard shell.",
+          "example": "The snail moved slowly across the garden path."
+        }
+      ]
+    },
+    {
+      "heading": "Animal Body Parts",
+      "content": "Vocabulary for different parts of animals' bodies.",
+      "examples": [
+        {
+          "phrase": "Paw",
+          "definition": "The foot of an animal like a cat or dog.",
+          "example": "The cat used its paw to gently tap the toy."
+        },
+        {
+          "phrase": "Claws",
+          "definition": "Sharp, curved nails on animals' feet.",
+          "example": "The eagle used its claws to catch the fish."
+        },
+        {
+          "phrase": "Beak",
+          "definition": "The hard, pointed part of a bird's mouth.",
+          "example": "The parrot used its beak to crack open the seed."
+        },
+        {
+          "phrase": "Fins",
+          "definition": "Flat parts on a fish's body that help it swim.",
+          "example": "The shark's fin could be seen above the water."
+        },
+        {
+          "phrase": "Whiskers",
+          "definition": "Long, thin hairs on the face of some animals.",
+          "example": "The cat's whiskers twitched as it explored its surroundings."
+        }
+      ]
+    },
+    {
+      "heading": "More Body Parts",
+      "content": "Additional vocabulary for animal anatomy.",
+      "examples": [
+        {
+          "phrase": "Hooves",
+          "definition": "Hard coverings on the feet of horses and deer.",
+          "example": "The horse's hooves made a loud sound on the pavement."
+        },
+        {
+          "phrase": "Scales",
+          "definition": "Small, flat pieces of skin covering fish and reptiles.",
+          "example": "The fish's scales shimmered in the sunlight."
+        },
+        {
+          "phrase": "Shell",
+          "definition": "Hard, protective outer covering of some animals.",
+          "example": "The turtle retreated into its shell when it sensed danger."
+        },
+        {
+          "phrase": "Horns",
+          "definition": "Hard, pointed growths on heads of some animals.",
+          "example": "The goat used its horns to defend itself."
+        }
+      ]
+    },
+    {
+      "heading": "Animal Sounds",
+      "content": "Vocabulary for sounds made by different animals.",
+      "examples": [
+        {
+          "phrase": "Meow",
+          "definition": "The sound a cat makes.",
+          "example": "The kitten let out a soft meow when it was hungry."
+        },
+        {
+          "phrase": "Bark",
+          "definition": "The sound a dog makes.",
+          "example": "The dog started to bark loudly at the stranger."
+        },
+        {
+          "phrase": "Roar",
+          "definition": "The loud, deep sound a lion makes.",
+          "example": "The lion let out a mighty roar in the jungle."
+        },
+        {
+          "phrase": "Chirp",
+          "definition": "The short, sharp sound birds make.",
+          "example": "The birds began to chirp early in the morning."
+        }
+      ]
+    },
+    {
+      "heading": "More Animal Sounds",
+      "content": "Additional vocabulary for animal sounds.",
+      "examples": [
+        {
+          "phrase": "Hiss",
+          "definition": "The sound a snake makes.",
+          "example": "The snake let out a hiss when it felt threatened."
+        },
+        {
+          "phrase": "Moo",
+          "definition": "The sound a cow makes.",
+          "example": "The cow gave a loud moo in the field."
+        },
+        {
+          "phrase": "Neigh",
+          "definition": "The sound a horse makes.",
+          "example": "The horse greeted its owner with a happy neigh."
+        },
+        {
+          "phrase": "Growl",
+          "definition": "A low, threatening sound made by dogs or wolves.",
+          "example": "The dog began to growl when it sensed danger."
+        }
+      ]
+    }
+  ]
+}

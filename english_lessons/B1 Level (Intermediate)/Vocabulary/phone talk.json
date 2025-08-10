@@ -1,0 +1,122 @@
+
+{
+  "lesson_id": "b1_vocabulary_15",
+  "type": "Vocabulary",
+  "level": "B1",
+  "title": "Phone Talk",
+  "summary": "This lesson teaches essential vocabulary for talking about phones, including different phone types, common features, and actions you take when making or receiving calls.",
+  "sections": [
+    {
+      "heading": "Phone Types and Features",
+      "content": "This section covers different types of phones and their key features with descriptions and examples.",
+      "examples": [
+        {
+          "phrase": "landline",
+          "definition": "A phone that stays in one place and is connected by a cable.",
+          "example": "You can call me on my landline in the evenings."
+        },
+        {
+          "phrase": "mobile phone (UK) / cell phone (US)",
+          "definition": "A phone you can carry with you and use anywhere.",
+          "example": "I usually carry my mobile in my back pocket."
+        },
+        {
+          "phrase": "smartphone",
+          "definition": "A mobile phone that can connect to the internet and run apps.",
+          "example": "I was able to check my emails on my smartphone."
+        },
+        {
+          "phrase": "voicemail",
+          "definition": "A system that records messages when you miss a call.",
+          "example": "Jim didn’t answer the call, so I left a message on his voicemail."
+        },
+        {
+          "phrase": "signal",
+          "definition": "The strength of the phone connection.",
+          "example": "You’ll get a stronger signal if you go out into the garden."
+        },
+        {
+          "phrase": "ringtone",
+          "definition": "The sound your phone makes when someone calls.",
+          "example": "That’s my phone ringing. I recognise the ringtone."
+        },
+        {
+          "phrase": "SIM card",
+          "definition": "A small card in your phone that stores your phone number and information.",
+          "example": "All your personal data is stored on the SIM card inside your phone."
+        },
+        {
+          "phrase": "charger",
+          "definition": "A cable used to power your phone’s battery.",
+          "example": "I was unable to charge my phone because I had left my charger at home."
+        }
+      ]
+    },
+    {
+      "heading": "Phone Call Actions",
+      "content": "This section includes vocabulary for actions you take when using a phone, like making and receiving calls.",
+      "examples": [
+        {
+          "phrase": "dial a number",
+          "definition": "To press numbers on a phone to make a call.",
+          "example": "I picked up the phone and started to dial his number."
+        },
+        {
+          "phrase": "ring / call",
+          "definition": "To contact someone by phone.",
+          "example": "I’ll ring you as soon as I get home."
+        },
+        {
+          "phrase": "pick up the phone",
+          "definition": "To answer a call.",
+          "example": "Tom’s phone was ringing, so he picked it up and said “Hello.”"
+        },
+        {
+          "phrase": "hold on",
+          "definition": "To wait on a call for a short time.",
+          "example": "Of course, you can speak to Tony. Hold on, and I’ll go get him."
+        },
+        {
+          "phrase": "put through",
+          "definition": "To connect a person’s call to another person.",
+          "example": "The helpful receptionist put me through to the manager."
+        },
+        {
+          "phrase": "hold the line",
+          "definition": "To wait on the phone after your call has been answered.",
+          "example": "Please hold the line while we try to connect you to one of our sales assistants."
+        },
+        {
+          "phrase": "on hold",
+          "definition": "When you are waiting to speak to someone who is on another call.",
+          "example": "When I finally got through to the bank, they put me on hold for ages."
+        },
+        {
+          "phrase": "busy",
+          "definition": "When the person you are calling is already talking to someone else.",
+          "example": "Joe’s line is busy; I’ll try calling him later."
+        },
+        {
+          "phrase": "ring back / call back",
+          "definition": "To return a call to someone who called you earlier.",
+          "example": "Sam called while you were out. I told him you’d ring him back this evening."
+        },
+        {
+          "phrase": "missed call",
+          "definition": "A call that you did not answer.",
+          "example": "I saw a missed call from my friend, so I called her back."
+        },
+        {
+          "phrase": "hang up",
+          "definition": "To end a phone call.",
+          "example": "I said goodbye and hung up the phone."
+        },
+        {
+          "phrase": "cut off",
+          "definition": "When your phone is disconnected in the middle of a call.",
+          "example": "We were unable to finish our conversation because we were cut off in the middle of our call."
+        }
+      ]
+    }
+  ]
+}

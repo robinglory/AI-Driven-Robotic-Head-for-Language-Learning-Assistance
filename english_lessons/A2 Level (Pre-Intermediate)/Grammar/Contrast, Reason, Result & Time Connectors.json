@@ -1,0 +1,128 @@
+{
+  "lesson_id": "a2_grammar_07",
+  "type": "Grammar",
+  "level": "A2",
+  "title": "Conjunctions: Contrast, Reason, Result & Time Connectors",
+  "summary": "This lesson explains how to use conjunctions (however, although, because, so) and time connectors (before, after, while, when, etc.) correctly in sentences.",
+  "content": [
+    "Conjunctions help connect ideas and show relationships between clauses.",
+    "Time connectors help sequence events and show when actions happen.",
+    "Different connectors have specific punctuation rules and grammatical structures.",
+    "Common mistakes include wrong verb tenses and incorrect punctuation."
+  ],
+  "examples": [
+    {
+      "category": "Clauses of Contrast",
+      "rules": [
+        {
+          "rule": "However (sentence connector meaning 'but')",
+          "examples": [
+            "We didn't like the hotel. However, we had a good time.",
+            "I would like a dog; however, my husband is allergic."
+          ],
+          "notes": "Use at sentence beginning after full stop/semicolon, followed by comma"
+        },
+        {
+          "rule": "Although (means 'despite the fact that')",
+          "examples": [
+            "Although he had a bad leg, he won the game.",
+            "I passed the exam, although I hadn't studied."
+          ],
+          "notes": "Can begin or middle sentences. No comma after although."
+        }
+      ]
+    },
+    {
+      "category": "Clauses of Reason",
+      "rules": [
+        {
+          "rule": "Because + subject + verb",
+          "examples": [
+            "We canceled because it was raining.",
+            "I didn't call because I didn't want to worry you."
+          ]
+        },
+        {
+          "rule": "Because of + noun",
+          "examples": [
+            "We canceled because of the rain.",
+            "Shops closed because of the economic situation."
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Clauses of Result",
+      "rules": [
+        {
+          "rule": "So (shows result)",
+          "examples": [
+            "We worked hard all morning, so I'm tired now.",
+            "The TV is expensive, so I won't buy it."
+          ],
+          "notes": "Used mid-sentence after comma"
+        }
+      ]
+    },
+    {
+      "category": "Time Connectors",
+      "rules": [
+        {
+          "rule": "Before + noun/-ing/subject+verb",
+          "examples": [
+            "Before breakfast, I read.",
+            "Before having breakfast, I read.",
+            "Before I have breakfast, I read."
+          ]
+        },
+        {
+          "rule": "After + noun/-ing/subject+verb",
+          "examples": [
+            "After dinner, I smoke.",
+            "After having dinner, I smoke.",
+            "After I have dinner, I smoke."
+          ],
+          "notes": "For consecutive actions use 'then' or 'after that'"
+        },
+        {
+          "rule": "While + subject+verb (simultaneous actions)",
+          "examples": [
+            "I read while I waited."
+          ]
+        },
+        {
+          "rule": "As soon as/When/Once (similar meaning)",
+          "examples": [
+            "As soon as I get home, I'll do homework.",
+            "When I arrive, I'll call you.",
+            "Once I finish, I'll help you."
+          ]
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "However = but (start new sentence)",
+    "Although = despite (start/middle sentence)",
+    "Because + clause, Because of + noun",
+    "So = result (after comma)",
+    "Use present (not future) after time connectors",
+    "Comma when time connector begins sentence"
+  ],
+  "common_errors": [
+    "Incorrect: 'When I will arrive' Correct: 'When I arrive'",
+    "Incorrect: 'I'll call after I will finish' Correct: 'I'll call after I finish'",
+    "Incorrect: 'Although, he was tired' Correct: 'Although he was tired'",
+    "Incorrect: 'I was tired so I went to bed' Correct: 'I was tired, so I went to bed'"
+  ],
+  "additional_resources": {
+    "charts": [
+      "Conjunctions chart (contrast/reason/result)",
+      "Time connectors usage chart"
+    ],
+    "visual_aids": [
+      "Punctuation rules infographic",
+      "Sentence structure diagrams"
+    ]
+  }
+}

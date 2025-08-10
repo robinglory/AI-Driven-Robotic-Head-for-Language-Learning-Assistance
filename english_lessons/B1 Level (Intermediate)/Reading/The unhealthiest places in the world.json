@@ -1,0 +1,82 @@
+{
+  "lesson_id": "b1_reading_09",
+  "type": "Reading",
+  "level": "B1",
+  "title": "The unhealthiest places in the world",
+  "task_instruction": "Read the text about global health rankings, and for questions 1 to 6, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "The unhealthiest places in the world",
+      "text": "According to a study by Clinic Compare, the unhealthiest country in the world is the Czech Republic. The study, which compared data on alcohol, tobacco consumption and obesity in 179 countries, found that Czech Republic residents are among the world’s heaviest drinkers. Indeed, nine of the ten unhealthiest countries are located in Eastern Europe, where smoking is more common than in the rest of the world and is increasing among teenagers. The only one outside this region was the USA, where 36 per cent of the population are obese. Obesity levels are lower in the Czech Republic but are the highest in Europe.\n\nThe study must be taken with a pinch of salt, however. According to the rankings, the healthiest country in the world is Afghanistan due to its low obesity and alcohol consumption. In second and third place are Guinea and Niger. But that doesn’t make them healthy places to live. Indeed, four countries listed among Clinic Compare’s top ten healthiest countries, Guinea, DR Congo, Malawi and Mozambique, were among the least healthy nations in another study, the Global Competitiveness Index.\n\nHigh consumption of alcohol, tobacco and food are diseases of affluence; that is, they are common in wealthy countries. However, many countries, especially in Africa, are still struggling with diseases of poverty. For example, the average life expectancy in DR Congo is just 53 years old. Here, many people die from diseases which could be treated in other countries. In Malawi, tuberculosis and HIV are common. These countries lack basic medical facilities and trained doctors. In Mozambique, where 30% of people cannot access health services, lack of nutrients in the diet is a far more common medical problem than overeating.\n\nMoreover, Nepal, listed by Clinic Compare as the fourth healthiest country, is the tenth most polluted country and Afghanistan the fourteenth. Air pollution is a killer, with 7 million people dying worldwide each year from diseases associated with it. It is not just vehicle fumes and industries which are the problem. Around 2.4 billion people worldwide are exposed to dangerous levels of household air pollution while cooking on fires or stoves fuelled by kerosene, wood, dung and coal.\n\nAccording to a different study, which measured factors such as the cost of staying healthy, life expectancy, air pollution, obesity, sunlight hours and crime rate, the healthiest country is Spain. This is most likely due to its traditionally healthy diet, clean air, the number of people walking to work (37%), and free healthcare. Interestingly, another study, the Global Health Security Index, ranks the USA as the healthiest nation. This was because its high standards in research, safety and communication allow it to detect and respond to pandemics the most effectively. This contrasts with the Clinic Compare survey, which ranked it the tenth unhealthiest country, primarily because of its high obesity rate.\n\nThe countries with the highest levels of obesity, however, are in the Pacific islands. In countries such as Nauru, Tuvalu and Palau, over half the population is obese. This is a relatively new trend, as, before the 1950s, locals consumed a traditional diet that included bananas, coconuts, yams and seafood. Since then, incomes have increased, making imported convenience foods more affordable. This new scenario causes people to make poor food choices despite the availability of healthier, locally-grown options. In many regions of the USA, healthy choices just aren’t available, or they are too expensive. In addition, this country’s driving culture means that many people don’t get enough exercise."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "What factor made the Czech Republic the unhealthiest country according to Clinic Compare?",
+      "options": [
+        "Its high obesity rate",
+        "Its high alcohol consumption",
+        "Its poor air quality",
+        "Its lack of medical facilities"
+      ],
+      "answer": "Its high alcohol consumption"
+    },
+    {
+      "id": 2,
+      "question": "Why should the Clinic Compare rankings be viewed with caution?",
+      "options": [
+        "They ignore obesity rates",
+        "They don’t include African countries",
+        "They rank some unhealthy countries as healthy",
+        "They were based on only 50 countries"
+      ],
+      "answer": "They rank some unhealthy countries as healthy"
+    },
+    {
+      "id": 3,
+      "question": "What are ‘diseases of affluence’?",
+      "options": [
+        "Diseases that mainly affect poor countries",
+        "Diseases caused by lack of nutrients",
+        "Diseases common in wealthy countries due to lifestyle",
+        "Diseases spread by pollution"
+      ],
+      "answer": "Diseases common in wealthy countries due to lifestyle"
+    },
+    {
+      "id": 4,
+      "question": "Why is air pollution considered a serious global health issue?",
+      "options": [
+        "It only affects poor countries",
+        "It kills millions of people worldwide each year",
+        "It is caused mainly by obesity",
+        "It can be completely avoided"
+      ],
+      "answer": "It kills millions of people worldwide each year"
+    },
+    {
+      "id": 5,
+      "question": "What factor most likely explains Spain’s ranking as the healthiest country in one study?",
+      "options": [
+        "Its low obesity rate and healthy lifestyle",
+        "Its strict anti-smoking laws",
+        "Its high number of hospitals",
+        "Its absence of air pollution"
+      ],
+      "answer": "Its low obesity rate and healthy lifestyle"
+    },
+    {
+      "id": 6,
+      "question": "What has contributed to high obesity levels in some Pacific island countries?",
+      "options": [
+        "A traditional diet rich in coconut and seafood",
+        "Increased income leading to more imported processed foods",
+        "Lack of any available food",
+        "Government bans on local produce"
+      ],
+      "answer": "Increased income leading to more imported processed foods"
+    }
+  ]
+}

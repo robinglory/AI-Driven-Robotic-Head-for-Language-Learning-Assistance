@@ -1,0 +1,160 @@
+{
+  "lesson_id": "b1_vocabulary_06",
+  "type": "Vocabulary",
+  "level": "B1",
+  "title": "Hotels and Accommodation",
+  "summary": "Essential vocabulary to talk about different types of accommodations and describe hotel experiences, including types of lodging and adjectives for reviews.",
+  "sections": [
+    {
+      "heading": "Types of Accommodation",
+      "content": "This section covers different places people stay when traveling.",
+      "examples": [
+        {
+          "phrase": "Hotel",
+          "definition": "A building with many rooms for travelers, varying in price and quality.",
+          "example": "We stayed at a luxury hotel with a spa and swimming pool."
+        },
+        {
+          "phrase": "B&B (Bed and Breakfast)",
+          "definition": "Small accommodation that includes breakfast, often in someone's home.",
+          "example": "The cozy B&B had homemade breakfast served every morning."
+        },
+        {
+          "phrase": "Vacation rental/Holiday let",
+          "definition": "An entire home rented out for holiday use.",
+          "example": "We booked a vacation rental by the beach for our family holiday."
+        },
+        {
+          "phrase": "Guest house",
+          "definition": "Small private accommodation similar to a hotel but more personal.",
+          "example": "The guest house was run by a friendly local couple."
+        },
+        {
+          "phrase": "Homestay",
+          "definition": "Staying in someone's home to experience local culture.",
+          "example": "My homestay in Japan included meals with the host family."
+        },
+        {
+          "phrase": "Resort",
+          "definition": "Hotel with recreational facilities and included amenities.",
+          "example": "The beach resort had three pools and five restaurants."
+        }
+      ]
+    },
+    {
+      "heading": "More Accommodation Types",
+      "content": "Additional types of lodging options for travelers.",
+      "examples": [
+        {
+          "phrase": "Lodge/Cabin",
+          "definition": "Small house in nature, often with outdoor facilities.",
+          "example": "We rented a wooden cabin in the mountains for skiing."
+        },
+        {
+          "phrase": "Youth hostel",
+          "definition": "Budget accommodation with shared dormitories.",
+          "example": "As students, we stayed in youth hostels to save money."
+        },
+        {
+          "phrase": "Motel",
+          "definition": "Hotel designed for motorists, usually with parking.",
+          "example": "We stopped at a roadside motel during our road trip."
+        }
+      ]
+    },
+    {
+      "heading": "Describing Hotels and Services",
+      "content": "Adjectives commonly used to describe hotel staff and services.",
+      "examples": [
+        {
+          "phrase": "Attentive",
+          "definition": "Staff who listen carefully to guests' needs.",
+          "example": "The attentive staff remembered our coffee preferences."
+        },
+        {
+          "phrase": "Understaffed",
+          "definition": "Not having enough employees to serve guests properly.",
+          "example": "The restaurant was understaffed, so service was slow."
+        },
+        {
+          "phrase": "Efficient",
+          "definition": "Providing good service without wasting time.",
+          "example": "The efficient receptionist checked us in quickly."
+        }
+      ]
+    },
+    {
+      "heading": "Describing Rooms and Facilities",
+      "content": "Vocabulary for evaluating accommodation quality.",
+      "examples": [
+        {
+          "phrase": "Spotless",
+          "definition": "Extremely clean, without any dirt.",
+          "example": "Our hotel room was spotless when we arrived."
+        },
+        {
+          "phrase": "Spacious",
+          "definition": "Having plenty of room; not cramped.",
+          "example": "We upgraded to a spacious suite with a living area."
+        },
+        {
+          "phrase": "Modern",
+          "definition": "Contemporary style and facilities.",
+          "example": "The hotel had a modern design with smart technology."
+        },
+        {
+          "phrase": "Tatty",
+          "definition": "Old and in poor condition.",
+          "example": "The armchairs in the lobby looked tatty and worn."
+        }
+      ]
+    },
+    {
+      "heading": "Describing Location and Value",
+      "content": "Vocabulary for evaluating accommodation location and pricing.",
+      "examples": [
+        {
+          "phrase": "Central",
+          "definition": "Located in the middle of a town or city.",
+          "example": "The hotel's central location was perfect for sightseeing."
+        },
+        {
+          "phrase": "Overpriced",
+          "definition": "Costing more than it's worth.",
+          "example": "The tiny room was overpriced for what it offered."
+        },
+        {
+          "phrase": "Convenient",
+          "definition": "Located near useful facilities and transport.",
+          "example": "The hotel was convenient for the conference center."
+        }
+      ]
+    },
+    {
+      "heading": "Describing Food and Experience",
+      "content": "Vocabulary for evaluating hotel food and overall stay.",
+      "examples": [
+        {
+          "phrase": "Delicious",
+          "definition": "Extremely tasty food.",
+          "example": "The hotel restaurant served delicious local cuisine."
+        },
+        {
+          "phrase": "Bland",
+          "definition": "Lacking flavor or taste.",
+          "example": "The breakfast buffet looked nice but tasted bland."
+        },
+        {
+          "phrase": "Disappointing",
+          "definition": "Not as good as expected.",
+          "example": "Our stay was disappointing due to poor service."
+        },
+        {
+          "phrase": "Memorable",
+          "definition": "Worth remembering for being special.",
+          "example": "The amazing views made our stay truly memorable."
+        }
+      ]
+    }
+  ]
+}

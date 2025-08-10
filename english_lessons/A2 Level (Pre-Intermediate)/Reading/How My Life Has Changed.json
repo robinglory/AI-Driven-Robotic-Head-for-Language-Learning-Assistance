@@ -1,0 +1,96 @@
+{
+  "lesson_id": "a2_reading_06",
+  "type": "Reading",
+  "level": "A2",
+  "title": "How My Life Has Changed",
+  "task_instruction": "Read the text about how someone's life changed. For questions 1-10, choose the correct answer based on the text.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Life Before",
+      "text": "I used to work on cruise ships as a musician. I travelled a lot! I spent the month before the first lockdown in four continents! I used to get up really early, drive to the airport and fly to a port across the world and get on a ship just to get to work! Then I used to spend between three and fourteen days on the ship. The ships were great. The food was excellent, and the staff were brilliant. The ship stopped at fantastic places, and I often used to spend the afternoon at the beach drinking cocktails or sightseeing. But there were disadvantages too. I often didn't know anyone on the ship. But the passengers all knew me, and they used to talk to me every time I left my cabin. I didn't have any privacy. Of course, I had to chat to them politely even when I wasn't in the mood."
+    },
+    {
+      "id": "B",
+      "title": "Life Now",
+      "text": "But now, everything has changed. The cruises aren't running now, and I don't know when they will run again, and I've been in my flat for a year. I never used to spend much time here, and I haven't spent a whole year in England for over twenty years! But I've enjoyed it. I bought a bike last year, and I've found some great beach cafes that I never used to know about. I also bought a campervan, and I drove around the coast. I always used to prefer beaches in the Caribbean and the Mediterranean to British beaches. The weather is much better for a start! But I found some beautiful places last year. I could park on the beach in some places and run straight into the sea! They were much less touristy and more peaceful than the places where the cruise ships go."
+    },
+    {
+      "id": "C",
+      "title": "Changing Relationships",
+      "text": "I'm spending a lot more time alone now. I didn't use to be alone much when I was working. But since the pandemic started, I have developed new relationships with people who I didn't use to know very well. I always used to prefer the company of entertainers and people who like to travel. I used to think that people with normal jobs were boring. But since last year, I've got to know some really interesting, strong, kind and caring people! So that's been really valuable."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "What was the writer's job before?",
+      "options": ["Teacher", "Musician", "Pilot", "Chef"],
+      "answer": "Musician",
+      "explanation": "The text states 'I used to work on cruise ships as a musician.'"
+    },
+    {
+      "id": 2,
+      "question": "How many continents did the writer visit before the first lockdown?",
+      "options": ["Two", "Three", "Four", "Five"],
+      "answer": "Four",
+      "explanation": "The writer mentions spending 'the month before the first lockdown in four continents'"
+    },
+    {
+      "id": 3,
+      "question": "What was a disadvantage of working on cruise ships?",
+      "options": ["Bad food", "No privacy", "Long working hours", "Dangerous places"],
+      "answer": "No privacy",
+      "explanation": "The writer says 'I didn't have any privacy' as passengers would talk to them whenever they left their cabin."
+    },
+    {
+      "id": 4,
+      "question": "How long has the writer been in their flat?",
+      "options": ["Six months", "One year", "Two years", "Five years"],
+      "answer": "One year",
+      "explanation": "The text states 'I've been in my flat for a year.'"
+    },
+    {
+      "id": 5,
+      "question": "What did the writer buy last year?",
+      "options": ["A bike and a car", "A bike and a campervan", "A boat and a bike", "A house and a car"],
+      "answer": "A bike and a campervan",
+      "explanation": "The writer mentions buying 'a bike last year' and 'also bought a campervan.'"
+    },
+    {
+      "id": 6,
+      "question": "What did the writer used to think about British beaches?",
+      "options": ["They were the best", "They were better than Caribbean beaches", "They were not as good as Caribbean beaches", "They were too cold"],
+      "answer": "They were not as good as Caribbean beaches",
+      "explanation": "The writer says 'I always used to prefer beaches in the Caribbean and the Mediterranean to British beaches.'"
+    },
+    {
+      "id": 7,
+      "question": "What did the writer discover about some British beaches?",
+      "options": ["They were very touristy", "They were peaceful", "They were dangerous", "They had no facilities"],
+      "answer": "They were peaceful",
+      "explanation": "The text mentions the beaches were 'much less touristy and more peaceful.'"
+    },
+    {
+      "id": 8,
+      "question": "How has the writer's social life changed?",
+      "options": ["They spend more time alone", "They go to more parties", "They travel more with friends", "They work more hours"],
+      "answer": "They spend more time alone",
+      "explanation": "The writer states 'I'm spending a lot more time alone now.'"
+    },
+    {
+      "id": 9,
+      "question": "What kind of people did the writer used to prefer?",
+      "options": ["People with normal jobs", "Entertainers and travelers", "Quiet people", "Older people"],
+      "answer": "Entertainers and travelers",
+      "explanation": "The text says 'I always used to prefer the company of entertainers and people who like to travel.'"
+    },
+    {
+      "id": 10,
+      "question": "How does the writer feel about their new relationships?",
+      "options": ["They are boring", "They are valuable", "They are difficult", "They are temporary"],
+      "answer": "They are valuable",
+      "explanation": "The writer concludes 'So that's been really valuable.'"
+    }
+  ]
+}

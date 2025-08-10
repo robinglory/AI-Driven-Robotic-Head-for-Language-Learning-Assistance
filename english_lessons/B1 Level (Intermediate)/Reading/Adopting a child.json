@@ -1,0 +1,82 @@
+{
+  "lesson_id": "b1_reading_07",
+  "type": "Reading",
+  "level": "B1",
+  "title": "Adopting a Child",
+  "task_instruction": "Read the personal account about adopting a child, and for questions 1 to 6, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Adopting a Child",
+      "text": "Adopting felt like the right choice for my husband and I. It wasn’t because we couldn’t have a baby by ourselves. I didn’t get pregnant naturally, but we could have tried IVF. But I was worried that doing so would affect our relationship. We had always aimed to do things together and share responsibility. But that’s not possible when it comes to pregnancy and IVF. Plus, my husband’s mother was adopted, so it didn’t seem an unusual thing to do. Since then, I’ve realised just how many kids are in care, looking for homes and families, and I know it was the right choice.\n\nParents interested in adoption have to go through an in-depth training course. They not only learn about the experiences of kids in care, but also they study their own lives in detail. It’s an emotional process because you remember all sorts of issues from your past that you’d rather not think about. But it teaches you a lot about yourself and your partner. Afterwards, you are far more prepared to deal with family issues than people who become parents naturally.\n\nThe adoption agency encouraged us to specify what sort of child we wanted to adopt regarding their sex, age, appearance, health, educational ability, hobbies and so on. We didn’t feel comfortable about that because we would have been happy to provide a home for any child who needed it. But their reasoning was clear. The better the child meets the parents’ expectations, the more likely it’ll succeed. Our training had taught us that we had certain expectations of family life, so we followed their advice and came up with a list.\n\nWe had to have an interview in front of a large panel of social workers to be accepted as potential parents. We did everything we could to prepare for that. We even volunteered with a local youth group to get experience with children, as we didn’t have any nieces, nephews or friends with kids. As soon as they’d come to a decision – a positive one, our social worker brought out a file with information about kids currently in care. We started to put documents into piles: “yes”, “no” and “maybe”.\n\nWe got further information about three of those kids, and one stood out for us both. He was six years old, which is quite old among children who are up for adoption. Many parents prefer to adopt toddlers because they want to experience teaching them to walk, talk, read and write. That wasn’t important to us. It does seem a shame, though, that 6-year-olds already face discrimination for their age.\n\nThings happened very fast after that. We met the boy’s foster carers and teachers, and his social worker visited us at home. However, parents only meet the child they’re going to adopt once the adoption has been finalised. That way, the kid doesn’t get stressed or given false hopes. After a second interview, we were accepted. A week was put in the diary when we would first spend time with the boy at his carer’s home, taking him out on trips or just hanging out playing games and reading stories. A few days later, they stayed at a hotel near our house, and he gradually spent more time with us. Finally, the carers left, and the boy stayed – we now had a son!"
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "Why did the narrator choose adoption instead of IVF?",
+      "options": [
+        "They could not afford IVF",
+        "They wanted to avoid relationship strain",
+        "Their doctor advised against IVF",
+        "They were against medical treatments"
+      ],
+      "answer": "They wanted to avoid relationship strain"
+    },
+    {
+      "id": 2,
+      "question": "What did the adoption training course involve?",
+      "options": [
+        "Learning about the law only",
+        "Studying their own lives and experiences",
+        "Meeting the children before adoption",
+        "Practising parenting with dolls"
+      ],
+      "answer": "Studying their own lives and experiences"
+    },
+    {
+      "id": 3,
+      "question": "Why did the agency ask them to specify the type of child they wanted?",
+      "options": [
+        "To make the process faster",
+        "To ensure the adoption is more likely to succeed",
+        "To limit the number of children available",
+        "To match them with the healthiest child"
+      ],
+      "answer": "To ensure the adoption is more likely to succeed"
+    },
+    {
+      "id": 4,
+      "question": "Why did they volunteer with a local youth group?",
+      "options": [
+        "To meet potential children for adoption",
+        "To gain experience with children",
+        "To complete mandatory volunteer hours",
+        "To pass time while waiting"
+      ],
+      "answer": "To gain experience with children"
+    },
+    {
+      "id": 5,
+      "question": "Why do many parents prefer adopting toddlers?",
+      "options": [
+        "They require less care",
+        "They are easier to teach to walk, talk, read and write",
+        "They are less expensive to raise",
+        "They are more likely to be adopted quickly"
+      ],
+      "answer": "They are easier to teach to walk, talk, read and write"
+    },
+    {
+      "id": 6,
+      "question": "When do adoptive parents meet the child they will adopt?",
+      "options": [
+        "Before they are approved",
+        "During the training course",
+        "After the adoption is finalised",
+        "Before meeting the child's carers"
+      ],
+      "answer": "After the adoption is finalised"
+    }
+  ]
+}

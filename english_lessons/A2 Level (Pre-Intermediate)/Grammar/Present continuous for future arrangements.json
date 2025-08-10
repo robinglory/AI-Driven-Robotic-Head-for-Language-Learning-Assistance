@@ -1,0 +1,102 @@
+{
+  "lesson_id": "a2_grammar_09",
+  "type": "Grammar",
+  "level": "A2",
+  "title": "Present Continuous for Future Arrangements",
+  "summary": "This lesson explains how to use the present continuous tense to talk about future plans and arrangements, and compares it with 'be going to' and 'will'.",
+  "content": [
+    "The present continuous can describe future arrangements when time and place are decided.",
+    "It's commonly used with travel verbs and meeting people, with future time expressions.",
+    "While similar to 'be going to', it emphasizes fixed arrangements rather than intentions.",
+    "'Will' remains the correct choice for instant decisions made at the moment of speaking."
+  ],
+  "examples": [
+    {
+      "category": "Present Continuous for Arrangements",
+      "rules": [
+        {
+          "rule": "Fixed plans with time/place",
+          "examples": [
+            "I'm meeting Sally at 7. (arrangement made)",
+            "I'm flying to New York tomorrow. (ticket purchased)",
+            "We're getting married next July. (plans made)"
+          ],
+          "notes": "Used when details are confirmed with others"
+        },
+        {
+          "rule": "Common with travel and meetings",
+          "examples": [
+            "I'm leaving early tomorrow. I'm taking the 7:30 train.",
+            "I'm playing golf with Jack next Saturday.",
+            "I'm seeing the dentist after class."
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Present Continuous vs Be Going To",
+      "rules": [
+        {
+          "rule": "Present Continuous for arrangements",
+          "examples": [
+            "I'm leaving at 8 tomorrow. (fixed plan)",
+            "We're having dinner at Mario's. (reservation made)"
+          ],
+          "notes": "Emphasizes organized plans with others"
+        },
+        {
+          "rule": "Be Going To for intentions",
+          "examples": [
+            "I'm going to study tomorrow. (personal intention)",
+            "I'm going to wash the car. (not arranged yet)"
+          ],
+          "notes": "Emphasizes personal plans without fixed details"
+        }
+      ]
+    },
+    {
+      "category": "Comparison with Will",
+      "rules": [
+        {
+          "rule": "Will for instant decisions",
+          "examples": [
+            "'We're out of sugar.' 'I'll buy some.'",
+            "'The phone's ringing.' 'I'll get it.'"
+          ],
+          "notes": "Used for decisions made at speaking moment"
+        },
+        {
+          "rule": "Not for predictions",
+          "examples": [
+            "I think he'll win the election. (not present continuous)",
+            "It's going to rain. (not present continuous)"
+          ],
+          "notes": "Present continuous NOT used for predictions"
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Use present continuous only for arranged future events",
+    "Always include future time references (tomorrow, at 5, etc.)",
+    "Common verbs: meet, go, come, leave, arrive, have, see",
+    "For unarranged personal plans, use 'be going to'",
+    "For spontaneous decisions, use 'will'",
+    "Never use present continuous for predictions"
+  ],
+  "common_errors": [
+    "Incorrect: 'I'm studying tonight.' (no arrangement) Correct: 'I'm going to study tonight.'",
+    "Incorrect: 'I think it's raining tomorrow.' Correct: 'I think it will rain tomorrow.'",
+    "Incorrect: 'We will meet at 8.' (fixed plan) Correct: 'We're meeting at 8.'"
+  ],
+  "additional_resources": {
+    "charts": [
+      "Present Continuous for Future chart",
+      "Comparison with Be Going To chart"
+    ],
+    "interactive_exercises": [
+      "Arrangement vs intention scenarios",
+      "Future forms selection practice"
+    ]
+  }
+}

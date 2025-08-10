@@ -1,0 +1,82 @@
+{
+  "lesson_id": "b1_reading_08",
+  "type": "Reading",
+  "level": "B1",
+  "title": "The arm of Liberty",
+  "task_instruction": "Read the text about the Statue of Liberty, and for questions 1 to 6, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "The arm of Liberty",
+      "text": "The Statue of Liberty is probably the most famous icon of the USA. It was built to celebrate the end of slavery, and later became a symbol for freedom among immigrants. The statue depicts Libertas, the Roman goddess of liberty. And the torch she carries high above her outstretched arm represents a light that guides people along the path to freedom. Interestingly, however, Liberty looks different from the way the designer first intended.\n\nThe idea for the statue came from a poet, Édouard de Laboulaye. When the American Civil war ended, he wanted to commemorate the end of the slave trade with a gift. He and other people who opposed slavery raised money and hired a sculptor, Frédéric-Auguste Bartholdi, to design the statue. Bartholdi later employed the French engineer, Gustave Eiffel, to devise its structure. Eiffel, who would subsequently build the famous tower in Paris, was already a well-known designer of railway bridges. So he knew how to build robust structures that are flexible and safe in strong winds. This feature was necessary because the winds in New York harbor are extremely strong. Today, the top of her torch swings over 15cm when the wind is blowing at 50 miles per hour.\n\nEiffel designed the statue to be built around a massive metal skeleton, similar to the Eiffel tower. Huge pieces of copper were fixed onto this to form its shape. Until recently, two copies of the plans were believed to exist. But recently, a third copy was discovered, which revealed some interesting information. In 2018, a map dealer bought some historic papers at an auction in Paris, which included original plans, calculations, and drawings of the statue. At first, the documents were too fragile to read. But after special treatment, the papers clearly showed that Eiffel’s plans had been changed by Bartholdi with red ink. Liberty’s arm, which was thick and vertical in Eiffel’s drawing, was adjusted to be slimmer, less upright, and generally more attractive than Eiffels’ design.\n\nThe changes in the plans are dated July 28, 1882, after the construction of the tower had begun. We don’t know what Eiffel thought of Bartholdi’s changes. By then, Eiffel was working on other projects, and only his assistants were working with Bartholdi in New York. Maybe Bartholdi thought he could make the changes because Eiffel was not there and would not complain.\n\nHowever, the changes made the arm not only more attractive but also weaker, which has created problems over the years. At first, visitors could climb a ladder to the torch in Liberty’s arm, but in 1916, there was an explosion on a nearby island. It damaged the statue and made it unsafe, and the stairway to the torch has been closed ever since. During restoration work in the 1980s, engineers noticed that the structure inside Liberty’s head, shoulders, and arm were different from how they were shown on Eiffel’s plans. They thought that the builders had made mistakes, but some historians believed that Bartholdi had changed Eiffel’s design. The newly discovered papers confirm those theories."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "What was the original purpose of building the Statue of Liberty?",
+      "options": [
+        "To welcome immigrants to the USA",
+        "To celebrate the end of slavery",
+        "To commemorate the Eiffel Tower",
+        "To honor Gustave Eiffel"
+      ],
+      "answer": "To celebrate the end of slavery"
+    },
+    {
+      "id": 2,
+      "question": "Who first came up with the idea for the Statue of Liberty?",
+      "options": [
+        "Gustave Eiffel",
+        "Frédéric-Auguste Bartholdi",
+        "Édouard de Laboulaye",
+        "A map dealer in Paris"
+      ],
+      "answer": "Édouard de Laboulaye"
+    },
+    {
+      "id": 3,
+      "question": "Why was Eiffel chosen to design the statue’s structure?",
+      "options": [
+        "He was famous for designing tall towers",
+        "He was experienced with flexible, wind-resistant structures",
+        "He was already living in New York",
+        "He had previously worked with Bartholdi"
+      ],
+      "answer": "He was experienced with flexible, wind-resistant structures"
+    },
+    {
+      "id": 4,
+      "question": "What did the newly discovered plans reveal?",
+      "options": [
+        "Eiffel had secretly changed the design",
+        "Bartholdi altered Eiffel’s original arm design",
+        "The statue was meant to be taller",
+        "The torch was supposed to be made of gold"
+      ],
+      "answer": "Bartholdi altered Eiffel’s original arm design"
+    },
+    {
+      "id": 5,
+      "question": "What problem did Bartholdi’s changes cause?",
+      "options": [
+        "The statue became too heavy to ship",
+        "The arm became structurally weaker",
+        "The torch could no longer be lit",
+        "The statue swayed too much in the wind"
+      ],
+      "answer": "The arm became structurally weaker"
+    },
+    {
+      "id": 6,
+      "question": "Why is the stairway to the torch closed?",
+      "options": [
+        "It was never completed",
+        "It was damaged in an explosion in 1916",
+        "It is too narrow for visitors",
+        "It was replaced by an elevator"
+      ],
+      "answer": "It was damaged in an explosion in 1916"
+    }
+  ]
+}

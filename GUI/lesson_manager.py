@@ -1,10 +1,10 @@
 import os
 import json
 import random
-from api_manager import APIManager
-import random
-from datetime import datetime
+from tinydb import TinyDB, Query
 from tkinter import messagebox
+from datetime import datetime
+import re
 
 class LessonManager:
     GREETINGS = [
@@ -23,14 +23,16 @@ class LessonManager:
         "Perfect! Let's dive into this together."
     ]
 
-    def __init__(self):
-        self.api_manager = APIManager()
+    def __init__(self, llm_handler=None, lessons_root="/home/robinglory/Desktop/Thesis/english_lessons"):
+        self.llm = llm_handler  # For the new LLM integration
+        self.lessons_db = TinyDB('lessons_progress.json')
+        self.conversation_db = TinyDB('conversations.json')
+        self.lessons_root = lessons_root
 
     def get_lesson_by_type(self, user_level, lesson_type, current_user):
         try:
-            root = "/home/robinglory/Desktop/AI Projects/Thesis/english_lessons"
             folder = os.path.join(
-                root,
+                self.lessons_root,
                 f"{user_level} Level (Pre-Intermediate)" if user_level == "A2" 
                 else f"{user_level} Level (Intermediate)", 
                 lesson_type.capitalize()
@@ -40,26 +42,90 @@ class LessonManager:
                 messagebox.showerror("Error", f"Directory not found: {folder}")
                 return None
             
-            files = [f for f in os.listdir(folder) if f.endswith(".json")]
+            files = sorted([f for f in os.listdir(folder) if f.endswith(".json")])
             if not files:
                 messagebox.showerror("Error", f"No lesson files found in {folder}")
                 return None
             
-            progress = current_user['progress'].get(lesson_type.lower(), 0)
-            lesson_index = min(int(progress * len(files)), len(files)-1)
-            filepath = os.path.join(folder, files[lesson_index])
+            Lesson = Query()
+            user_lessons = self.lessons_db.search(
+                (Lesson.user == current_user['name']) & 
+                (Lesson.lesson_type == lesson_type)
+            )
             
+            completed_lessons = [l['filepath'] for l in user_lessons]
+            
+            for file in files:
+                filepath = os.path.join(folder, file)
+                if filepath not in completed_lessons:
+                    with open(filepath, "r", encoding="utf-8") as f:
+                        lesson = json.load(f)
+                        lesson['filepath'] = filepath
+                        lesson['level'] = user_level
+                        lesson['type'] = lesson_type
+                        return lesson
+            
+            filepath = os.path.join(folder, files[-1])
             with open(filepath, "r", encoding="utf-8") as f:
                 lesson = json.load(f)
                 lesson['filepath'] = filepath
+                lesson['level'] = user_level
+                lesson['type'] = lesson_type
                 return lesson
             
         except Exception as e:
             messagebox.showerror("Error", f"Error loading lesson: {str(e)}")
             return None
+        
+    def get_lesson_by_filepath(self, filepath):
+        try:
+            if not os.path.isfile(filepath):
+                return None
+            with open(filepath, "r", encoding="utf-8") as f:
+                lesson = json.load(f)
+            lesson['filepath'] = filepath
+            # Infer lesson type from folder name (assuming standard folder structure)
+            parts = filepath.split(os.sep)
+            if len(parts) >= 2:
+                lesson_type = parts[-2].lower()
+                lesson['type'] = lesson_type
+            return lesson
+        except Exception as e:
+            print(f"Error reading lesson file {filepath}: {e}")
+            return None
+
+
+    def record_lesson_completion(self, user_name, lesson_data):
+        self.lessons_db.insert({
+            'user': user_name,
+            'lesson_type': lesson_data['type'],
+            'level': lesson_data['level'],
+            'filepath': lesson_data['filepath'],
+            'title': lesson_data.get('title', ''),
+            'completed_at': datetime.now().isoformat()
+        })
+
+    def save_conversation(self, user_name, lesson_type, conversation):
+        self.conversation_db.insert({
+            'user': user_name,
+            'lesson_type': lesson_type,
+            'conversation': conversation,
+            'timestamp': datetime.now().isoformat()
+        })
+
+    import re
 
     def ask_lingo(self, question, current_user, current_lesson, conversation_history):
-        if question.lower() in ["quit", "exit", "bye", "that's all for today"]:
+        # Handle exit commands from user
+        exit_phrases = ["quit", "exit", "bye", "that's all for today"]
+        if question.lower().strip() in exit_phrases:
+            if current_lesson:
+                self.record_lesson_completion(current_user['name'], current_lesson)
+                self.save_conversation(
+                    current_user['name'],
+                    current_lesson['type'],
+                    conversation_history
+                )
             return random.choice([
                 "It was a pleasure teaching you today!",
                 "Great work today! I'm proud of your progress.",
@@ -67,55 +133,75 @@ class LessonManager:
                 "You're doing amazing! Until next time."
             ])
 
-        # Prepare context
-        context = []
-        
-        if current_lesson:
-            context.append(f"Current Lesson: {current_lesson.get('title', '')}")
-            if 'objective' in current_lesson:
-                context.append(f"Lesson Objective: {current_lesson['objective']}")
-            if 'text' in current_lesson:
-                context.append(f"Key Content: {current_lesson['text'][:200]}...")
-        
-        context.append(f"Student Level: {current_user['level']}")
-        context.append(f"Student Name: {current_user['name']}")
-        
-        if current_user['progress']:
-            progress_str = ", ".join([f"{k}: {int(v*100)}%" for k,v in current_user['progress'].items()])
-            context.append(f"Student Progress: {progress_str}")
-        
-        context.append(f"Student Question: {question}")
-        
-        # Build messages
-        messages = [
-            {"role": "system", "content": "You are Lingo, a friendly, patient English teaching AI. "
-             "You teach English to non-native speakers. Be warm, encouraging, and engaging. "
-             "Adapt to the student's level. Ask questions to check understanding. "
-             "Use the lesson content but don't just recite it - explain clearly. "
-             "Keep responses under 4 sentences unless explaining complex concepts."}
-        ]
-        
-        messages.extend(conversation_history[-4:])
-        messages.append({"role": "user", "content": "\n".join(context)})
-        
+        # Prepare AI message
+        full_message = self._prepare_full_message(current_user, current_lesson, question)
+
         try:
-            try:
-                response = self.api_manager.client.chat.completions.create(
-                    model=self.api_manager.current_model,
-                    messages=messages,
-                    max_tokens=150,
-                    temperature=0.8,
-                )
-                reply = response.choices[0].message.content.strip()
-                conversation_history.append({"role": "assistant", "content": reply})
-                return reply
+            if not self.llm:
+                raise ValueError("LLM handler not initialized")
+                
+            response = self.llm.get_ai_response(
+                message=full_message,
+                conversation_history=conversation_history
+            )
 
-            except Exception as e:
-                if "invalid_api_key" in str(e).lower() or "unauthorized" in str(e).lower():
-                    self.api_manager.switch_to_backup()
-                    return self.ask_lingo(question, current_user, current_lesson, conversation_history)
+            # Update conversation history
+            conversation_history.append({"role": "user", "content": question})
+            conversation_history.append({"role": "assistant", "content": response})
 
-                return f"I'm having trouble thinking right now. Could you try asking again? ({str(e)})"
-            
+            # --- Robust detection of lesson completion ---
+            # Lowercase for easier matching
+            resp_lower = response.lower()
+
+            # Keywords that suggest a lesson is over
+            completion_keywords = [
+                "lesson is finished",
+                "lesson finished",
+                "lesson complete",
+                "lesson completed",
+                "we have completed the lesson",
+                "that concludes",
+                "this concludes",
+                "we are done with",
+                "end of the lesson",
+                "great job today",
+                "good job today",
+                "session is over",
+                "all done for today",
+                "bye",
+                "Bye"
+            ]
+
+            # Check if any keyword is present OR if it matches a regex like "lesson.*(finished|complete)"
+            keyword_match = any(kw in resp_lower for kw in completion_keywords)
+            regex_match = re.search(r"(lesson|session).*(finished|complete|conclude|over)", resp_lower)
+
+            if keyword_match or regex_match:
+                if current_lesson:
+                    self.record_lesson_completion(current_user['name'], current_lesson)
+                    self.save_conversation(
+                        current_user['name'],
+                        current_lesson['type'],
+                        conversation_history
+                    )
+
+            return response
+
         except Exception as e:
-            return f"I'm having trouble thinking right now. Could you try asking again? ({str(e)})"
+            print(f"AI communication error: {str(e)}")
+            return "I'm having some technical difficulties. Could you please rephrase your question?"
+
+
+    def _prepare_full_message(self, current_user, current_lesson, question):
+        """Combine all context into a single message string"""
+        context_lines = [
+            f"STUDENT: {current_user['name']}",
+            f"LEVEL: {current_user['level']}",
+            f"LESSON: {current_lesson.get('title', '')}",
+            f"TYPE: {current_lesson.get('type', '').upper()}",
+            f"OBJECTIVE: {current_lesson.get('objective', '')}",
+            f"CONTENT: {current_lesson.get('text', '')[:300]}...",
+            "",
+            f"QUESTION: {question}"
+        ]
+        return "\n".join(context_lines)

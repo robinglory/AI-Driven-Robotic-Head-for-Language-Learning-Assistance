@@ -1,0 +1,35 @@
+{
+  "lesson_id": "b1_grammar_12",
+  "type": "Grammar",
+  "level": "B1",
+  "title": "-Ed / -Ing Adjectives",
+  "summary": "This lesson explains how to use -ed and -ing adjectives formed from verbs, focusing on the difference between describing how someone feels and what causes the feeling.",
+  "content": [
+    "-Ed and -ing adjectives are participial adjectives formed from verbs.",
+    "-Ed adjectives describe how someone feels.",
+    "-Ing adjectives describe the thing or situation that causes the feeling."
+  ],
+  "examples": [
+    {
+      "rule": "Use -ed adjectives to describe how someone feels.",
+      "examples": [
+        "We’re tired. Can we stop running?",
+        "I’m bored. Let’s play cards.",
+        "I was surprised to see her."
+      ]
+    },
+    {
+      "rule": "Use -ing adjectives to describe the thing or situation that causes the feeling.",
+      "examples": [
+        "Running is very tiring. We don’t want to run.",
+        "This film is very boring. Let’s play cards.",
+        "Her visit was very surprising. We weren’t expecting her."
+      ]
+    }
+  ],
+  "tips": [
+    "Use -ed adjectives for feelings and emotions (e.g., bored, surprised, tired).",
+    "Use -ing adjectives for causes of feelings (e.g., boring, surprising, tiring).",
+    "Remember: people feel -ed, things are -ing."
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "lesson_id": "b1_vocabulary_14",
+  "type": "Vocabulary",
+  "level": "B1",
+  "title": "Types of Movies and TV Shows",
+  "summary": "Essential vocabulary to talk about different genres of films and television programs, including descriptions and examples.",
+  "sections": [
+    {
+      "heading": "Movie Genres",
+      "content": "This section covers different types of movies with descriptions and examples.",
+      "examples": [
+        {
+          "phrase": "Comedy",
+          "definition": "A film or TV show intended to be funny.",
+          "example": "The comedy was so funny that we couldn't stop laughing."
+        },
+        {
+          "phrase": "Action film",
+          "definition": "Fast-paced movie with fighting and exciting scenes.",
+          "example": "I don't enjoy action films; I find them too violent."
+        },
+        {
+          "phrase": "Rom-com",
+          "definition": "Romantic comedy where main characters fall in love.",
+          "example": "At the end of the rom-com, the two main characters got married."
+        },
+        {
+          "phrase": "Horror film",
+          "definition": "Frightening movie intended to scare the audience.",
+          "example": "After watching the scary horror film, I was afraid to turn off the light."
+        },
+        {
+          "phrase": "Sci-fi film",
+          "definition": "Movie about futuristic ideas or technology.",
+          "example": "I watched an excellent sci-fi film set in space in the year 4099."
+        }
+      ]
+    },
+    {
+      "heading": "More Movie Genres",
+      "content": "Additional types of movies with their descriptions.",
+      "examples": [
+        {
+          "phrase": "Musical",
+          "definition": "Movie where part of the story is told through songs.",
+          "example": "I love watching musicals and singing along to the songs."
+        },
+        {
+          "phrase": "Thriller",
+          "definition": "Exciting film full of suspense.",
+          "example": "The thriller was so exciting that I couldn't take my eyes off the screen."
+        },
+        {
+          "phrase": "Western",
+          "definition": "Cowboy movie set in 19th century mid-west USA.",
+          "example": "When I was a kid I loved cowboys, so I watched a lot of westerns."
+        },
+        {
+          "phrase": "Family film",
+          "definition": "Movie suitable for all ages.",
+          "example": "We watched a fun family film last night that everyone enjoyed."
+        }
+      ]
+    },
+    {
+      "heading": "TV Show Types",
+      "content": "Vocabulary for different types of television programs.",
+      "examples": [
+        {
+          "phrase": "TV series",
+          "definition": "Show with many episodes shown regularly.",
+          "example": "It's one of my favourite TV series; I've seen every episode at least three times."
+        },
+        {
+          "phrase": "Sitcom",
+          "definition": "Comedy program with regular characters in amusing situations.",
+          "example": "We watched a funny new sitcom on Saturday night."
+        },
+        {
+          "phrase": "Reality show",
+          "definition": "Show focusing on ordinary people in everyday situations.",
+          "example": "There aren't any actors in reality shows, they're just normal people playing themselves."
+        },
+        {
+          "phrase": "Documentary",
+          "definition": "Factual program about a person, event, or topic.",
+          "example": "We watched a fascinating documentary about the sinking of the Titanic."
+        }
+      ]
+    },
+    {
+      "heading": "More TV Show Types",
+      "content": "Additional vocabulary for television programs.",
+      "examples": [
+        {
+          "phrase": "Game show",
+          "definition": "Show where people play games to win money.",
+          "example": "I saw a new game show where the guests have to answer mathematical problems."
+        },
+        {
+          "phrase": "Talent show",
+          "definition": "Show where people compete by singing, dancing, etc.",
+          "example": "The winner of the talent show had a beautiful singing voice."
+        },
+        {
+          "phrase": "Wildlife show",
+          "definition": "Factual program focusing on animals and nature.",
+          "example": "I watched a great wildlife show on sharks last weekend."
+        },
+        {
+          "phrase": "Sports show",
+          "definition": "Program covering sports news and events.",
+          "example": "The host of the sports show was discussing the match with the team's coach."
+        }
+      ]
+    }
+  ]
+}

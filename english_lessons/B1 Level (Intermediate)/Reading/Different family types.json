@@ -1,0 +1,62 @@
+{
+  "lesson_id": "b1_reading_06",
+  "type": "Reading",
+  "level": "B1",
+  "title": "Different Family Types",
+  "task_instruction": "Read the three personal accounts about different family types, and for questions 1 to 6, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Jordan",
+      "text": "Living in an extended family with both my parents and grandparents was a bittersweet symphony of love and tradition. The comfort of having a large, close-knit family was unparalleled. I felt loved by not two but four people who truly cared about me, which made me grow into a very self-confident man. I also learned to accept and appreciate the ideas and points of view of two different generations before me. Of course, there were times when I would have wanted a little more privacy and alone time. I also missed a little more flexibility since my grandparents’ stricter views were an influence on my parents. But despite these occasional frustrations, the warmth and support of a multi-generational home, filled with laughter, debates, and shared meals, enriched my life in ways I wouldn’t trade for anything."
+    },
+    {
+      "id": "B",
+      "title": "Ashley",
+      "text": "I have two mums and wouldn’t change that for the world. I have a great – and different – relationship with both of them. But dealing with other people’s attitudes has been hard sometimes. I remember when I was young, I wanted to invite a friend to sleep over, and she wasn’t allowed to do so for a while. Finally, her parents said that she could, but only if my mums promised not to kiss in front of her. I was also teased a lot at school, and Father’s Day was always an awkward time. Over the years, it got easier because my mums both became really active in the school community, and once parents got to know them, they grew more accepting. Our family was also really active in the Pride community, so we knew a lot of gay couples. It was easier hanging out with their kids as having gay parents was normal for them. In fact, I remember one little girl crying when she first saw a straight couple kissing because she found it confusing. I think society is starting to change now, though. Gay families are more accepted, and so their kids have an easier time of it."
+    },
+    {
+      "id": "C",
+      "title": "Leah",
+      "text": "My parents divorced when I was a baby, and my mum left, so I grew up with just a dad. It didn’t feel unusual until I started school and realised that most of the other kids had mums. Then I started wondering why I didn’t have one. I felt unwanted and jealous of the other kids who had one. I was angry with my mum for leaving and my dad for not keeping her. The other problem was that he had to work long hours to provide for me, so he couldn’t come along to school events like sports day and nativity plays. He was often too tired to spend time with me at home. I can’t remember us ever playing, doing homework, or preparing a meal together. From a young age, I had to do things that my friends never had to do, like preparing meals and grocery shopping, so I certainly learned how to be independent. But at the same time, I was lonely and angry. However, as I got older, I realised how hard he worked to keep me in a comfortable life, and he inspired me always to try my hardest, too."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "Who grew up in a household with multiple generations living together?",
+      "options": ["Jordan", "Ashley", "Leah", "None of them"],
+      "answer": "Jordan"
+    },
+    {
+      "id": 2,
+      "question": "Who experienced teasing and awkward situations because of their family setup?",
+      "options": ["Jordan", "Ashley", "Leah", "All of them"],
+      "answer": "Ashley"
+    },
+    {
+      "id": 3,
+      "question": "Who became independent at an early age due to family circumstances?",
+      "options": ["Jordan", "Ashley", "Leah", "None of them"],
+      "answer": "Leah"
+    },
+    {
+      "id": 4,
+      "question": "Who felt a lack of privacy and flexibility at times?",
+      "options": ["Jordan", "Ashley", "Leah", "All of them"],
+      "answer": "Jordan"
+    },
+    {
+      "id": 5,
+      "question": "Who says society is becoming more accepting of their family type?",
+      "options": ["Jordan", "Ashley", "Leah", "None of them"],
+      "answer": "Ashley"
+    },
+    {
+      "id": 6,
+      "question": "Who grew up without a mother present?",
+      "options": ["Jordan", "Ashley", "Leah", "None of them"],
+      "answer": "Leah"
+    }
+  ]
+}

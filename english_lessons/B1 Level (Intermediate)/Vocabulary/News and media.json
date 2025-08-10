@@ -1,0 +1,157 @@
+{
+  "lesson_id": "b1_vocabulary_12",
+  "type": "Vocabulary",
+  "level": "B1",
+  "title": "News & Media",
+  "summary": "Vocabulary related to journalism, broadcasting, and the people involved in the media industry, including print and digital publications, television, radio, and common roles in news production.",
+  "sections": [
+    {
+      "heading": "Written Media",
+      "content": "Key vocabulary for describing printed and online publications.",
+      "examples": [
+        {
+          "phrase": "Print Media",
+          "definition": "Any type of mass publication printed on paper, such as newspapers and magazines.",
+          "example": "Print media is less popular than it was in the past."
+        },
+        {
+          "phrase": "Magazine",
+          "definition": "A regular publication in the form of a thin book containing articles and photographs on a particular topic.",
+          "example": "I read it in a science magazine."
+        },
+        {
+          "phrase": "Newspaper",
+          "definition": "A daily or weekly publication on folded paper containing news articles and advertisements.",
+          "example": "I read the news in the newspaper this morning."
+        },
+        {
+          "phrase": "Tabloid",
+          "definition": "A type of newspaper with small pages, many photos, and articles of a less serious nature.",
+          "example": "I don’t always believe what I read in the tabloids."
+        },
+        {
+          "phrase": "Front Page",
+          "definition": "The first page or cover of a newspaper; front-page news is of great importance.",
+          "example": "The story was on the front page of every newspaper."
+        },
+        {
+          "phrase": "Headline",
+          "definition": "The large text at the top of an article summarising its main point.",
+          "example": "Many people only read the headlines, so they are not really informed."
+        },
+        {
+          "phrase": "Article",
+          "definition": "A piece of writing on a particular topic, published in a magazine or newspaper.",
+          "example": "I read an interesting article on elephants."
+        },
+        {
+          "phrase": "Blog Post",
+          "definition": "An informal piece of writing published regularly on a blog.",
+          "example": "Tom writes a new blog post for his blog every week."
+        }
+      ]
+    },
+    {
+      "heading": "Television and Radio",
+      "content": "Vocabulary for talking about broadcasting and related content.",
+      "examples": [
+        {
+          "phrase": "Broadcast",
+          "definition": "To send out radio or TV content; also used as a noun for the content itself.",
+          "example": "The World Cup final will be broadcast live on several sports channels this Sunday."
+        },
+        {
+          "phrase": "TV Channel",
+          "definition": "A television station and the shows it broadcasts.",
+          "example": "They show a lot of good shows on that TV channel."
+        },
+        {
+          "phrase": "Radio Station",
+          "definition": "A network that produces and broadcasts radio programmes.",
+          "example": "I listen to my favourite radio station while I drive to work."
+        },
+        {
+          "phrase": "Programme / Program",
+          "definition": "A show broadcast on television or radio.",
+          "example": "I watched an interesting programme on television last night."
+        },
+        {
+          "phrase": "Advertisement / Ad",
+          "definition": "A message in print, online, on TV, or on a poster promoting a product, event, or job.",
+          "example": "I saw an advertisement in the paper for a second-hand bicycle."
+        },
+        {
+          "phrase": "Commercial",
+          "definition": "The American term for an advertisement broadcast on television or radio.",
+          "example": "The problem with that channel is that there are too many commercials."
+        }
+      ]
+    },
+    {
+      "heading": "People in the Media",
+      "content": "Key vocabulary for describing roles in journalism and broadcasting.",
+      "examples": [
+        {
+          "phrase": "The Press",
+          "definition": "A collective term for journalists, photographers, and others who work in the media.",
+          "example": "After the incident the press was all over the place."
+        },
+        {
+          "phrase": "Journalist",
+          "definition": "A person who researches, writes, and reports news through various media platforms.",
+          "example": "That journalist writes an article in the local newspaper every week."
+        },
+        {
+          "phrase": "Listener",
+          "definition": "A person who listens to radio programmes.",
+          "example": "The number of listeners has increased since the station hired a new presenter."
+        },
+        {
+          "phrase": "Viewer",
+          "definition": "A person who watches television content.",
+          "example": "It’s a popular show with over 30 million viewers."
+        },
+        {
+          "phrase": "Audience",
+          "definition": "The group of people who watch or listen to a programme.",
+          "example": "We have an important message for our audience."
+        },
+        {
+          "phrase": "Paparazzi",
+          "definition": "Photographers who follow famous people to take photos of them.",
+          "example": "The paparazzi were waiting outside the actor’s house."
+        },
+        {
+          "phrase": "Cameraman",
+          "definition": "Someone who films programmes, ads, or reports for television or cinema.",
+          "example": "The cameraman told me to act natural."
+        },
+        {
+          "phrase": "Presenter",
+          "definition": "A person who presents a programme on radio or television.",
+          "example": "That man is a presenter on the 5 o’clock news."
+        },
+        {
+          "phrase": "Host",
+          "definition": "A type of presenter who talks to guests on a programme.",
+          "example": "The host welcomed the two guests to the show."
+        },
+        {
+          "phrase": "Reporter",
+          "definition": "Someone who collects and reports news for radio or television.",
+          "example": "The reporter was speaking live from the site of the disaster."
+        },
+        {
+          "phrase": "Sports Reporter",
+          "definition": "A reporter who collects and delivers sports news.",
+          "example": "As a sports reporter, Sam attends a lot of football matches."
+        },
+        {
+          "phrase": "Weather Reporter",
+          "definition": "A reporter who informs the public about predicted weather.",
+          "example": "The weather reporter said that it would be sunny all weekend."
+        }
+      ]
+    }
+  ]
+}

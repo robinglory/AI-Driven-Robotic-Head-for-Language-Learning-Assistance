@@ -1,0 +1,84 @@
+{
+  "lesson_id": "b1_reading_01",
+  "type": "Reading",
+  "level": "B1",
+  "title": "Unusual and Wonderful Jobs",
+  "task_instruction": "Read a text about unique jobs in the world, and for questions 1 to 8, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Chocolate consultant",
+      "text": "If you love chocolate, becoming a chocolate consultant could be an exciting job. There are various types of chocolate consultants, so you can follow the best career path for you. You could work full-time with well-known brands or focus on smaller brands that specialise in specific types of chocolate.\n\nTo be successful in this job, you must have a passion for chocolate and an interest in understanding the many varieties of cocoa. For this reason, you need a lot of knowledge in certain subjects. Chemistry and food-based subjects are particularly useful. Although you could work for companies that produce chocolate-based products, you could also be in charge of your career, advising chocolate buyers on which products to buy or running chocolate-tasting events."
+    },
+    {
+      "id": "B",
+      "title": "LEGO sculptor",
+      "text": "Many of us have enjoyed building things with LEGO blocks as children, but for some people, this childhood activity can turn into a career. LEGO has temporary jobs and long-term positions for certified professionals who create models and sets for the company. These LEGO sculptors work within specific themes and are based in Legoland Discovery Centres around the world.\n\nBecoming a LEGO sculptor is quite challenging. There are usually only between nine and 30 jobs available worldwide. To be hired, you need to successfully complete different tasks, including building difficult LEGO models."
+    },
+    {
+      "id": "C",
+      "title": "Island caretaker",
+      "text": "This role is often described as the best job in the world, and it’s easy to see why! In 2009, the Queensland Tourism Board created a position to promote the Islands of the Great Barrier Reef. The lucky employee from the UK – chosen among thousands of applicants – earned £73,400 on a temporary job for six months, living on an island in the Great Barrier Reef. His job involved swimming, exploring underwater, and having fun while filming and blogging about his experiences. At the end of his contract, the British island caretaker was promoted to a new job as a Global Tourism Ambassador, representing Queensland tourism around the world."
+    },
+    {
+      "id": "D",
+      "title": "Shark tank cleaner",
+      "text": "Cleaning windows might not sound thrilling, but what if you did it in the water surrounded by sharks? That would be a different story, surely! Shark tank cleaners have to swim with sharks to make the tank’s glass clean and shiny while visitors watch the whole process. This job requires a person who is not only brave but also a strong swimmer and experienced diver. Of course, if you’re afraid of sharks, it might be safer to look for other opportunities!"
+    },
+    {
+      "id": "E",
+      "title": "Professional sleeper",
+      "text": "If you love sleeping and can’t get enough of it, why not turn that passion into a career? Professional sleepers often participate in sleep studies, but there are also more unusual opportunities. For example, in 2009, women were hired for a temporary job where they were paid to sleep as part of a ‘living art’ exhibit at The New Museum of Contemporary Art in New York while tourists visited the museum."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which job may require knowledge of chemistry?",
+      "options": ["A", "B", "C", "D"],
+      "answer": "A"
+    },
+    {
+      "id": 2,
+      "question": "Which job involves creating models for a toy company?",
+      "options": ["A", "B", "C", "E"],
+      "answer": "B"
+    },
+    {
+      "id": 3,
+      "question": "Which person got a job by competing against thousands of applicants?",
+      "options": ["C", "A", "D", "E"],
+      "answer": "C"
+    },
+    {
+      "id": 4,
+      "question": "Which job involves doing underwater cleaning?",
+      "options": ["D", "C", "B", "E"],
+      "answer": "D"
+    },
+    {
+      "id": 5,
+      "question": "Which job is done while visitors watch you sleep?",
+      "options": ["E", "A", "B", "C"],
+      "answer": "E"
+    },
+    {
+      "id": 6,
+      "question": "Which job requires passing challenging model-building tasks?",
+      "options": ["B", "A", "D", "E"],
+      "answer": "B"
+    },
+    {
+      "id": 7,
+      "question": "Which job offers the chance to run chocolate tasting events?",
+      "options": ["A", "E", "D", "C"],
+      "answer": "A"
+    },
+    {
+      "id": 8,
+      "question": "Which job involves being surrounded by sharks?",
+      "options": ["D", "B", "A", "C"],
+      "answer": "D"
+    }
+  ]
+}

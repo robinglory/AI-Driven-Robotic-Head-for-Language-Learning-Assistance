@@ -1,0 +1,187 @@
+{
+  "lesson_id": "b1_vocabulary_10",
+  "type": "Vocabulary",
+  "level": "B1",
+  "title": "Sport",
+  "summary": "Vocabulary related to sports, including people involved, sports facilities, and common verbs and phrases used to describe sporting actions and events, with clear definitions and example sentences.",
+  "sections": [
+    {
+      "heading": "People in Sport",
+      "content": "Key vocabulary for describing people involved in sports events.",
+      "examples": [
+        {
+          "phrase": "Crowd / Spectators",
+          "definition": "The people who watch a sports event.",
+          "example": "The crowd cheered loudly when the team scored a goal."
+        },
+        {
+          "phrase": "Fans",
+          "definition": "People who enthusiastically follow and support a sport, team, or player.",
+          "example": "Thousands of fans gathered in the city to celebrate their victory."
+        },
+        {
+          "phrase": "Players",
+          "definition": "Individuals who participate in a sports game or event.",
+          "example": "The players shook hands after the match as a sign of sportsmanship."
+        },
+        {
+          "phrase": "Team",
+          "definition": "A group of players working together in a sport.",
+          "example": "The team practiced every evening for their big game."
+        },
+        {
+          "phrase": "Goalkeeper",
+          "definition": "The player who guards the goal in sports like football and hockey.",
+          "example": "The goalkeeper made an amazing save during the final minutes of the match."
+        },
+        {
+          "phrase": "Manager / Coach",
+          "definition": "The person who trains and directs the team.",
+          "example": "The coach gave a motivational talk to the players at halftime."
+        },
+        {
+          "phrase": "Referee",
+          "definition": "An official who enforces the rules in sports such as football, basketball, and boxing.",
+          "example": "The referee blew the whistle to signal the end of the match."
+        },
+        {
+          "phrase": "Umpire",
+          "definition": "An official who enforces the rules in sports such as tennis, baseball, and cricket.",
+          "example": "The umpire shouted, 'Out!'"
+        },
+        {
+          "phrase": "Linesman",
+          "definition": "An official who helps the main referee by indicating when the ball is out of play or when players are offside.",
+          "example": "The linesman raised his flag to indicate an offside."
+        }
+      ]
+    },
+    {
+      "heading": "Sports Facilities and Places",
+      "content": "Vocabulary for describing where sports are played.",
+      "examples": [
+        {
+          "phrase": "Stadium",
+          "definition": "A large structure with seats for spectators, where sports events are held.",
+          "example": "The stadium was filled with excited fans for the championship game."
+        },
+        {
+          "phrase": "Pitch",
+          "definition": "The area of ground where sports like football, cricket, or hockey are played.",
+          "example": "The football players ran onto the pitch as the game began."
+        },
+        {
+          "phrase": "Court",
+          "definition": "A playing area for sports like basketball, volleyball, or tennis.",
+          "example": "The players entered the tennis court for the final match."
+        },
+        {
+          "phrase": "Golf Course",
+          "definition": "The area where golf is played.",
+          "example": "The golfers walked across the course to the next hole."
+        },
+        {
+          "phrase": "Sports Hall / Gymnasium",
+          "definition": "A building or room designed for indoor sports and physical education.",
+          "example": "The students gathered in the sports hall for the basketball tournament."
+        },
+        {
+          "phrase": "Track",
+          "definition": "A circular or oval path for running, cycling, or motor racing.",
+          "example": "The runners lined up on the track for the 100-meter race."
+        },
+        {
+          "phrase": "Ski Piste / Slope",
+          "definition": "A marked path on a mountain for skiing.",
+          "example": "Skiers enjoyed going down the amazing ski pistes."
+        }
+      ]
+    },
+    {
+      "heading": "Verbs for Talking About Sport",
+      "content": "Common verbs and phrases used to describe actions and events in sports.",
+      "examples": [
+        {
+          "phrase": "Win",
+          "definition": "To be better than your opponents in a match or competition.",
+          "example": "When she won the race, her team celebrated their victory."
+        },
+        {
+          "phrase": "Beat / Defeat",
+          "definition": "To perform better than someone in a game or contest.",
+          "example": "He beat his opponent in the final set of the tennis match."
+        },
+        {
+          "phrase": "Draw",
+          "definition": "When two teams or players have the same score at the end of a game.",
+          "example": "England and Italy drew one-one."
+        },
+        {
+          "phrase": "Break a Record",
+          "definition": "To achieve a better score or time than ever before.",
+          "example": "She broke the record for the fastest 100-meter sprint."
+        },
+        {
+          "phrase": "Hold a Record",
+          "definition": "To maintain the best score or time until someone else breaks it.",
+          "example": "The swimmer has held the world record for the 200-meter freestyle for three years."
+        },
+        {
+          "phrase": "Score",
+          "definition": "To gain goals, points, or baskets.",
+          "example": "He scored the winning goal in the last minute of the game."
+        },
+        {
+          "phrase": "Get Injured",
+          "definition": "To hurt yourself while playing or practicing a sport.",
+          "example": "She got injured during the football match and had to leave the field."
+        },
+        {
+          "phrase": "Warm Up",
+          "definition": "To do exercises to prepare for physical activity.",
+          "example": "Before the race, the runners warm up to avoid injuries."
+        },
+        {
+          "phrase": "Get Fit",
+          "definition": "To improve your physical condition through exercise and healthy living.",
+          "example": "He started jogging every day to get fit."
+        },
+        {
+          "phrase": "Be Sent Off",
+          "definition": "To be made to leave the game as a penalty for breaking the rules.",
+          "example": "The player was sent off for arguing with the referee."
+        },
+        {
+          "phrase": "Throw",
+          "definition": "To propel a ball with your hand or arm.",
+          "example": "The quarterback threw the football to his teammate."
+        },
+        {
+          "phrase": "Hit",
+          "definition": "To make contact with a ball using a bat, racket, or similar.",
+          "example": "She hit the tennis ball across the court."
+        },
+        {
+          "phrase": "Pass",
+          "definition": "To send the ball to a teammate.",
+          "example": "He passed the basketball to his teammate, who was open for a shot."
+        },
+        {
+          "phrase": "Kick",
+          "definition": "To strike a ball with your foot.",
+          "example": "The soccer player kicked the ball towards the goal."
+        },
+        {
+          "phrase": "Head",
+          "definition": "To hit the ball with your head.",
+          "example": "The player headed the ball into the goal from the corner kick."
+        },
+        {
+          "phrase": "Catch",
+          "definition": "To stop and hold a ball that has been thrown, kicked, or hit.",
+          "example": "The baseball player caught the ball, and the batter was out."
+        }
+      ]
+    }
+  ]
+}

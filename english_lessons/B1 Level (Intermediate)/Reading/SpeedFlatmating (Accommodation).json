@@ -1,0 +1,102 @@
+{
+  "lesson_id": "b1_reading_14",
+  "type": "Reading",
+  "level": "B1",
+  "title": "SpeedFlatmating",
+  "task_instruction": "Read a text about SpeedFlatmating and for questions 1 to 6, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Introduction to SpeedFlatmating",
+      "text": "When you are looking for rental accommodation in a shared house, you have to think not only about the location and your budget, but also about who you are sharing with, as your housemates can make the difference between a successful or an unhappy house-share. SpeedFlatmating is a perfect way to find the ideal house or flatmate. SpeedFlatmating events, which are organised by the website speedflatmating.co.uk, are mainly held in London. However, some events are held in other British towns and cities. They typically take place in a bar or pub."
+    },
+    {
+      "id": "B",
+      "title": "How SpeedFlatmating Works",
+      "text": "On arrival at a SpeedFlatmating event, guests are given a sticker to wear. White stickers indicate that you have an available room. Pink stickers are for people who are looking for a room. On white stickers, people write their name, the rental cost of the room and its nearest tube station. On pink stickers, people write their name, their budget and the area where they want to live. The website organises about 17 events per month in London. Their larger events cover the whole of central London and are geared towards people who are flexible about where they want to live. They also run local events for people who already know where they want to live."
+    },
+    {
+      "id": "C",
+      "title": "Benefits of SpeedFlatmating",
+      "text": "Users enjoy SpeedFlatmating for various reasons. Firstly, it cuts out the long, boring process of advertising and showing people around a flat. Also, potential flatmates can get to meet each other in a relaxed, social setting and find out whether they would be a good match for a flatshare or not. As well as meeting potential flatmates, many people say they enjoy the friendly atmosphere and make new friends at the events."
+    },
+    {
+      "id": "D",
+      "title": "Paul's Experience",
+      "text": "A huge number of people have benefitted from SpeedFlatmating. Paul from London says, 'I had been having problems finding a place to live in London because I'm in my forties. Most people sharing accommodation in London are in their twenties and thirties, and I didn't really fit in. I went to a SpeedFlatmating event and met three other people in the same situation as me, so we decided to get together and rent a place. Within a week, we had found a place within our budget.'"
+    },
+    {
+      "id": "E",
+      "title": "Melissa's Experience",
+      "text": "Melissa says, 'I was just starting to think about moving out of my parents' home, and SpeedFlatmating seemed like a good way to find out more. I was quite nervous about attending the event on my own, but when I got there, I realised that everyone else was nervous too, and so I was able to relax, enjoy myself and meet people. I met a landlord there who was looking for tenants, and I arranged to have a look round his house. I'm moving in next week! It was as simple as that!'"
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the main purpose of SpeedFlatmating?",
+      "options": [
+        "To help people buy property",
+        "To help people find suitable flatmates or accommodation",
+        "To organize parties in London",
+        "To teach people about renting laws"
+      ],
+      "answer": "To help people find suitable flatmates or accommodation"
+    },
+    {
+      "id": 2,
+      "question": "Where are most SpeedFlatmating events held?",
+      "options": [
+        "In government offices",
+        "In bars or pubs",
+        "In university campuses",
+        "In shopping centers"
+      ],
+      "answer": "In bars or pubs"
+    },
+    {
+      "id": 3,
+      "question": "What information is written on a white sticker at a SpeedFlatmating event?",
+      "options": [
+        "Name, budget, and preferred area",
+        "Name, room price, and nearest tube station",
+        "Age, occupation, and hobbies",
+        "Phone number, email, and social media"
+      ],
+      "answer": "Name, room price, and nearest tube station"
+    },
+    {
+      "id": 4,
+      "question": "What is one advantage of SpeedFlatmating mentioned in the text?",
+      "options": [
+        "It provides free accommodation",
+        "It helps people avoid the long process of advertising a flat",
+        "It guarantees you will find accommodation immediately",
+        "It offers legal advice about renting"
+      ],
+      "answer": "It helps people avoid the long process of advertising a flat"
+    },
+    {
+      "id": 5,
+      "question": "Why was Paul having difficulty finding accommodation before SpeedFlatmating?",
+      "options": [
+        "He had a very small budget",
+        "He was older than most people sharing accommodation",
+        "He wanted to live outside London",
+        "He had pets that weren't allowed in most flats"
+      ],
+      "answer": "He was older than most people sharing accommodation"
+    },
+    {
+      "id": 6,
+      "question": "How did Melissa feel before attending her first SpeedFlatmating event?",
+      "options": [
+        "Excited and confident",
+        "Nervous but curious",
+        "Angry and frustrated",
+        "Completely relaxed"
+      ],
+      "answer": "Nervous but curious"
+    }
+  ]
+}

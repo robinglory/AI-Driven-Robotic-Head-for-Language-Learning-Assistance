@@ -1,0 +1,72 @@
+{
+  "lesson_id": "b1_reading_04",
+  "type": "Reading",
+  "level": "B1",
+  "title": "Actors Who Died on Set",
+  "task_instruction": "Read the text about actors who tragically died during filming, and for questions 1 to 6, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Brandon Lee",
+      "text": "Brandon Lee, son of the famous martial artist and actor Bruce Lee, died in 1993, while filming “The Crow”. He was acting as the main character in a scene where his character gets shot, but no one knew that a small piece of a real bullet got stuck in the gun. When the gun was fired, the piece of the bullet came out and hit Brandon in the stomach. Even though doctors tried to help him, Lee passed away later that day. This accident made people think more about how to keep actors safe on movie sets."
+    },
+    {
+      "id": "B",
+      "title": "Vic Morrow",
+      "text": "Vic Morrow’s death happened during the filming of “Twilight Zone: The Movie” in 1982. He portrayed a character in the Vietnam War. In this scene, Morrow was carrying two child actors across a river while being chased by a helicopter. During filming, explosives were used, causing the helicopter to crash in the river. As a result, Morrow and the two young actors lost their lives immediately and six passengers onboard were injured. During the investigation, the film director was found guilty of having children working near explosives illegally."
+    },
+    {
+      "id": "C",
+      "title": "Jon-Erik Hexum",
+      "text": "The accidental death of Jon-Erik Hexum occurred on the TV show “Cover Up” in 1984. During a break from filming, the actor was playing with a gun used in one of the scenes pointing it at his head and pulled the trigger as a joke. Even though the gun did not have real bullets, the force was strong enough to hurt him badly. A piece of bone from his head went into his brain. He was taken to the hospital immediately, but despite emergency surgery, he was pronounced brain dead six days later."
+    },
+    {
+      "id": "D",
+      "title": "Roy Kinnear",
+      "text": "Roy Kinnear’s tragic accident took place while he was filming “The Return of the Musketeers” in 1989. During a scene with horse riding, Kinnear fell from his horse and broke a bone near one of his hips. Despite the severity of his injury, Kinnear was determined to continue filming and completed his scenes. However, his health conditions got worse and ended up affecting his heart. Sadly, Kinnear passed away from a heart attack caused by these complications."
+    },
+    {
+      "id": "E",
+      "title": "Steve Irwin",
+      "text": "Steve Irwin, known as “The Crocodile Hunter,” was working on a documentary called “Ocean’s Deadliest” in 2006 off the coast of Queensland, Australia when tragedy struck. While filming a segment about dangerous fish, Irwin approached a stingray – a type of flat fish with long, sharp tails – in shallow water. The stingray felt it was in danger and attacked the man. The fish had used its sharp tail to poke Steve Irwin in the chest, and the pointy part went into his heart. His crew and emergency services tried to save him, but Irwin didn’t survive. His sudden death shocked the world and left millions of fans upset for the loss of a man who was truly passionate about the natural world."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "What caused Brandon Lee’s death during filming?",
+      "options": ["A stunt accident", "A piece of real bullet in a gun", "A fall from a building", "A car crash"],
+      "answer": "A piece of real bullet in a gun"
+    },
+    {
+      "id": 2,
+      "question": "During which movie was Vic Morrow killed?",
+      "options": ["The Return of the Musketeers", "Twilight Zone: The Movie", "Cover Up", "Ocean’s Deadliest"],
+      "answer": "Twilight Zone: The Movie"
+    },
+    {
+      "id": 3,
+      "question": "What was Jon-Erik Hexum doing when he fatally injured himself?",
+      "options": ["Filming a fight scene", "Playing with a gun during a break", "Riding a horse", "Swimming in a river"],
+      "answer": "Playing with a gun during a break"
+    },
+    {
+      "id": 4,
+      "question": "What happened to Roy Kinnear after he fell from his horse?",
+      "options": ["He immediately died", "He recovered quickly", "He developed heart problems and died", "He was paralyzed"],
+      "answer": "He developed heart problems and died"
+    },
+    {
+      "id": 5,
+      "question": "What animal caused Steve Irwin’s death?",
+      "options": ["A shark", "A crocodile", "A stingray", "A jellyfish"],
+      "answer": "A stingray"
+    },
+    {
+      "id": 6,
+      "question": "Where was Steve Irwin filming when the accident happened?",
+      "options": ["Off the coast of Queensland", "In Sydney Harbour", "On the Great Barrier Reef", "In the Amazon River"],
+      "answer": "Off the coast of Queensland"
+    }
+  ]
+}

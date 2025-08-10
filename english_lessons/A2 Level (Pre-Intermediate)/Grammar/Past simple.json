@@ -1,0 +1,126 @@
+{
+  "lesson_id": "a2_grammar_04",
+  "type": "Grammar",
+  "level": "A2",
+  "title": "Past Simple: Form and Use",
+  "summary": "This lesson covers the formation and usage of the past simple tense, including regular verb spelling rules and different contexts for use.",
+  "content": [
+    "The past simple describes completed actions, past habits, and past situations.",
+    "Regular verbs form the past simple with -ed, while irregular verbs have unique forms.",
+    "We use past simple when we know or state when the action happened.",
+    "It's used for telling stories in chronological order and describing past routines."
+  ],
+  "examples": [
+    {
+      "category": "Form",
+      "rules": [
+        {
+          "rule": "Positive: subject + past form (regular: verb+ed / irregular: unique form)",
+          "examples": [
+            "I worked yesterday.",
+            "She saw Jim last week."
+          ]
+        },
+        {
+          "rule": "Negative: subject + did not (didn't) + base verb",
+          "examples": [
+            "We didn't go out last Saturday.",
+            "They didn't like the movie."
+          ]
+        },
+        {
+          "rule": "Questions: Did + subject + base verb",
+          "examples": [
+            "Did you enjoy the party?",
+            "Where did she live?"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Spelling Rules (Regular Verbs)",
+      "rules": [
+        {
+          "rule": "Most verbs: add -ed (work → worked)",
+          "examples": [
+            "play → played",
+            "watch → watched"
+          ]
+        },
+        {
+          "rule": "Verbs ending in -e: add -d (live → lived)",
+          "examples": [
+            "hope → hoped",
+            "like → liked"
+          ]
+        },
+        {
+          "rule": "Verbs ending in consonant + y: change y to i + ed (study → studied)",
+          "examples": [
+            "carry → carried",
+            "try → tried"
+          ]
+        },
+        {
+          "rule": "One-syllable verbs ending in vowel+consonant: double consonant + ed (stop → stopped)",
+          "examples": [
+            "plan → planned",
+            "rob → robbed"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Usage",
+      "rules": [
+        {
+          "rule": "Completed actions in the past (with time references)",
+          "examples": [
+            "I saw Jim yesterday.",
+            "She moved to Chester three years ago."
+          ]
+        },
+        {
+          "rule": "Past habits (often with frequency adverbs)",
+          "examples": [
+            "She washed her hair every day.",
+            "I often played in the park as a child."
+          ]
+        },
+        {
+          "rule": "Past situations (things that were true)",
+          "examples": [
+            "My grandfather had two brothers.",
+            "He lived with my grandparents."
+          ]
+        },
+        {
+          "rule": "Events in chronological order",
+          "examples": [
+            "When I arrived home, I took off my shoes and then relaxed.",
+            "I woke up, brushed my teeth, and had breakfast."
+          ]
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Time expressions often used: yesterday, last week, in 2010, when I was young",
+    "For irregular verbs, you must memorize the past forms (see → saw, go → went)",
+    "In negatives and questions, use the base form after 'did'",
+    "Use past simple for completed actions, not continuous ones",
+    "For storytelling, use past simple for the main sequence of events"
+  ],
+  "common_errors": [
+    "Incorrect: 'Did you went to school?' Correct: 'Did you go to school?'",
+    "Incorrect: 'I didn't played football.' Correct: 'I didn't play football.'",
+    "Incorrect: 'She work here last year.' Correct: 'She worked here last year.'"
+  ],
+  "additional_resources": {
+    "charts": [
+      "Past Simple form chart (positive/negative/question)",
+      "Regular verb spelling rules chart",
+      "Common irregular verbs list"
+    ]
+  }
+}

@@ -1,18 +1,32 @@
-deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
-deb http://deb.debian.org/debian-security/ bookworm-security main contrib non-free no>
-deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firm>
+What i need right now is i have inserted all of my lessons plan in the 
+tinydb database, right. 
+now i need all of this data in pdf file format.
+when the user want to learn with Lingo, they might need a lesson text book.
+It would help them far better than without textbook.
 
-deb http://mirror.ox.ac.uk/debian/ bookworm main
-deb http://mirror.ox.ac.uk/debian-security bookworm-security main
-deb http://mirror.ox.ac.uk/debian/ bookworm-updates main
-# Uncomment deb-src lines below then 'apt-get update' to enable 'apt-get source'
-#deb-src http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
-#deb-src http://deb.debian.org/debian-security/ bookworm-security main contrib non-fr>
-#deb-src http://deb.debian.org/debian bookworm-updates main contrib non-free non-free>
+So, i decided to create a textbook from my tinydb database in a pdf file.
+The textbook must be academic style!
+can you do that for me?
 
+This is my lesson file 
+/home/robinglory/Desktop/Thesis/english_lessons
+This is A2 folder style
+/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)
+/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Grammar
+/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Grammar/Defining relative clauses.json
+/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Reading
+/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Reading/Why Aren't Babies Born on Certain Days.json
+/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Vocabulary
+/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Vocabulary/Towns and Cities.json
 
-
-
+This is B1
+/home/robinglory/Desktop/Thesis/english_lessons/B1 Level (Intermediate)
+/home/robinglory/Desktop/Thesis/english_lessons/B1 Level (Intermediate)/Grammar
+/home/robinglory/Desktop/Thesis/english_lessons/B1 Level (Intermediate)/Grammar/Future forms Will, be going to, present continuous.json
+/home/robinglory/Desktop/Thesis/english_lessons/B1 Level (Intermediate)/Reading
+/home/robinglory/Desktop/Thesis/english_lessons/B1 Level (Intermediate)/Reading/How sleep transformed professional football.json
+/home/robinglory/Desktop/Thesis/english_lessons/B1 Level (Intermediate)/Vocabulary
+/home/robinglory/Desktop/Thesis/english_lessons/B1 Level (Intermediate)/Vocabulary/Types of movies and TV shows.json
 
 
 

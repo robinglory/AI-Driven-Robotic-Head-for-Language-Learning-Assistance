@@ -1,0 +1,87 @@
+{
+  "lesson_id": "a2_grammar_06",
+  "type": "Grammar",
+  "level": "A2",
+  "title": "Expressing Purpose with 'to' and 'for'",
+  "summary": "This lesson explains how to correctly use 'to + infinitive' and 'for + noun' to express purpose, including common mistakes to avoid.",
+  "content": [
+    "We use 'to + infinitive' and 'for + noun' to talk about the purpose of an action.",
+    "'To + infinitive' shows why someone does something.",
+    "'For + noun' indicates the purpose or intended use of something.",
+    "There are important differences in usage between these structures, especially with -ing verbs."
+  ],
+  "examples": [
+    {
+      "category": "Correct Usage",
+      "rules": [
+        {
+          "rule": "To + infinitive for action purposes",
+          "examples": [
+            "I went to the grocery store to buy some vegetables.",
+            "I studied hard to pass the exam."
+          ]
+        },
+        {
+          "rule": "For + noun for purposes",
+          "examples": [
+            "Let's go to the pub for a drink.",
+            "We climbed to the top for the views."
+          ]
+        },
+        {
+          "rule": "Interchangeable in some cases",
+          "examples": [
+            "I went to the shop to buy some milk.",
+            "I went to the shop for some milk."
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Common Mistakes",
+      "rules": [
+        {
+          "rule": "Incorrect: For + -ing for action purposes",
+          "examples": [
+            "✗ I work hard for improving my English.",
+            "✓ I work hard to improve my English.",
+            "✗ Turn the TV on for watching the news.",
+            "✓ Turn the TV on to watch the news."
+          ]
+        }
+      ]
+    },
+    {
+      "category": "For + -ing for object functions",
+      "rules": [
+        {
+          "rule": "Correct use with objects' purposes",
+          "examples": [
+            "This machine is used for cleaning cars.",
+            "This machine is used to clean cars.",
+            "This is a special camera for photographing small objects.",
+            "This is a special camera to photograph small objects."
+          ]
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Remember: 'to' + base verb (to buy, to eat, to study)",
+    "Remember: 'for' + noun (for food, for fun, for exercise)",
+    "Never use 'for + -ing' to explain why you do something",
+    "You CAN use 'for + -ing' to explain what objects are used for",
+    "When in doubt, 'to + infinitive' is usually correct for action purposes",
+    "Both structures can often describe an object's function"
+  ],
+  "common_errors": [
+    "Incorrect: 'I went to the store for buying milk'",
+    "Correct: 'I went to the store to buy milk'",
+    "Incorrect: 'This tool is for to fix cars'",
+    "Correct: 'This tool is for fixing cars' or 'This tool is to fix cars'"
+  ],
+  "additional_resources": {
+    "charts": "Grammar chart showing correct/incorrect usage examples",
+    "visual_aids": "Comparison table of 'to' vs 'for' usage"
+  }
+}

@@ -1,0 +1,97 @@
+{
+    "lesson_id": "b1_grammar_01",
+    "type": "Grammar",
+    "level": "B1",
+    "title": "Present Simple vs Present Continuous",
+    "summary": "This lesson explains the difference between the present simple and present continuous tenses, including their forms, usage, and examples.",
+    "content": [
+      "Present simple is used for habits, permanent situations, general truths, and scheduled future events.",
+      "Present continuous is used for actions happening now, temporary situations, changing or developing actions, and planned future arrangements.",
+      "Short forms are commonly used in spoken English for both tenses.",
+      "Stative (non-action) verbs are typically not used in present continuous."
+    ],
+    "examples": [
+      {
+        "rule": "Use present simple for regular habits or routines.",
+        "examples": [
+          "I wash my hair every day.",
+          "I never go to the library.",
+          "I sometimes go to the library."
+        ]
+      },
+      {
+        "rule": "Use present simple for permanent situations or truths.",
+        "examples": [
+          "I don’t drink coffee.",
+          "Water boils at 100 degrees.",
+          "I like soup."
+        ]
+      },
+      {
+        "rule": "Use present simple with adverbs and expressions of frequency.",
+        "examples": [
+          "She doesn’t often eat hamburgers.",
+          "He usually gets up very early.",
+          "We go to the cinema once a month."
+        ]
+      },
+      {
+        "rule": "Use present simple for scheduled or timetabled events.",
+        "examples": [
+          "The train leaves at 4.",
+          "Shops close at 6.",
+          "My yoga class is tomorrow at 10."
+        ]
+      },
+      {
+        "rule": "Use present continuous for actions happening now or around now.",
+        "examples": [
+          "I’m brushing my teeth.",
+          "I’m reading a new book."
+        ]
+      },
+      {
+        "rule": "Use present continuous for temporary actions.",
+        "examples": [
+          "I’m going to work by bus this week.",
+          "I’m living with my cousins until I find a flat."
+        ]
+      },
+      {
+        "rule": "Use present continuous with expressions like now, these days, this week/month.",
+        "examples": [
+          "He’s studying a lot this week.",
+          "I’m not feeling very well these days."
+        ]
+      },
+      {
+        "rule": "Use present continuous for changing or developing situations.",
+        "examples": [
+          "The climate is changing very quickly.",
+          "More people are trying to eat healthily.",
+          "Your English is improving."
+        ]
+      },
+      {
+        "rule": "Use present continuous for future plans or arrangements.",
+        "examples": [
+          "I‘m meeting John this evening.",
+          "We are leaving tomorrow at 7."
+        ]
+      },
+      {
+        "rule": "Stative verbs are not used in present continuous.",
+        "examples": [
+          "I have a car. (NOT I am having a car.)",
+          "She seems sad. (NOT She is seeming sad.)",
+          "I think he is great. (NOT I am thinking he is great.)"
+        ]
+      }
+    ],
+    "tips": [
+      "Use contractions (short forms) in spoken English for both present simple and present continuous.",
+      "Stative verbs usually describe states, not actions, and are used with present simple.",
+      "Some verbs like 'have', 'think', and 'see' can have both stative and dynamic meanings depending on context."
+    ]
+  }
+  

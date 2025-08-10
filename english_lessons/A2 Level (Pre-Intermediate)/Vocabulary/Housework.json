@@ -1,0 +1,151 @@
+{
+  "lesson_id": "a2_vocabulary_06",
+  "type": "Vocabulary",
+  "level": "A2",
+  "title": "Housework",
+  "summary": "Vocabulary for common household chores and tasks, including differences between 'make' and 'do' when talking about housework.",
+  "sections": [
+    {
+      "heading": "Introduction",
+      "content": "In this A2 pre-intermediate English Vocabulary lesson, you will learn about housework or household chores. They are terms that we use to describe the jobs that we do to keep our homes clean and running efficiently. Most of us do these chores on a daily or weekly basis."
+    },
+    {
+      "heading": "Household Chores",
+      "content": "Common tasks we do to maintain our homes, with definitions and examples.",
+      "examples": [
+        {
+          "phrase": "sweep the floor",
+          "example": "After I've swept the floor, I'll mop it."
+        },
+        {
+          "phrase": "mop the floor",
+          "example": "After I've swept the floor, I'll mop it."
+        },
+        {
+          "phrase": "vacuum/hoover",
+          "example": "I couldn't hear the radio because Maria was vacuuming."
+        },
+        {
+          "phrase": "dust",
+          "example": "I stood on a chair to dust the high shelves."
+        },
+        {
+          "phrase": "wash",
+          "example": "Joe washes his car every Saturday."
+        },
+        {
+          "phrase": "do the washing up/do the dishes",
+          "example": "It's your turn to do the washing up; I did it yesterday."
+        },
+        {
+          "phrase": "do the laundry",
+          "example": "I do my laundry twice a week."
+        },
+        {
+          "phrase": "clean",
+          "example": "When I finish cleaning the windows, I'll clean the bathroom mirrors."
+        },
+        {
+          "phrase": "iron",
+          "example": "Anna is ironing her husband's shirts."
+        },
+        {
+          "phrase": "take out the trash/rubbish",
+          "example": "Before I go to bed, I'll take out the trash."
+        },
+        {
+          "phrase": "set the table",
+          "example": "Mum asked me to set the table."
+        },
+        {
+          "phrase": "clear the table",
+          "example": "Let me help you clear the table."
+        },
+        {
+          "phrase": "make the bed",
+          "example": "Before I go to school, I make my bed."
+        },
+        {
+          "phrase": "tidy up",
+          "example": "You must tidy up (your room) before you leave."
+        },
+        {
+          "phrase": "water the plants",
+          "example": "I water the plants in my kitchen twice a week."
+        },
+        {
+          "phrase": "make breakfast/lunch/dinner",
+          "example": "Will you make dinner?"
+        },
+        {
+          "phrase": "make tea/coffee",
+          "example": "I'm making coffee. Do you want a cup?"
+        },
+        {
+          "phrase": "do chores",
+          "example": "Children who do chores learn responsibility."
+        },
+        {
+          "phrase": "do the shopping",
+          "example": "I usually do the shopping every Monday after work."
+        },
+        {
+          "phrase": "walk the dog",
+          "example": "I walk the dog every evening in the park."
+        }
+      ]
+    },
+    {
+      "heading": "Make vs Do",
+      "content": "The verbs make and do are often used to talk about housework. Make is basically used to mean 'cook' or 'prepare' something in the kitchen, although we also say make the bed. The verb do is more often used with tasks, jobs or chores in general.",
+      "subsections": [
+        {
+          "heading": "Make",
+          "examples": [
+            {
+              "phrase": "make breakfast/lunch/dinner",
+              "example": "Jim makes dinner for the family every evening."
+            },
+            {
+              "phrase": "make tea/coffee",
+              "example": "I am making a cup of tea. Do you want one?"
+            },
+            {
+              "phrase": "make the bed",
+              "example": "As soon as I get up, I make my bed."
+            }
+          ]
+        },
+        {
+          "heading": "Do",
+          "examples": [
+            {
+              "phrase": "do chores",
+              "example": "I do a lot of chores to help my mother."
+            },
+            {
+              "phrase": "do the laundry",
+              "example": "I do the laundry twice a week."
+            },
+            {
+              "phrase": "do the dishes/the washing up",
+              "example": "After we've finished eating, I'll do the dishes."
+            },
+            {
+              "phrase": "do the ironing",
+              "example": "I usually do the ironing while watching television."
+            },
+            {
+              "phrase": "do the dusting",
+              "example": "I use a duster to do the dusting."
+            },
+            {
+              "phrase": "do the shopping",
+              "example": "Mary does the shopping at our local supermarket."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

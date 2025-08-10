@@ -1,0 +1,101 @@
+{
+  "lesson_id": "b1_grammar_04",
+  "type": "Grammar",
+  "level": "B1",
+  "title": "Present Perfect Simple vs Present Perfect Continuous",
+  "summary": "This lesson explains the differences between the present perfect simple and the present perfect continuous tenses, focusing on form, duration, recent results, and usage with dynamic vs stative verbs.",
+  "content": [
+    "Present perfect simple is used for past actions or experiences when time is not mentioned and for ongoing situations with stative verbs.",
+    "Present perfect continuous is used for actions that started in the past and are still happening or have recently stopped, usually with dynamic (action) verbs.",
+    "Present perfect simple is formed with 'have/has + past participle'; present perfect continuous is formed with 'have/has been + verb-ing'.",
+    "Use present perfect continuous to emphasise the duration of an action or a repeated process.",
+    "Use present perfect simple to talk about completed actions or results of finished actions.",
+    "Use present perfect continuous for ongoing processes with visible results (e.g., dirty hands from painting).",
+    "Use present perfect simple to count how many/much; use continuous to describe how long something has been happening."
+  ],
+  "examples": [
+    {
+      "rule": "Use present perfect simple for finished past actions with no time mentioned.",
+      "examples": [
+        "I’ve broken my arm.",
+        "I’ve passed the exam.",
+        "She’s found a job."
+      ]
+    },
+    {
+      "rule": "Use present perfect continuous for ongoing or recent actions with dynamic verbs.",
+      "examples": [
+        "Have you been crying?",
+        "I’ve been painting.",
+        "She’s been calling you for days."
+      ]
+    },
+    {
+      "rule": "Use present perfect continuous with time expressions like 'for', 'since', 'how long', or 'lately'.",
+      "examples": [
+        "I haven’t been feeling well lately.",
+        "She’s been studying very hard for weeks.",
+        "How long have you been playing golf?"
+      ]
+    },
+    {
+      "rule": "Use present perfect simple with stative verbs for ongoing situations.",
+      "examples": [
+        "We’ve had this car for years."
+      ]
+    },
+    {
+      "rule": "Use present perfect continuous with dynamic verbs to emphasise duration.",
+      "examples": [
+        "I’ve been waiting for hours!",
+        "I’ve been working all day."
+      ]
+    },
+    {
+      "rule": "Use present perfect simple for completed actions with results in the present.",
+      "examples": [
+        "Look how nice my car looks. I’ve washed it.",
+        "Have you painted it?"
+      ]
+    },
+    {
+      "rule": "Use present perfect continuous when the result is from the process of the action.",
+      "examples": [
+        "I’m sweaty because I’ve been washing my car.",
+        "Have you been painting?"
+      ]
+    },
+    {
+      "rule": "Use present perfect simple to say how many or how much.",
+      "examples": [
+        "I’ve written twenty emails."
+      ]
+    },
+    {
+      "rule": "Use present perfect continuous to say how long.",
+      "examples": [
+        "I’ve been writing emails for hours."
+      ]
+    },
+    {
+      "rule": "Compare finished vs unfinished actions using simple and continuous.",
+      "examples": [
+        "Who has eaten my cookies? (no cookies left)",
+        "Who has been eating my cookies? (some cookies left)"
+      ]
+    },
+    {
+      "rule": "Switch to past simple to give details after introducing with present perfect.",
+      "examples": [
+        "I’ve watched the series you recommended. I watched the last episode yesterday."
+      ]
+    }
+  ],
+  "tips": [
+    "Use present perfect simple for stative verbs and results of completed actions.",
+    "Use present perfect continuous to highlight how long an action has been happening or its ongoing nature.",
+    "Present perfect continuous is not used with non-action verbs like 'know', 'have', or 'be'.",
+    "Use 'how many' with simple and 'how long' with continuous forms.",
+    "Look at whether the result is from the completed action (simple) or the process (continuous)."
+  ]
+}

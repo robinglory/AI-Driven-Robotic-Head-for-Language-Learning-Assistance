@@ -1,0 +1,135 @@
+{
+  "lesson_id": "b1_grammar_03",
+  "type": "Grammar",
+  "level": "B1",
+  "title": "Present Perfect – Form & Use",
+  "summary": "This lesson explains the form and various uses of the present perfect tense, including experiences, actions with unspecified time, duration, recent events, and contrast with the past simple.",
+  "content": [
+    "The present perfect is formed with 'have/has' + past participle.",
+    "We use it for past actions when the time is not mentioned or not important.",
+    "Common with adverbs like just, already, yet, recently, never, ever, before.",
+    "Used with unfinished time expressions (e.g. today, this week, this year).",
+    "Used to express life experiences and superlatives with 'ever'.",
+    "Describes how many times something has happened up to now.",
+    "Used with 'for', 'since', and 'how long' to show duration from past to present.",
+    "'Has gone to' means someone is still away; 'has been to' means someone has returned.",
+    "Cannot be used with 'ago'.",
+    "Contrasts with past simple when the specific time is mentioned or asked."
+  ],
+  "examples": [
+    {
+      "rule": "Use the present perfect for actions without mentioning when.",
+      "examples": [
+        "I’ve broken my arm.",
+        "I’ve passed the exam.",
+        "She’s found a job."
+      ]
+    },
+    {
+      "rule": "Use 'just', 'already', 'yet' for recent or expected actions.",
+      "examples": [
+        "Tony has just called.",
+        "I’ve already finished my homework.",
+        "Have you finished your homework yet?",
+        "I haven’t finished my homework yet."
+      ]
+    },
+    {
+      "rule": "Use the present perfect with 'recently' for recent actions.",
+      "examples": [
+        "They’ve recently bought a new car."
+      ]
+    },
+    {
+      "rule": "Use with unfinished time expressions like 'today', 'this week'.",
+      "examples": [
+        "I’ve seen John today.",
+        "Has she called you this week?"
+      ]
+    },
+    {
+      "rule": "Use the present perfect for past experiences with 'never', 'ever', or 'before'.",
+      "examples": [
+        "I’ve never read this book.",
+        "Have you ever seen a John Wayne film?",
+        "I haven’t experienced anything like this before."
+      ]
+    },
+    {
+      "rule": "Use with superlatives + 'ever' to express unique experiences.",
+      "examples": [
+        "This is the best meal I’ve ever had.",
+        "It’s the most amazing place we’ve ever travelled to."
+      ]
+    },
+    {
+      "rule": "Use the present perfect to say how many times something has happened.",
+      "examples": [
+        "I’ve watched this film three times.",
+        "We’ve been to Paris twice."
+      ]
+    },
+    {
+      "rule": "'Has gone to' means still away; 'has been to' means returned.",
+      "examples": [
+        "Tom has gone to Ireland. (=He’s in Ireland now)",
+        "We have been to Ireland three times. (=We are not in Ireland now)"
+      ]
+    },
+    {
+      "rule": "Use 'for', 'since', and 'how long' for ongoing actions from the past.",
+      "examples": [
+        "We’ve been married for 25 years.",
+        "I’ve had this watch since I was a kid.",
+        "How long have you been friends?"
+      ]
+    },
+    {
+      "rule": "Use 'for' + duration; 'since' + starting point.",
+      "examples": [
+        "I’ve been here for hours.",
+        "She’s been my teacher for three years.",
+        "I’ve been unemployed since May.",
+        "I’ve lived in this town since I was born."
+      ]
+    },
+    {
+      "rule": "Use 'lately' or 'all + time period' for ongoing recent actions.",
+      "examples": [
+        "She’s been with me all day.",
+        "I’ve been very busy lately."
+      ]
+    },
+    {
+      "rule": "Do not use 'ago' with the present perfect.",
+      "examples": [
+        "✅ I’ve had my watch for two years.",
+        "❌ I’ve had my watch since two years ago."
+      ]
+    },
+    {
+      "rule": "Use present perfect for unspecified time; past simple for specific time.",
+      "examples": [
+        "I’ve lost my keys.",
+        "We’ve been to a very nice restaurant.",
+        "We arrived yesterday.",
+        "When did the accident happen?"
+      ]
+    },
+    {
+      "rule": "Use past simple for details after a present perfect introduction.",
+      "examples": [
+        "A: I’ve been to the cinema. B: What did you see? A: I saw a very good film.",
+        "A: Oh, you’ve broken your arm. B: Yes, I have. A: How did it happen?"
+      ]
+    }
+  ],
+  "tips": [
+    "Use short forms (’ve, ’s, haven’t), but not in positive short answers.",
+    "Use present perfect when time is unknown or not important.",
+    "Use past simple when the time is known, asked, or specified.",
+    "Don’t use 'ago' with the present perfect.",
+    "Use 'for' with durations, 'since' with starting points.",
+    "'Has gone to' = still away; 'has been to' = returned."
+  ]
+}

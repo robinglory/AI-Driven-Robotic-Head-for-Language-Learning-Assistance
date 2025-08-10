@@ -1,0 +1,83 @@
+{
+  "lesson_id": "b1_grammar_10",
+  "type": "Grammar",
+  "level": "B1",
+  "title": "Must / Mustn’t / Have to / Don’t Have to – Obligation and Advice",
+  "summary": "This lesson explains how to use 'must', 'mustn't', 'have to', and 'don't have to' for expressing obligation, prohibition, and advice. It also covers the use of 'should', 'ought to', and differences between these modal expressions.",
+  "content": [
+    "'Have to' is not an auxiliary verb. Use 'do/does/did' for questions and negatives.",
+    "'Have to' expresses obligation or rules; it can be used in all verb forms.",
+    "'Must' is a modal verb with only present form and is used for strong internal obligation or advice.",
+    "'Mustn’t' means prohibition (something is not allowed).",
+    "'Don’t have to' means no obligation (you can do it, but it's not necessary).",
+    "'Should' and 'ought to' express advice or opinion and are weaker than 'must' or 'have to'."
+  ],
+  "examples": [
+    {
+      "rule": "Use 'have to' for external obligation or rules.",
+      "examples": [
+        "You have to drive on the left in England.",
+        "We had to drive very fast.",
+        "Do you have to get up early tomorrow?"
+      ]
+    },
+    {
+      "rule": "Use 'must' for internal obligation or strong advice.",
+      "examples": [
+        "I must go to the doctor.",
+        "You must eat less candy.",
+        "You must see the new film; it’s amazing!"
+      ]
+    },
+    {
+      "rule": "Use 'mustn’t' for prohibition.",
+      "examples": [
+        "You mustn’t call me before 8.",
+        "You mustn’t smoke in this area."
+      ]
+    },
+    {
+      "rule": "Use 'don’t have to' for no obligation.",
+      "examples": [
+        "You don’t have to wait here.",
+        "We don’t have to stay until the end."
+      ]
+    },
+    {
+      "rule": "Use 'can’t' or 'be not allowed to' instead of 'mustn’t'.",
+      "examples": [
+        "Children can’t eat chewing gum.",
+        "You are not allowed to smoke here."
+      ]
+    },
+    {
+      "rule": "Use 'should' for advice or opinion.",
+      "examples": [
+        "You should go to a therapist.",
+        "I think schools shouldn’t offer soft drinks to students."
+      ]
+    },
+    {
+      "rule": "Use 'ought to' (formal) for advice – same meaning as 'should'.",
+      "examples": [
+        "You ought to go to a therapist.",
+        "You ought not to be so strict with your daughter."
+      ]
+    },
+    {
+      "rule": "Use 'have to' instead of 'must' in other verb forms.",
+      "examples": [
+        "She’s had to work at weekends since she started working.",
+        "I’d hate having to wake up early every day.",
+        "You will have to come with me."
+      ]
+    }
+  ],
+  "tips": [
+    "Use 'must' for strong advice or personal obligation.",
+    "Use 'have to' for rules or external obligations.",
+    "'Mustn’t' means it's forbidden; 'don’t have to' means it's optional.",
+    "Use 'should' or 'ought to' for weaker, polite advice.",
+    "'Must' has no past/future forms – use 'have to' instead in those cases."
+  ]
+}

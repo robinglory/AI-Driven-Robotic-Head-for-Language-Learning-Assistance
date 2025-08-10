@@ -1,0 +1,161 @@
+{
+  "lesson_id": "b1_vocabulary_03",
+  "type": "Vocabulary",
+  "level": "B1",
+  "title": "Money",
+  "summary": "Essential vocabulary to talk about money, including common nouns, verbs, and verb phrases related to spending, payments, savings, and more.",
+  "sections": [
+    {
+      "heading": "Verbs and Verb Phrases Used to Talk About Money",
+      "content": "This section covers common verbs and phrases used when talking about money management.",
+      "examples": [
+        {
+          "phrase": "Spend money on something",
+          "definition": "To use money to pay for something.",
+          "example": "I spent $20 on petrol yesterday."
+        },
+        {
+          "phrase": "Waste money",
+          "definition": "To spend money on things that you don’t need.",
+          "example": "John wasted all his money on that sports car."
+        },
+        {
+          "phrase": "Borrow",
+          "definition": "To ask for and take someone else’s money with the intention of returning it.",
+          "example": "I borrowed $200 from my sister. I’ll pay her back when I get paid."
+        },
+        {
+          "phrase": "Lend",
+          "definition": "To give money to someone on the condition that they return it.",
+          "example": "My sister lent me $200. I’ll pay her back when I get paid."
+        },
+        {
+          "phrase": "Pay for something",
+          "definition": "To give money to a seller in exchange for products or services.",
+          "example": "Tom paid for the taxi."
+        },
+        {
+          "phrase": "Pay back",
+          "definition": "To return money that you have borrowed.",
+          "example": "I need to pay Joe back the money I borrowed from him last week."
+        },
+        {
+          "phrase": "Cost",
+          "definition": "To require a particular amount of money in exchange for something.",
+          "example": "The ring costs €299."
+        },
+        {
+          "phrase": "Charge someone (for something)",
+          "definition": "To ask for money in exchange for goods or services.",
+          "example": "The mechanic charged me €50 for fixing my car."
+        },
+        {
+          "phrase": "Save money",
+          "definition": "To not use or waste money, or gradually collect money by spending less than what is earned.",
+          "example": "I saved a lot of money by booking my tickets online."
+        },
+        {
+          "phrase": "Afford to do/buy something",
+          "definition": "To have enough money to pay for something.",
+          "example": "I can afford to buy a new phone because I just got paid."
+        },
+        {
+          "phrase": "Be worth",
+          "definition": "To be valued at a particular amount of money.",
+          "example": "The ring is worth over $3,000."
+        },
+        {
+          "phrase": "Withdraw (or take out) money",
+          "definition": "To take money out of an account.",
+          "example": "I withdrew money from the cash machine."
+        }
+      ]
+    },
+    {
+      "heading": "Nouns Used to Talk About Money",
+      "content": "This section covers common nouns related to money, such as cash, bank accounts, and expenses.",
+      "examples": [
+        {
+          "phrase": "Cash",
+          "definition": "Money in the form of coins or notes.",
+          "example": "I paid for the book in cash."
+        },
+        {
+          "phrase": "Coins",
+          "definition": "Flat round pieces of metal used as money.",
+          "example": "I paid for the book with a €5 note and some coins."
+        },
+        {
+          "phrase": "Notes",
+          "definition": "Pieces of paper of different values used as money.",
+          "example": "I paid for the book with a €5 note and some coins."
+        },
+        {
+          "phrase": "Bank account",
+          "definition": "An arrangement with a bank to look after a customer’s money.",
+          "example": "I withdrew €50 from my bank account."
+        },
+        {
+          "phrase": "Deposit",
+          "definition": "Money put into a bank account.",
+          "example": "To open an account, you need to make a minimum deposit of $500."
+        },
+        {
+          "phrase": "Wallet",
+          "definition": "A small case for holding notes and coins, often used to carry money.",
+          "example": "Although there isn’t any cash in my wallet, there are a few credit cards."
+        },
+        {
+          "phrase": "Credit card",
+          "definition": "A small personalized plastic card used to pay for things.",
+          "example": "Although there isn’t any cash in my wallet, there are a few credit cards."
+        },
+        {
+          "phrase": "Cash machine (ATM)",
+          "definition": "A machine where you can withdraw money from your bank account.",
+          "example": "I withdrew €40 from the ATM."
+        },
+        {
+          "phrase": "Cheque",
+          "definition": "A piece of paper from the bank that specifies an amount of money to be paid to someone.",
+          "example": "I paid for the delivery by cheque."
+        },
+        {
+          "phrase": "Loan",
+          "definition": "Money lent to you by a bank that you promise to repay with interest.",
+          "example": "I took out a loan to buy a new car."
+        },
+        {
+          "phrase": "Mortgage",
+          "definition": "A special loan for buying a house or property.",
+          "example": "We wanted to buy a flat, so we took out a mortgage."
+        },
+        {
+          "phrase": "Salary",
+          "definition": "A fixed amount of money given regularly by an employer.",
+          "example": "Fred’s salary is just under €20,000 a year."
+        },
+        {
+          "phrase": "Income",
+          "definition": "The total money a person earns in a specific time.",
+          "example": "Sally’s total annual income is just over €45,000."
+        },
+        {
+          "phrase": "Expense",
+          "definition": "The money required to do or pay for something.",
+          "example": "We spend a lot of money on electric bills."
+        },
+        {
+          "phrase": "Budget",
+          "definition": "The amount of money available to spend on something.",
+          "example": "Our holiday budget is €2000; this should cover meals and other expenses."
+        },
+        {
+          "phrase": "Bill",
+          "definition": "A communication informing you of how much money you need to pay for goods or services.",
+          "example": "We spend a lot of money on electric bills."
+        }
+      ]
+    }
+  ]
+}

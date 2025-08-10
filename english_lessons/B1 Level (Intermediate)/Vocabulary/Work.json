@@ -1,0 +1,122 @@
+{
+  "lesson_id": "b1_vocabulary_04",
+  "type": "Vocabulary",
+  "level": "B1",
+  "title": "Work and Employment",
+  "summary": "Essential vocabulary to talk about jobs and employment, including verbs, nouns, and phrases related to working conditions, job types, and employment status.",
+  "sections": [
+    {
+      "heading": "Verbs Related to Work",
+      "content": "This section covers common verbs and phrases used when talking about employment and work situations.",
+      "examples": [
+        {
+          "phrase": "Earn",
+          "definition": "To make money through work.",
+          "example": "Sam earns $30,000 a year in his job as a chef."
+        },
+        {
+          "phrase": "Do overtime",
+          "definition": "To work more hours than are stated in your contract.",
+          "example": "We're very busy at work right now, so I'm doing a lot of overtime."
+        },
+        {
+          "phrase": "Apply for a job",
+          "definition": "To show interest in a position by sending your CV and other documents.",
+          "example": "When I heard about the vacancy, I applied for the job immediately."
+        },
+        {
+          "phrase": "Resign/Quit",
+          "definition": "To leave a job voluntarily.",
+          "example": "Tom resigned from his job because he'd decided to take a year off and go travelling."
+        },
+        {
+          "phrase": "Retire",
+          "definition": "To stop working altogether, usually because of old age.",
+          "example": "I plan to retire as soon as I turn 65."
+        },
+        {
+          "phrase": "Be/Get promoted",
+          "definition": "To be given a position with more responsibility.",
+          "example": "Nick was promoted to floor manager just months after joining the company."
+        },
+        {
+          "phrase": "Be sacked/Fired",
+          "definition": "To be dismissed from a job, usually because of poor performance.",
+          "example": "James was sacked from his job at the supermarket after he was caught stealing money."
+        },
+        {
+          "phrase": "Be in charge of/Responsible for",
+          "definition": "To have authority or control over somebody or something.",
+          "example": "As manager of a busy café, Sara is in charge of 15 members of staff."
+        }
+      ]
+    },
+    {
+      "heading": "Nouns and Adjectives Related to Work",
+      "content": "This section covers common nouns and adjectives used to describe job types and employment situations.",
+      "examples": [
+        {
+          "phrase": "Full-time job",
+          "definition": "A job where a person works a standard number of hours each week.",
+          "example": "As soon as he finished school, Tim got a full-time job in a bank."
+        },
+        {
+          "phrase": "Part-time job",
+          "definition": "A job with fewer hours than a full-time position.",
+          "example": "When I was a student, I had a part-time waitressing job."
+        },
+        {
+          "phrase": "Work shifts",
+          "definition": "To work during various scheduled periods of the day or night.",
+          "example": "When I was a nurse, I worked a lot of night shifts."
+        },
+        {
+          "phrase": "Temporary job",
+          "definition": "A job that is not permanent.",
+          "example": "Eve has a temporary job in a school, covering for a teacher who is on maternity leave."
+        },
+        {
+          "phrase": "Self-employed",
+          "definition": "Working for yourself rather than for a company.",
+          "example": "Alice is a self-employed writer and works from home."
+        },
+        {
+          "phrase": "Unemployed",
+          "definition": "Without a job and looking for work.",
+          "example": "Bob has been unemployed since he lost his job last year."
+        },
+        {
+          "phrase": "Workplace",
+          "definition": "The place where you go to do your job.",
+          "example": "Our office is a friendly workplace; we all get on really well."
+        },
+        {
+          "phrase": "Qualifications",
+          "definition": "Certificates or degrees that qualify you for a job.",
+          "example": "Ian was not given the job because he didn't have the right qualifications."
+        }
+      ]
+    },
+    {
+      "heading": "Work vs Job",
+      "content": "This section explains the difference between these commonly confused terms.",
+      "examples": [
+        {
+          "phrase": "Job",
+          "definition": "A countable noun referring to a profession or occupation.",
+          "example": "He's had many different jobs. This is a difficult job."
+        },
+        {
+          "phrase": "Work",
+          "definition": "An uncountable noun referring to the activity of doing a job.",
+          "example": "I have a lot of work to do. What time do you finish work?"
+        },
+        {
+          "phrase": "Work (place)",
+          "definition": "Can also mean the place where people do their job.",
+          "example": "How do you go to work? I have lunch at work."
+        }
+      ]
+    }
+  ]
+}

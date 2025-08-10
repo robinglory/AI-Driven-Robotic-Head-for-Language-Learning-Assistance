@@ -1,0 +1,107 @@
+{
+  "lesson_id": "b1_reading_12",
+  "type": "Reading",
+  "level": "B1",
+  "title": "Memorabilia: What's the Thrill?",
+  "task_instruction": "Read a text about collecting memorabilia, and for questions 1 to 6, choose the correct answer.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "The Collector's Motivation",
+      "text": "My friends wonder why I have an extensive collection of other people's clothes and shoes, old concert programmes and albums at home. They think I want to relive special moments in my childhood. That might be true for some collectors, but I'm not sentimental. You can make a lot of money from things that have a special place in history. Sports equipment like balls and shoes that were used in a great match, props from popular movies, clothes worn by famous people and first editions of books are all valuable, especially if they are signed."
+    },
+    {
+      "id": "B",
+      "title": "Auction Investments",
+      "text": "There are a few different ways you can find this sort of memorabilia. First, you can buy it at an auction. It's expensive, but if you are lucky, it will be worth it because memorabilia can suddenly increase in value, and you could make a lot of money. For example, a baseball signed by Babe Ruth sold for over $77,000. In 2017, just four years later, a similar one sold for $180,000, over twice as much! Imagine if you had enough money to buy that!"
+    },
+    {
+      "id": "C",
+      "title": "Fractional Ownership",
+      "text": "I can't possibly buy that kind of memorabilia, but it is possible to buy part of it. Some companies look for rare items from around the world that they think will increase in value. People can buy a share of the memorabilia and buy and sell their shares over time. That's a great way to make money without spending a fortune, and for a little while, you can be the part-owner of a piece of history, although you can't take it home!"
+    },
+    {
+      "id": "D",
+      "title": "Alternative Acquisition Methods",
+      "text": "If your goal is actually to own memorabilia, you can find some interesting items in second-hand shops. Sometimes, an old collector dies, and their spouse gives away their possessions without realising their value. You could also try to predict who will become famous in the future. Getting some shoes or a ball signed by someone who isn't famous yet is not too hard. Then you just have to wait until they do something spectacular. Then you have something really valuable! That's how I got a signed tennis racket from one of the world's top players!"
+    },
+    {
+      "id": "E",
+      "title": "Collection Pitfalls",
+      "text": "I have been tricked before, though. I bought a signed record online a few years ago. A few years later, I tried to sell it at an auction house. When I gave it to the auctioneer, he rubbed the signature with his finger. It was smooth, not bumpy, so he knew it wasn't done with a pen. Someone probably printed it on. That was a pity. I'm also always careful to keep my memorabilia in perfect condition. You can't just put it in a cupboard and leave it there. I once left some old concert programmes in a cupboard, and the paper curled and changed colour. Now I use special packaging and equipment to make sure the room doesn't get too hot, cold or damp. It isn't cheap, but you need it if you are serious about collecting."
+    },
+    {
+      "id": "F",
+      "title": "The Uncertainty of Value",
+      "text": "Of course, I never know which memorabilia will become valuable and which will not. I had some signed shoes from a great young basketball player, but then he had a bad injury and quit, so those shoes will probably never be worth much. Plus, the value of memorabilia goes up and down. A t-shirt signed by a popular celebrity could be worth a lot now, but its value might have halved in five years' time when that celeb is no longer famous."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "Why does the author collect memorabilia?",
+      "options": [
+        "To relive childhood memories",
+        "Because they enjoy wearing famous people's clothes",
+        "For potential financial gain",
+        "To preserve historical artifacts"
+      ],
+      "answer": "For potential financial gain"
+    },
+    {
+      "id": 2,
+      "question": "What happened to the value of Babe Ruth's signed baseball between 2013 and 2017?",
+      "options": [
+        "It decreased slightly",
+        "It more than doubled",
+        "It stayed the same",
+        "It became worthless"
+      ],
+      "answer": "It more than doubled"
+    },
+    {
+      "id": 3,
+      "question": "How can people invest in memorabilia without spending a fortune?",
+      "options": [
+        "By buying reproductions",
+        "By purchasing shares in valuable items",
+        "By stealing from museums",
+        "By borrowing from collectors"
+      ],
+      "answer": "By purchasing shares in valuable items"
+    },
+    {
+      "id": 4,
+      "question": "Where might someone find valuable memorabilia by accident?",
+      "options": [
+        "In government offices",
+        "In second-hand shops",
+        "In school libraries",
+        "In grocery stores"
+      ],
+      "answer": "In second-hand shops"
+    },
+    {
+      "id": 5,
+      "question": "How did the auctioneer know the signed record was fake?",
+      "options": [
+        "The signature was too perfect",
+        "The signature wasn't bumpy",
+        "The record was too new",
+        "The signature was the wrong color"
+      ],
+      "answer": "The signature wasn't bumpy"
+    },
+    {
+      "id": 6,
+      "question": "What can make signed memorabilia lose value?",
+      "options": [
+        "If the celebrity becomes more famous",
+        "If the item gets older",
+        "If the celebrity's fame decreases",
+        "If too many copies exist"
+      ],
+      "answer": "If the celebrity's fame decreases"
+    }
+  ]
+}

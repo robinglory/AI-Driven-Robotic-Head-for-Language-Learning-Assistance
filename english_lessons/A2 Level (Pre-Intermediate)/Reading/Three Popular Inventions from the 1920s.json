@@ -1,0 +1,101 @@
+{
+  "lesson_id": "a2_reading_04",
+  "type": "Reading",
+  "level": "A2",
+  "title": "Three Popular Inventions from the 1920s",
+  "task_instruction": "Read the text about three famous inventions from the 1920s. For questions 1 to 10, choose true or false based on the information in the text.",
+  "passages": [
+    {
+      "id": "A",
+      "title": "Introduction",
+      "text": "The 1920s was an exciting time for inventions. Some of the things invented around that time changed the lives of millions of people, and some of those inventions are still widely used today."
+    },
+    {
+      "id": "B",
+      "title": "The Television",
+      "text": "The invention with the biggest impact was probably the television. It was invented by a Scottish man, John Logie Baird. The first televised pictures were sent over a short distance in 1924, and his invention was formally demonstrated at the Royal Institute two years later. The pictures on the screen were not clear, but the viewers could see that they were human faces, and they could see their eyes opening and closing. In 1928, images were sent from Britain to America, and later, to a ship 1,500 miles out to sea. In the same year, the first colour images were sent. The first 'seeing-in sets' were sold that same year. For £25 (£1000 in today's money), people in their homes could watch moving images that were sent from a broadcasting station."
+    },
+    {
+      "id": "C",
+      "title": "The Fridge",
+      "text": "Another invention that became popular in the 1920s was the home refrigerator. People used different ways to keep food cool and fresh long before the 1900s, but home fridges weren't invented until 1913 in the USA. Home fridges became very popular in the USA in the 1920s. Sales of the popular 'Frigidaire' model increased from 5,000 in 1921 to 750,000 in 1926. British people were less interested in fridges than Americans. They thought that they were unnecessary because the weather in Britain was cooler. But fridges were heavily advertised, and their advantages were described in detail. Soon, more fridges were sold, and the price decreased."
+    },
+    {
+      "id": "D",
+      "title": "The Polygraph",
+      "text": "Another interesting invention of the 1920s was the polygraph, or lie detector. It was invented in 1921 by a Californian policeman, John Larson. He used the ideas of other psychologists to make a machine that measured people's heart rate, breathing and blood pressure while they were asked questions. The experts believed that sudden changes in these measurements showed that someone was lying. Although this invention is well-known, it can't really detect lies. Marston tried to use measurements from his polygraph in a court case in 1923, but they weren't accepted as evidence and never have been since then. However, polygraphs are still used by some police forces and the FBI because many people believe they work, so they tell the truth to avoid the machine."
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "The television was invented by an American scientist.",
+      "options": ["True", "False"],
+      "answer": "False",
+      "explanation": "The text states it was invented by Scottish man John Logie Baird."
+    },
+    {
+      "id": 2,
+      "question": "The first television images were clear and detailed.",
+      "options": ["True", "False"],
+      "answer": "False",
+      "explanation": "The text says the pictures were not clear, though viewers could recognize human faces."
+    },
+    {
+      "id": 3,
+      "question": "Home refrigerators were first invented in the 1920s.",
+      "options": ["True", "False"],
+      "answer": "False",
+      "explanation": "They were invented in 1913, though became popular in the 1920s."
+    },
+    {
+      "id": 4,
+      "question": "British people immediately loved refrigerators when they were introduced.",
+      "options": ["True", "False"],
+      "answer": "False",
+      "explanation": "Initially they thought fridges were unnecessary due to Britain's cooler weather."
+    },
+    {
+      "id": 5,
+      "question": "The polygraph was invented by a psychologist.",
+      "options": ["True", "False"],
+      "answer": "False",
+      "explanation": "It was invented by a policeman, John Larson, though he used psychologists' ideas."
+    },
+    {
+      "id": 6,
+      "question": "Polygraph results are accepted as evidence in court.",
+      "options": ["True", "False"],
+      "answer": "False",
+      "explanation": "The text states they weren't accepted in 1923 and never have been since."
+    },
+    {
+      "id": 7,
+      "question": "The first television sets were very expensive.",
+      "options": ["True", "False"],
+      "answer": "True",
+      "explanation": "£25 was equivalent to £1000 in today's money, which was expensive."
+    },
+    {
+      "id": 8,
+      "question": "Fridge sales decreased during the 1920s in America.",
+      "options": ["True", "False"],
+      "answer": "False",
+      "explanation": "Sales increased dramatically from 5,000 to 750,000 between 1921-1926."
+    },
+    {
+      "id": 9,
+      "question": "The first color television images were transmitted in 1928.",
+      "options": ["True", "False"],
+      "answer": "True",
+      "explanation": "The text specifically mentions this happened in 1928."
+    },
+    {
+      "id": 10,
+      "question": "Polygraphs are still used today because they reliably detect lies.",
+      "options": ["True", "False"],
+      "answer": "False",
+      "explanation": "They're used because people believe they work, not because they're reliable."
+    }
+  ]
+}

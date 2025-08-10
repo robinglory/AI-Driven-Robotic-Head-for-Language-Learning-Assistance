@@ -1,0 +1,167 @@
+{
+  "lesson_id": "b1_vocabulary_08",
+  "type": "Vocabulary",
+  "level": "B1",
+  "title": "Houses",
+  "summary": "Vocabulary for talking about houses, including rooms and parts of a house, adjectives for describing houses, and verbs related to repair and renovation.",
+  "sections": [
+    {
+      "heading": "Rooms and Parts of a House",
+      "content": "This section covers common names for different rooms and areas in and around a house.",
+      "examples": [
+        {
+          "phrase": "Attic",
+          "definition": "A room at the top of a house under the roof.",
+          "example": "I store old clothes and books in the attic."
+        },
+        {
+          "phrase": "Loft",
+          "definition": "An open space under the roof of a house, often used as a bedroom or living area.",
+          "example": "She turned the loft into a cozy reading area."
+        },
+        {
+          "phrase": "Basement",
+          "definition": "The floor of a house or building which is partly or entirely below ground level.",
+          "example": "There’s a ping pong table and a home cinema projector in our basement."
+        },
+        {
+          "phrase": "Cellar",
+          "definition": "A room below ground level in a house used for storage, especially wine or food.",
+          "example": "Grandpa keeps his wine collection in the cellar."
+        },
+        {
+          "phrase": "Landing",
+          "definition": "The floor area at the top of a staircase.",
+          "example": "There’s a small table on the landing with a vase of flowers."
+        },
+        {
+          "phrase": "Shed",
+          "definition": "A small building used for storage or hobbies, often in a garden.",
+          "example": "Dad keeps his gardening tools in the shed."
+        },
+        {
+          "phrase": "Porch",
+          "definition": "A covered area next to the entrance of a house.",
+          "example": "We enjoy sitting on the porch during summer evenings."
+        },
+        {
+          "phrase": "Patio",
+          "definition": "An outdoor area next to a house used for eating or relaxing.",
+          "example": "They have a barbecue grill on their patio."
+        },
+        {
+          "phrase": "Playroom",
+          "definition": "A room where children can play.",
+          "example": "The kids are playing in the playroom."
+        },
+        {
+          "phrase": "Study",
+          "definition": "A room in a house used for work or study.",
+          "example": "He’s reading in the study."
+        },
+        {
+          "phrase": "Pantry",
+          "definition": "A small room or closet in a house where food is stored.",
+          "example": "We keep our canned goods in the pantry."
+        },
+        {
+          "phrase": "Utility room",
+          "definition": "A room in a house where you keep things such as a washing machine, sink, and cleaning equipment.",
+          "example": "We put the dirty laundry in the utility room."
+        }
+      ]
+    },
+    {
+      "heading": "Describing a House",
+      "content": "This section covers adjectives and expressions used to describe houses and rooms.",
+      "examples": [
+        {
+          "phrase": "Spacious / Roomy",
+          "definition": "Large in size or area, allowing you to move freely and relax.",
+          "example": "Our new living room is so spacious that we can have a big sofa and a coffee table in it."
+        },
+        {
+          "phrase": "Cramped",
+          "definition": "Very small and without enough space for moving around comfortably.",
+          "example": "The old kitchen was cramped; it was too small for a table."
+        },
+        {
+          "phrase": "Cozy",
+          "definition": "Small, warm, and comfortable, making you feel relaxed.",
+          "example": "The small country house was cozy, with a warm fireplace and soft lighting."
+        },
+        {
+          "phrase": "Light",
+          "definition": "Having a lot of natural light from the sun, making it bright.",
+          "example": "My bedroom is light and sunny, perfect for reading during the day."
+        },
+        {
+          "phrase": "Dark",
+          "definition": "Not having much light, so it looks shadowy or gloomy.",
+          "example": "The basement is dark, and we need to use extra lights when we go down there."
+        },
+        {
+          "phrase": "Furnished / Unfurnished",
+          "definition": "A furnished house or room has furniture in it; unfurnished means it does not.",
+          "example": "The apartment came furnished, so it already had beds, tables, a sofa, etc."
+        },
+        {
+          "phrase": "Two-story (Two-storey UK)",
+          "definition": "A house with two levels or floors.",
+          "example": "We live in a two-story house, with bedrooms upstairs and a living room downstairs."
+        },
+        {
+          "phrase": "In good condition / In bad condition",
+          "definition": "Well maintained and without damage (good) or not maintained and needing repair (bad).",
+          "example": "Our home is in good condition because we recently painted it and fixed the roof."
+        },
+        {
+          "phrase": "In a good location",
+          "definition": "In a place that is convenient or desirable, often close to shops or schools.",
+          "example": "Our house is in a good location, close to the school and the grocery store."
+        }
+      ]
+    },
+    {
+      "heading": "Verbs Related to Repair and Renovation",
+      "content": "This section covers common verbs used for fixing, improving, and maintaining houses.",
+      "examples": [
+        {
+          "phrase": "Fix / Repair / Mend",
+          "definition": "To work on something that is broken so it is no longer broken.",
+          "example": "I need to fix the broken chair in the dining room."
+        },
+        {
+          "phrase": "Decorate / Redecorate",
+          "definition": "To make a room or house more attractive by adding things like paint, wallpaper, or ornaments.",
+          "example": "We will decorate our living room with new curtains and a rug."
+        },
+        {
+          "phrase": "Renovate / Refurbish / Do up (UK)",
+          "definition": "To make big improvements by repairing and decorating a house or room.",
+          "example": "We are going to renovate the old house to make it look new."
+        },
+        {
+          "phrase": "Install / Put in",
+          "definition": "To place something like equipment or furniture into a house or room so it can be used.",
+          "example": "They will put in a new sink in the kitchen next week."
+        },
+        {
+          "phrase": "Insulate",
+          "definition": "To add materials to walls, roofs, or floors to improve heat or noise conditions.",
+          "example": "We should insulate the attic to keep the house warmer in winter."
+        },
+        {
+          "phrase": "Do DIY",
+          "definition": "To do home improvement or repair work by yourself without hiring professionals.",
+          "example": "On the weekend, I’m going to do some DIY and build a bookshelf."
+        },
+        {
+          "phrase": "Do housework",
+          "definition": "To do routine work to keep your house clean and organized.",
+          "example": "Every Saturday, I do housework like cleaning the floors and dusting."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "lesson_id": "b1_vocabulary_11",
+  "type": "Vocabulary",
+  "level": "B1",
+  "title": "The Body: Parts and Actions",
+  "summary": "Names of body parts and common actions related to them, with clear definitions and example sentences to aid understanding and memory.",
+  "sections": [
+    {
+      "heading": "Parts of the Body",
+      "content": "This section covers the names of different human body parts and their locations.",
+      "examples": [
+        { "phrase": "Eyebrows", "definition": "Two lines of hair above your eyes.", "example": "Cara raised her eyebrows in surprise." },
+        { "phrase": "Forehead", "definition": "The top of your face, just above your eyebrows.", "example": "Lisa’s long hair covers her forehead." },
+        { "phrase": "Cheeks", "definition": "The two sides of your face, below the eyes and beside the nose.", "example": "Peter’s cheeks were red from the cold." },
+        { "phrase": "Chin", "definition": "The lower part of your face, just below the mouth.", "example": "A beard now covers Larry’s chin." },
+        { "phrase": "Breasts", "definition": "The front part of a woman’s chest that can produce milk.", "example": "The baby was lying against its mother’s breast." },
+        { "phrase": "Pecs", "definition": "Short for pectoral muscles, the chest muscles, often referring to men’s chests.", "example": "Tim’s pecs have grown since he started going to the gym." },
+        { "phrase": "Ribs", "definition": "A series of bones on each side of your body, just below your chest.", "example": "The boy was so thin that I could see his ribs." },
+        { "phrase": "Elbow", "definition": "The joint in the middle of your arm that bends.", "example": "You shouldn’t put your elbows on the table when you’re eating." },
+        { "phrase": "Wrist", "definition": "The narrow part connecting your arm to your hand.", "example": "Lucy wears a gold watch around her wrist." },
+        { "phrase": "Thumb", "definition": "The widest and shortest finger, closest to the wrist.", "example": "The ring was so big that I could only wear it on my thumb." },
+        { "phrase": "Waist", "definition": "The narrow part of your body between the chest and hips.", "example": "Karen was wearing a leather belt around her waist." },
+        { "phrase": "Hips", "definition": "The bones on either side of your waist.", "example": "My hips are quite wide, and I find it hard to find jeans that fit." },
+        { "phrase": "Bottom", "definition": "The soft part of the body you sit on.", "example": "After sitting on the wet chair, Sam’s bottom was wet." },
+        { "phrase": "Thigh", "definition": "The top part of your leg, between the torso and the knee.", "example": "Lara’s skirt was so short that it barely covered her thighs." },
+        { "phrase": "Calf", "definition": "The muscular part at the back of the lower leg, below the knee.", "example": "After exercising at the gym, my calf muscles were sore." },
+        { "phrase": "Ankle", "definition": "The joint connecting your leg to your foot.", "example": "My ankles were cold, so I put on a longer pair of socks." },
+        { "phrase": "Heel", "definition": "The bottom back part of your foot, below the ankle.", "example": "After wearing new shoes all day, Paula’s heels were very sore." }
+      ]
+    },
+    {
+      "heading": "Body Actions",
+      "content": "This section covers common verbs describing actions people do with their bodies.",
+      "examples": [
+        { "phrase": "Breathe", "definition": "To take air into your lungs and then expel it.", "example": "I went outside to breathe in some fresh air." },
+        { "phrase": "Sneeze", "definition": "To suddenly expel air from your nose and mouth.", "example": "I had a bad cold, and I couldn’t stop sneezing." },
+        { "phrase": "Taste", "definition": "To put something in your mouth to sense its flavor.", "example": "I tasted the soup and then decided to add more salt." },
+        { "phrase": "Smell", "definition": "To sense a scent through your nose.", "example": "Lucy bent down to smell the roses." },
+        { "phrase": "Yawn", "definition": "To open your mouth wide involuntarily when tired or bored.", "example": "It was obvious that Paul was tired because he couldn’t stop yawning." },
+        { "phrase": "Snore", "definition": "To make a noise with your nose while sleeping.", "example": "Mary couldn’t sleep because her husband was snoring loudly." },
+        { "phrase": "Smile", "definition": "To turn up the corners of your mouth to show pleasure.", "example": "When his grandmother gave him the chocolate, Joe smiled and said thank you." },
+        { "phrase": "Laugh", "definition": "To make sounds and movements of the face when amused.", "example": "The film was really funny, and we couldn’t stop laughing." },
+        { "phrase": "Bite", "definition": "To use your teeth to cut into something.", "example": "I bit into the juicy apple." },
+        { "phrase": "Swallow", "definition": "To make food or drink go from your mouth to your stomach.", "example": "The biscuit was dry and difficult to swallow." },
+        { "phrase": "Whistle", "definition": "To produce a musical sound by forcing air through your lips.", "example": "I could hear Joe whistling as he washed his car." },
+        { "phrase": "Sweat", "definition": "To produce salty liquid from the skin, usually due to heat or exercise.", "example": "Mike was sweating because he’d just finished working out." },
+        { "phrase": "Nod", "definition": "To move your head up and down to show agreement.", "example": "Matt nodded his head in agreement." },
+        { "phrase": "Shake your head", "definition": "To move your head from side to side to show disagreement or refusal.", "example": "When I asked Max if he wanted more cake, he shook his head and said, 'No, thank you.'" },
+        { "phrase": "Clap", "definition": "To bring your hands together to make a sound, often in applause.", "example": "At the end of the performance, the audience clapped." },
+        { "phrase": "Grab", "definition": "To take hold of something suddenly or firmly.", "example": "Jamie grabbed the toy out of his sister’s hand." },
+        { "phrase": "Hold", "definition": "To carry or keep something in your hands.", "example": "The lady was holding her baby in her arms." },
+        { "phrase": "Kick", "definition": "To hit something or someone with your foot.", "example": "I kicked the football to Tony." },
+        { "phrase": "Punch", "definition": "To hit something or someone with your fist.", "example": "Mario punched Luis in the face." },
+        { "phrase": "Bend", "definition": "To move the top part of your body downward and forward.", "example": "Mary bent down to pick up her bag." }
+      ]
+    }
+  ]
+}
