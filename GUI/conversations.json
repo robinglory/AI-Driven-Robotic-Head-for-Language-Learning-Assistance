@@ -815,6 +815,64 @@
         "role": "assistant",
         "content": "I apologize for the repetition. Let's move on to another phrasal verb then: **\"give up\"** - This means to stop trying to do something because it is too difficult or not worth the effort.\n\nCan you think of a time when you gave up on something? What was it?"
       }
+    ],
+    "/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Grammar/Defining relative clauses.json": [
+      {
+        "role": "user",
+        "content": "Hello, how are you doing today?"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! I'm doing well, thank you for asking. I'm excited to help you learn about defining relative clauses today!\n\nHow are you feeling about learning this new grammar topic? Are you ready to get started?"
+      },
+      {
+        "role": "user",
+        "content": "Yes, please! I don't really understand this Relative Clauses!"
+      },
+      {
+        "role": "assistant",
+        "content": "I understand! Relative clauses can be tricky at first, but you'll get it with practice.\n\nA defining relative clause gives us **essential information** about a noun. It tells us *which* person or thing we're talking about.\n\nFor example: \"The book **that you lent me** is very interesting.\"\nThe clause \"that you lent me\" tells us which book we mean.\n\nDoes this make sense so far?"
+      },
+      {
+        "role": "user",
+        "content": "Yes, so relative clause start with that or what!"
+      },
+      {
+        "role": "assistant",
+        "content": "Great observation! Relative clauses often start with **that**, but also **who** (for people) and **which** (for things).\n\nExample: \"The woman **who helped us** was very kind.\"\nExample: \"The car **which broke down** is old.\"\n\nCan you think of a sentence using a relative clause with \"that\" or \"who\"?"
+      },
+      {
+        "role": "user",
+        "content": "Ok, here is my sentence! The man who go to school is a teacher."
+      },
+      {
+        "role": "assistant",
+        "content": "Good try! There's just one small mistake - we need to use \"**goes**\" instead of \"go\" because \"the man\" is singular.\n\nCorrect sentence: \"The man who **goes** to school is a teacher.\"\n\nYou're doing great! Want to try another sentence, or would you like me to explain more about when to use \"that\" versus \"who\"?"
+      },
+      {
+        "role": "user",
+        "content": "well, i think ia ma gettng a hang of it so let move to that and who."
+      },
+      {
+        "role": "assistant",
+        "content": "Excellent progress! Let's look at when to use **that** versus **who**:\n\n- Use **who** for people: \"The student **who** studies hard\"\n- Use **that** for things: \"The book **that** I read\"\n\nQuick tip: **who** = people only, **that** = things (and sometimes people too)\n\nReady for a quick practice? Which word should we use in this sentence:\n\"The dog ___ barks loudly is mine.\""
+      },
+      {
+        "role": "user",
+        "content": "The correct answer is that!"
+      },
+      {
+        "role": "assistant",
+        "content": "That's correct! \"The dog **that** barks loudly is mine.\"\n\nGreat job! You're well on your way to mastering relative clauses. Ready for another practice sentence? 😊"
+      },
+      {
+        "role": "user",
+        "content": "Well, i am say good bye now! Thanks you so much"
+      },
+      {
+        "role": "assistant",
+        "content": "It was my pleasure helping you today! Don't hesitate to ask if you have any more questions or if you need help in the future. Good luck with your learning, and have a wonderful day! 😊"
+      }
     ]
   }
 }
