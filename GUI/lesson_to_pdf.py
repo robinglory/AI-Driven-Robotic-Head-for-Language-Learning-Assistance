@@ -221,12 +221,12 @@ class PDFTextbook:
         
         canvas.setStrokeColor(self.primary_color)
         canvas.setLineWidth(0.5)
-        canvas.line(doc.leftMargin, doc.bottomMargin - 10, 
-                   doc.width + doc.leftMargin, doc.bottomMargin - 10)
+        canvas.line(doc.leftMargin, doc.bottomMargin - 0.5, 
+                   doc.width + doc.leftMargin, doc.bottomMargin - 0.5)
         
         canvas.setFont('Helvetica', 9)
         canvas.setFillColor(self.dark_gray)
-        canvas.drawCenteredString(self.width / 2, doc.bottomMargin - 15, level)
+        canvas.drawCentredString(self.width / 2, doc.bottomMargin - 15, level)
         canvas.drawRightString(self.width - doc.rightMargin + 20, doc.bottomMargin - 15, 
                               f"Page {doc.page}")
         
@@ -273,12 +273,16 @@ class PDFTextbook:
         except:
             pass
         
-        self.story.append(Paragraph("Lingo", self.styles['LingoTitle']))
-        self.story.append(Paragraph("AI Driven Language Learning", self.styles['LingoSubtitle']))
+        self.story.append(Paragraph("Lingo Language Learning Tutor", self.styles['LingoTitle']))
+        self.story.append(Paragraph("AI Driven Robotic Head for Language Learning Assistance", self.styles['LingoSubtitle']))
         self.story.append(Paragraph("Textbook for Pre-intermediate and Intermediate Levels", 
                                    self.styles['LingoSubtitle']))
         self.story.append(Spacer(1, 4*cm))
-        self.story.append(Paragraph("© 2023 Lingo Education", 
+        self.story.append(Paragraph("© 2025 Final Year Thesis (Mechatronic Engineering Department) ", 
+                                  ParagraphStyle(name='Copyright', fontSize=10, alignment=TA_CENTER)))
+        self.story.append(Paragraph("Yan Naing Kyaw Tint (Software) ", 
+                                  ParagraphStyle(name='Copyright', fontSize=10, alignment=TA_CENTER)))
+        self.story.append(Paragraph("Ngwe Thant Sin (Hardware) ", 
                                   ParagraphStyle(name='Copyright', fontSize=10, alignment=TA_CENTER)))
         self.story.append(PageBreak())
 
