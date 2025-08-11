@@ -37,21 +37,27 @@ The application features a **responsive Tkinter interface** with enhanced styles
 ### Main Components:
 1. **Main Chat Interface**  
    *Entry point for AI assistant chat*  
-   ![Main Page](GUI_IMG/main_page.png)
+   ![Main Page](GUI/GUI_IMG/main_page.png)
 
 2. **Login Screen**  
    *Student authentication and profile loading*  
-   ![Login](GUI_IMG/log_in.png)
+   ![Login](GUI/GUI_IMG/log_in.png)
 
 3. **Student Dashboard**  
    *Lesson selection, progress tracking, and textbook access*  
-   ![Dashboard](GUI_IMG/student_dashboard.png)
+   ![Dashboard](GUI/GUI_IMG/student_dashboard.png)
 
-4. **Lesson Modules**  
-   - **Reading Lesson** – interactive comprehension  
-   - **Grammar Lesson** – structured explanations with examples  
-   - **Vocabulary Lesson** – contextual word learning  
-   - **Textbook View** – digital book pages with navigation
+4. **Grammar Section**  
+   *Grammar Section where the user can learns the Grammar*  
+   ![Grammar](GUI/GUI_IMG/grammar_lesson.png)
+
+5. **Reading Section**  
+   *Lingo will help you learns lots of Intermediate and Pre-intermediate level readings.*  
+   ![Reading](GUI/GUI_IMG/reading_lesson.png)
+
+6. **Vocabulary Sections**  
+   *Our Lingo will teach ther user lots of essential vocabs.*  
+   ![Vocabulary](GUI/GUI_IMG/vocab_lesson.png)
 
 ---
 
@@ -83,7 +89,7 @@ The app follows an **MVC-like** pattern:
 - **Python**: 3.9+
 - **GUI Framework**: Tkinter with ttk styling
 - **Database**: TinyDB (lightweight, file-based)
-- **APIs**: OpenRouter (DeepSeek primary, Mistral fallback)
+- **APIs**: OpenRouter (Qwen primary, Mistral fallback)
 - **PDF Export**: ReportLab with academic formatting
 - **Data Persistence**: JSON + TinyDB
 
@@ -99,8 +105,8 @@ The app follows an **MVC-like** pattern:
 ### Setup
 ```bash
 # Clone the repo
-git clone https://github.com/your-repository/lingo-tutor.git
-cd lingo-tutor/GUI
+git clone https://github.com/robinglory/AI-Driven-Robotic-Head-for-Language-Learning-Assistance.git
+cd AI-Driven-Robotic-Head-for-Language-Learning-Assistance/GUI
 
 # Create & activate venv
 python -m venv myenv
@@ -120,7 +126,7 @@ nano .env  # add your API keys
 
 Add to `.env`:
 ```ini
-DEEPSEEK_API_KEY=your_openrouter_api_key
+QWEN_API_KEY=your_openrouter_api_key
 MINSTRAL_API_KEY=your_backup_api_key
 ```
 
@@ -143,7 +149,7 @@ python main.py
 
 ## API Integration
 
-**Primary API** – DeepSeek (OpenRouter)  
+**Primary API** – Qwen (OpenRouter)  
 **Secondary API** – Mistral 7B fallback
 
 Both are wrapped in `api_manager.py` with provider switching, retries, and graceful fallbacks.
