@@ -796,6 +796,14 @@
       {
         "role": "assistant",
         "content": "Bye again! Have a wonderful day! 😊"
+      },
+      {
+        "role": "user",
+        "content": "What are we going to learn today? Can you please explain that to me?"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! Today we're going to learn about articles in English - specifically \"a,\" \"an,\" \"the,\" and when to use no article at all.\n\nThis is an important grammar topic that helps you speak more naturally and correctly in English.\n\nAre you ready to start learning about when to use each article?"
       }
     ],
     "/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Vocabulary/Common Phrasal Verbs.json": [

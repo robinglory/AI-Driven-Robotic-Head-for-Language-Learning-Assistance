@@ -294,6 +294,7 @@ class LessonScreen:
             f"Current lesson: {context['lesson']['title']} ({context['lesson']['type']})\n"
             f"Lesson objective: {context['lesson']['objective']}\n"
             f"Key content: {context['lesson']['content']}\n\n"
+            "You must not use this symbol *"
             "Instructions:\n"
             "1. Respond with **only 2 vocabulary words or only 1 reading passage or only 1 grammar section or 3-4 sentences at a time.**\n"
             "2. End each response by asking a relevant question or requesting feedback.\n"
@@ -304,8 +305,6 @@ class LessonScreen:
         )
 
     
-    # (You can keep _get_ai_response and _update_conversation_history if used elsewhere)
-
     def _get_ai_response(self, system_prompt, user_input):
         """Handle AI response generation"""
         messages = [

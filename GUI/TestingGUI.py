@@ -20,7 +20,7 @@ load_dotenv()
 # ======================
 class APIManager:
     def __init__(self):
-        self.deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
+        self.deepseek_api_key = os.getenv("QWEN_API_KEY")
         self.minstral_api_key = os.getenv("MINSTRAL_API_KEY")
         self.current_model = "qwen/qwen3-coder:free"
         self.current_key = self.deepseek_api_key
@@ -116,7 +116,7 @@ class LessonManager:
 
     def get_lesson_by_type(self, user_level, lesson_type):
         try:
-            root = "/home/robinglory/Desktop/AI Projects/Thesis/english_lessons"
+            root = "/home/robinglory/Desktop/Thesis/english_lessons"
             folder = os.path.join(
                 root,
                 f"{user_level} Level (Pre-Intermediate)" if user_level == "A2"
