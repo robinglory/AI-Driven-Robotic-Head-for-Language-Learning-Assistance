@@ -85,6 +85,7 @@ class LLMHandler:
                     "1. Reference the lesson content\n"
                     "2. Personalize explanations\n"
                     "3. Keep responses focused"
+                    "4. Your response will be used by a TTS model, so change your response to suit this situation"
                 )
             else:
                 system_msg = (
@@ -92,6 +93,7 @@ class LLMHandler:
                     "Have natural conversations and help with general English questions. "
                     "Keep responses under 3 sentences."
                     "You must not use this * symbol at all."
+                    "4. Your response will be used by a TTS model, so change your response to suit this situation"
                 )
             
             messages = [

@@ -881,6 +881,24 @@
         "role": "assistant",
         "content": "It was my pleasure helping you today! Don't hesitate to ask if you have any more questions or if you need help in the future. Good luck with your learning, and have a wonderful day! 😊"
       }
+    ],
+    "/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Grammar/Expressing purpose with to and for.json": [
+      {
+        "role": "user",
+        "content": "I am great thanks you! Now, shall we start our lesson?"
+      },
+      {
+        "role": "assistant",
+        "content": "Great! I'm ready to help you learn about expressing purpose with 'to' and 'for'. \n\nLet's begin with a simple example:\n\"I went to the store **to** buy milk.\" (purpose = reason for action)\n\nCan you think of a sentence where you might use \"to\" show purpose?"
+      },
+      {
+        "role": "user",
+        "content": "I go to my parent's home to have a family dinner. Is that good."
+      },
+      {
+        "role": "assistant",
+        "content": "Excellent! Your sentence is perfect. \"I go to my parent's home to have a family dinner.\" correctly uses \"to\" for purpose.\n\nNow let's look at \"for\" - it's used to show the beneficiary or recipient of an action.\n\nExample: \"I bought flowers **for** my mother.\" (beneficiary)\n\nCan you make a sentence using \"for\" to show who benefits from an action?"
+      }
     ]
   }
 }
