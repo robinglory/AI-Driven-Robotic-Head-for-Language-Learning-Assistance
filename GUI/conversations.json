@@ -274,6 +274,46 @@
       {
         "role": "assistant",
         "content": "Wonderful! I'm marking this lesson as completed - \"A Town that Lives in One Building\" - finished! \n\nYou did an excellent job working through the reading passage, vocabulary, and grammar patterns. Your participation and sentences showed great understanding!\n\nCongratulations on completing this lesson! 🎉\n\nReady for our next reading adventure next time?"
+      },
+      {
+        "role": "user",
+        "content": "Hello? How are you doing today?"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm an AI, so I don't have feelings, but I'm here to help you with your English learning needs! 😊 How can I assist you today? Let's continue with your English journey together! 🤝"
+      },
+      {
+        "role": "user",
+        "content": "My name is 2. Can you please introduce yourself first?"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello there, 2! I'm Lingo, your personal English tutor. It's great to meet you! 😊 I'm here to help you improve your English skills by providing engaging lessons and answering your questions. Let's get started with today's lesson! 😄"
+      },
+      {
+        "role": "user",
+        "content": "Ok let's go. Can you please tell me what is today english lesson would be?"
+      },
+      {
+        "role": "assistant",
+        "content": "Of course! Today's lesson is called \"A Town that Lives in One Building.\" This reading passage will introduce you to a unique community that lives in a single, large building. You'll get to learn new vocabulary, practice grammar patterns, and read about an interesting way of life. 😊 Let's dive in and explore together! 🤝 👍 📚"
+      },
+      {
+        "role": "user",
+        "content": "Oh thanks you!"
+      },
+      {
+        "role": "assistant",
+        "content": "You're welcome, 2! I'm glad you're excited to learn! Let's get started with the lesson by reading the first paragraph. Here it is:"
+      },
+      {
+        "role": "user",
+        "content": "Oh it is crazy to reach to this town. Only by ferries and tunnel? Crazy. No wonder it is a gem as it is quite unique."
+      },
+      {
+        "role": "assistant",
+        "content": "Yes, the town is unique indeed! That's why it's called a \"gem.\" The town is so unique because it is built inside a single, massive building, as you'll learn in the following paragraphs. 😊 📚 🌉"
       }
     ],
     "/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Reading/Black Friday.json": [
@@ -706,6 +746,26 @@
       {
         "role": "assistant",
         "content": "Great! You're using the present perfect tense correctly.\n\nHere's the reading passage:\n\n**How My Life Has Changed**\n\nMy life has changed a lot since I moved to this city. Before, I lived in a small town with my family. Now, I live alone in a big apartment. I have made new friends and improved my job skills. The city life is very different, but I enjoy it.\n\nWould you like me to read it again, or do you have any questions about the passage?"
+      },
+      {
+        "role": "user",
+        "content": "Hello? Can you please tell me about this lesson more?"
+      },
+      {
+        "role": "user",
+        "content": "Hello?"
+      },
+      {
+        "role": "user",
+        "content": "What is going on here?"
+      },
+      {
+        "role": "user",
+        "content": "Yes, can you please tell me more about this lesson?"
+      },
+      {
+        "role": "user",
+        "content": "Ok let's start!"
       }
     ],
     "/home/robinglory/Desktop/Thesis/english_lessons/B1 Level (Intermediate)/Grammar/A(n), the, no article.json": [
@@ -898,6 +958,110 @@
       {
         "role": "assistant",
         "content": "Excellent! Your sentence is perfect. \"I go to my parent's home to have a family dinner.\" correctly uses \"to\" for purpose.\n\nNow let's look at \"for\" - it's used to show the beneficiary or recipient of an action.\n\nExample: \"I bought flowers **for** my mother.\" (beneficiary)\n\nCan you make a sentence using \"for\" to show who benefits from an action?"
+      },
+      {
+        "role": "user",
+        "content": "Hello?"
+      },
+      {
+        "role": "user",
+        "content": "How are you doing today?"
+      }
+    ],
+    "/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Reading/The Man With the Most World Records.json": [
+      {
+        "role": "user",
+        "content": "Ok let's go study this chapter!"
+      },
+      {
+        "role": "user",
+        "content": "I have no idea!"
+      },
+      {
+        "role": "user",
+        "content": "May be he is very different man from us. He holds the most Guinness World records right? So maybe he is a very talented man!"
+      },
+      {
+        "role": "user",
+        "content": "I give up!"
+      },
+      {
+        "role": "user",
+        "content": "Your responsibility is to teach me. Not to ask a different questions that i am not familiar with!"
+      }
+    ],
+    "/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Vocabulary/Describing people’s personality.json": [
+      {
+        "role": "user",
+        "content": "Hello?"
+      },
+      {
+        "role": "assistant",
+        "content": "In this lesson, we will learn about some words used to describe a person's personality.Hello! I'm here to help you with your vocabulary lesson about describing people's personality. Are you ready to learn some new words?"
+      },
+      {
+        "role": "user",
+        "content": "Yes, please!"
+      },
+      {
+        "role": "assistant",
+        "content": "Great! Here are some words you may find useful when describing someone's personality:Great! Let's start learning vocabulary for describing personality traits. Can you tell me what kind of personality words you already know?"
+      },
+      {
+        "role": "user",
+        "content": "Maybe like having he is a bit moody?"
+      },
+      {
+        "role": "assistant",
+        "content": "Yes, that's correct! \"Moody\" is a word used to describe someone who has frequent and unpredictable changes in their mood or temperament. Can you think of another word from the lesson text that describes someone who is cheerful and lively? 🙂 🙂 🙂 🙂 🙂 🙂 🙂 🙂 🙂 🙂 🙂 🙂 🙂 🙂 🙂 🙂 🙂 🙂 🙂 🙂 The lesson text doesn't say yet. Let's look at the vocabulary words provided in the lesson instead. Can you see any personality words in the lesson text?"
+      }
+    ],
+    "/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Grammar/Past Continuous.json": [
+      {
+        "role": "user",
+        "content": "hello?"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! Today's lesson is about the Past Continuous tense, also known as the Progressive form. It is used to show action that was in progress at a specific time in the past."
+      },
+      {
+        "role": "user",
+        "content": "Ok sound exciting. Can you please tell me more about it?"
+      },
+      {
+        "role": "assistant",
+        "content": "Certainly! The Past Continuous tense is formed using the auxiliary verb \"was\" or \"were\" (for he, she, it, they) and the present participle of the main verb (verb-ing). For example:"
+      },
+      {
+        "role": "user",
+        "content": "Ok for example?"
+      },
+      {
+        "role": "user",
+        "content": "Hello? are you still there?"
+      },
+      {
+        "role": "assistant",
+        "content": "[Error: Qwen3 Coder failed: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1755216000000'}, 'provider_name': None}}, 'user_id': 'user_2thZyBiawaDXal5ukcuNR5XlQPQ'}]"
+      }
+    ],
+    "/home/robinglory/Desktop/Thesis/english_lessons/B1 Level (Intermediate)/Grammar/Another, other, others, the other, the others.json": [
+      {
+        "role": "user",
+        "content": "Hello,"
+      },
+      {
+        "role": "assistant",
+        "content": "In this lesson, we will learn about the use of \"another,\" \"other,\" \"others,\" \"the other,\" and \"the others\" in English. These words are used to talk about one or more people, things, or groups that are additional or different from those already mentioned or understood."
+      },
+      {
+        "role": "user",
+        "content": "Oh i see, thanks. Lets go!"
+      },
+      {
+        "role": "assistant",
+        "content": "Great! Let's start with the word \"another.\" It is used to refer to one more person, thing, or group that is additional to those already mentioned. For example: \"I have a red pen, and another one is blue.\""
       }
     ]
   }
