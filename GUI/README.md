@@ -1,6 +1,7 @@
 # AI Driven Robotic Head for Language Learning Assistance - Technical Documentation
 
 ## Table of Contents
+
 1. [Overview](#overview)
 2. [The UI Design](#guidesign)
 3. [System Architecture](#system-architecture)
@@ -18,13 +19,17 @@
 
 ## Overview
 
-The **AI Driven Robotic Head for Language Learning Assistance** or **Lingo Language Tutor** is a modular Python application designed to deliver interactive English language instruction via a Tkinter-based graphical user interface. The system combines rule-based teaching, AI-powered explanations, student progress tracking, and digital textbook integration to create a personalized learning experience.
+The **AI Driven Robotic Head for Language Learning Assistance** or **Lingo Language Tutor** is a modular Python application designed to deliver interactive English language instruction via a Tkinter-based graphical user interface. The system combines AI-powered explanations, student progress tracking, and digital textbook integration to create a personalized learning experience for pre-intermediate and intermediate learners.
 
-**Key Features:**
-- Multi-modal interaction (chat, lesson modules, digital textbook)
+**Key Features (Updated):**
+
+- Multi-modal interaction (general chat, lesson modules, digital textbook)
+- Lesson answers **grounded in lesson content** for accuracy
+- **Fast AI responses** using hedged API requests (parallel model racing)
 - Student progress tracking with **TinyDB**
 - Adaptive lesson sequencing based on mastery
-- Dual-API fallback system for reliable AI responses
+- Dual-API fallback system for reliability
+- Real-time **“Thinking…”** status in chat during AI generation
 - Export lessons to academic-style PDFs with cover pages
 
 ---
@@ -32,32 +37,23 @@ The **AI Driven Robotic Head for Language Learning Assistance** or **Lingo Langu
 ## GUIDesign
 
 ### Interface Overview
+
 The application features a **responsive Tkinter interface** with enhanced styles for readability and academic presentation.
 
 ### Main Components:
-1. **Main Chat Interface**  
-   *Entry point for AI assistant chat*  
-   ![Main Page](GUI_IMG/main_page.png)
 
-2. **Login Screen**  
-   *Student authentication and profile loading*  
-   ![Login](GUI_IMG/log_in.png)
+1. **Main Chat Interface** – General English conversation with Lingo (fast streaming AI)\
 
-3. **Student Dashboard**  
-   *Lesson selection, progress tracking, and textbook access*  
-   ![Dashboard](GUI_IMG/student_dashboard.png)
+2. **Login Screen** – Student authentication and profile loading\
 
-4. **Grammar Section**  
-   *Grammar Section where the user can learns the Grammar*  
-   ![Grammar](GUI_IMG/grammar_lesson.png)
+3. **Student Dashboard** – Lesson selection, progress tracking, and textbook access\
 
-5. **Reading Section**  
-   *Lingo will help you learns lots of Intermediate and Pre-intermediate level readings.*  
-   ![Reading](GUI_IMG/reading_lesson.png)
+4. **Grammar Section** – Context-aware grammar teaching\
 
-6. **Vocabulary Sections**  
-   *Our Lingo will teach ther user lots of essential vocabs.*  
-   ![Vocabulary](GUI_IMG/vocab_lesson.png)
+5. **Reading Section** – Guided reading comprehension with AI questions\
+
+6. **Vocabulary Section** – Contextual vocabulary explanations from lesson text\
+
 
 ---
 
@@ -66,16 +62,20 @@ The application features a **responsive Tkinter interface** with enhanced styles
 The app follows an **MVC-like** pattern:
 
 1. **Presentation Layer (GUI)**
-   - Tkinter-based screens: login, dashboard, lessons, textbook viewer  
+
+   - Tkinter-based screens: login, dashboard, lessons, textbook viewer
    - Custom styles for academic look & feel
 
 2. **Business Logic Layer**
+
    - `student_manager.py` – Handles TinyDB student profiles & progress
    - `lesson_manager.py` – Loads lessons & tracks completion
-   - `textbook_manager.py` – Manages PDF/textbook content display
-   - `api_manager.py` – AI API communications
+   - `api_manager.py` / `LLMHandler` – Handles AI API communications with **hedged streaming**
+   - `main.py` – Main app and general chat handling
+   - `lesson.py` – Lesson delivery logic with strict lesson grounding
 
 3. **Data Layer**
+
    - **TinyDB** for student profiles & lesson progression
    - JSON lesson definitions
    - PDF/Textbook files
@@ -89,20 +89,27 @@ The app follows an **MVC-like** pattern:
 - **Python**: 3.9+
 - **GUI Framework**: Tkinter with ttk styling
 - **Database**: TinyDB (lightweight, file-based)
-- **APIs**: OpenRouter (Qwen primary, Mistral fallback)
+- **APIs**: OpenRouter (Qwen primary, Mistral fallback, GPT-OSS tertiary)
 - **PDF Export**: ReportLab with academic formatting
 - **Data Persistence**: JSON + TinyDB
+- **Latency Optimization**:
+  - Hedged API calls (parallel requests to 2 providers)
+  - Early token win detection to stop slower provider
+  - Limited context history to reduce token processing
+  - `max_tokens` and `stop` sequences to keep responses concise
 
 ---
 
 ## Installation Guide
 
 ### Prerequisites
+
 - Raspberry Pi OS (Bullseye) or compatible Linux distro
 - Python 3.9+ with `pip`
 - Virtual environment recommended
 
 ### Setup
+
 ```bash
 # Clone the repo
 git clone https://github.com/robinglory/AI-Driven-Robotic-Head-for-Language-Learning-Assistance.git
@@ -125,9 +132,11 @@ nano .env  # add your API keys
 ## Configuration
 
 Add to `.env`:
+
 ```ini
 QWEN_API_KEY=your_openrouter_api_key
-MINSTRAL_API_KEY=your_backup_api_key
+MISTRAL_API_KEY=your_backup_api_key
+GPT_OSS_API_KEY=your_third_backup_api_key
 ```
 
 ---
@@ -139,20 +148,26 @@ python main.py
 ```
 
 **Workflow:**
-1. **Login** → Load/create student profile from TinyDB  
-2. **Dashboard** → Choose lesson or textbook chapter  
-3. **Lesson Delivery** → Content adapts to prior progress  
-4. **Progress Tracking** → Stores completion & mastery in TinyDB  
+
+1. **Login** → Load/create student profile from TinyDB
+2. **Dashboard** → Choose lesson or textbook chapter
+3. **Lesson Delivery** → AI gives context-aware responses based only on lesson content
+4. **Progress Tracking** → Stores completion & mastery in TinyDB
 5. **PDF Export** → Generate academic-style lesson PDFs with title page
 
 ---
 
 ## API Integration
 
-**Primary API** – Qwen (OpenRouter)  
-**Secondary API** – Mistral 7B fallback
+**Primary API** – Qwen (OpenRouter)\
+**Secondary API** – Mistral 7B fallback\
+**Tertiary API** – GPT-OSS-20B
 
-Both are wrapped in `api_manager.py` with provider switching, retries, and graceful fallbacks.
+**Hedged Streaming**:
+
+- Sends requests to two providers simultaneously.
+- First provider to send a token **wins** and continues streaming.
+- The slower provider is cancelled immediately, eliminating duplicate answers and improving latency.
 
 ---
 
@@ -164,11 +179,9 @@ GUI/
 ├── login.py
 ├── dashboard.py
 ├── lesson.py
-├── textbook_viewer.py
 ├── api_manager.py
 ├── student_manager.py
 ├── lesson_manager.py
-├── textbook_manager.py
 ├── styles.py
 ├── requirements.txt
 └── .env.example
@@ -179,6 +192,7 @@ GUI/
 ## Dependencies
 
 **requirements.txt**
+
 ```text
 python-dotenv==1.0.0
 openai==1.12.0
@@ -189,26 +203,31 @@ reportlab==4.0.8
 ```
 
 **Purpose:**
-| Package | Purpose |
-|---------|---------|
-| python-dotenv | Environment management |
-| openai | LLM API |
-| Pillow | Image handling |
-| requests | HTTP requests |
-| tinydb | Student progress database |
-| reportlab | PDF export |
+
+| Package       | Purpose                   |
+| ------------- | ------------------------- |
+| python-dotenv | Environment management    |
+| openai        | LLM API                   |
+| Pillow        | Image handling            |
+| requests      | HTTP requests             |
+| tinydb        | Student progress database |
+| reportlab     | PDF export                |
 
 ---
 
 ## Known Issues
-- UI may freeze on slow API calls (threading planned)
+
+- Free API tiers still have variable latency depending on server load
 - TinyDB file can grow if not periodically cleaned
 - PDF export speed depends on lesson length
 
 ---
 
 ## Future Enhancements
-- Voice-based interaction
+
+- Voice-based interaction with lip-sync animation
+- Face detection & recognition
 - Animated lesson transitions
 - Rich media in lessons
 - Progress analytics dashboard
+
