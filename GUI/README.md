@@ -40,19 +40,20 @@ The **AI Driven Robotic Head for Language Learning Assistance** or **Lingo Langu
 
 The application features a **responsive Tkinter interface** with enhanced styles for readability and academic presentation.
 
+
 ### Main Components:
-
-1. **Main Chat Interface** – General English conversation with Lingo (fast streaming AI)\
-
-2. **Login Screen** – Student authentication and profile loading\
-
-3. **Student Dashboard** – Lesson selection, progress tracking, and textbook access\
-
-4. **Grammar Section** – Context-aware grammar teaching\
-
-5. **Reading Section** – Guided reading comprehension with AI questions\
-
-6. **Vocabulary Section** – Contextual vocabulary explanations from lesson text\
+1. **Main Chat Interface** – General English conversation with Lingo (fast streaming AI)  
+   ![Main Page](GUI_IMG/main_page.png)
+2. **Login Screen** – Student authentication and profile loading  
+   ![Login](GUI_IMG/log_in.png)
+3. **Student Dashboard** – Lesson selection, progress tracking, and textbook access  
+   ![Dashboard](GUI_IMG/student_dashboard.png)
+4. **Grammar Section** – Context-aware grammar teaching  
+   ![Grammar](GUI_IMG/grammar_lesson.png)
+5. **Reading Section** – Guided reading comprehension with AI questions  
+   ![Reading](GUI_IMG/reading_lesson.png)
+6. **Vocabulary Section** – Contextual vocabulary explanations from lesson text  
+   ![Vocabulary](GUI_IMG/vocab_lesson.png)
 
 
 ---
