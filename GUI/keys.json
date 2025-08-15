@@ -1,0 +1,28 @@
+{
+  "profiles": [
+    {
+      "label": "API-1",
+      "QWEN_API_KEY": "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",
+      "MISTRAL_API_KEY": "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",
+      "GPT_OSS_API_KEY": "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"
+    },
+    {
+      "label": "API-2",
+      "QWEN_API_KEY": "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",
+      "MISTRAL_API_KEY": "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",
+      "GPT_OSS_API_KEY": "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"
+    },
+    {
+      "label": "API-3",
+      "QWEN_API_KEY": "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",
+      "MISTRAL_API_KEY": "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",
+      "GPT_OSS_API_KEY": "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"
+    },
+    {
+      "label": "API-4",
+      "QWEN_API_KEY": "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",
+      "MISTRAL_API_KEY": "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",
+      "GPT_OSS_API_KEY": "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"
+    }
+  ]
+}

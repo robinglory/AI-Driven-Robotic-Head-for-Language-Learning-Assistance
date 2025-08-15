@@ -614,6 +614,54 @@
       {
         "role": "assistant",
         "content": "Yes, this animal vocabulary lesson is completely finished! 🎉 \n\nCongratulations on successfully completing all the vocabulary words and activities! You did fantastic work!\n\n**Lesson Status: FINISHED** ✅\n\nGreat job, and I'm proud of your progress! Whenever you're ready for your next English lesson, just let me know! 😊"
+      },
+      {
+        "role": "user",
+        "content": "Hello, How are you doing today?"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello there! I'm just a computer program, so I don't have feelings, but I'm here to help you with your English lessons! 😊"
+      },
+      {
+        "role": "user",
+        "content": "Really, Thanks! Now, what is our lesson today?"
+      },
+      {
+        "role": "assistant",
+        "content": "Today, we have an exciting lesson prepared for you: learning about Adjectives! 🎉"
+      },
+      {
+        "role": "user",
+        "content": "Really that is so exciting! Let's start shall we."
+      },
+      {
+        "role": "assistant",
+        "content": "Absolutely! Adjectives are words that describe or modify nouns, giving more information about them. For example, in the sentence \"The big blue house,\" \"big\" and \"blue\" are adjectives. 🏠"
+      },
+      {
+        "role": "user",
+        "content": "Oh i see, so this is a very beautiful helpful dog. Beautiful and helpful are adjectives in this sentence."
+      },
+      {
+        "role": "assistant",
+        "content": "Exactly! \"Beautiful\" and \"helpful\" are adjectives in the sentence \"This is a very beautiful helpful dog.\" 😊 Now, can you identify the noun in the same sentence? 🐶 👍"
+      },
+      {
+        "role": "user",
+        "content": "well, the noun in this sentence is dog."
+      },
+      {
+        "role": "assistant",
+        "content": "Perfect! \"Dog\" is indeed the noun in that sentence. Now, can you give me another sentence using adjectives to describe a noun? 🐶"
+      },
+      {
+        "role": "user",
+        "content": "The singer has a nice and attractive voice."
+      },
+      {
+        "role": "assistant",
+        "content": "Wonderful! In this sentence, \"nice\" and \"attractive\" are the adjectives describing the noun \"voice.\" 🎶 Now, can you find another sentence in the lesson text that uses adjectives? 🐨 👍"
       }
     ],
     "/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Grammar/Contrast, Reason, Result & Time Connectors.json": [

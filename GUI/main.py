@@ -1,6 +1,5 @@
 # main.py
 import os
-import sys
 import threading
 import queue
 from datetime import datetime
@@ -10,11 +9,14 @@ from tkinter import ttk, scrolledtext
 from dotenv import load_dotenv
 from openai import OpenAI
 
-# UI modules (paths adjusted for your current structure)
+# UI modules
 from styles import configure_styles
 from login import LoginScreen
 from student_manager import StudentManager
 from lesson_manager import LessonManager
+
+# Multi-account manager (keys.json + settings.json)
+from key_manager import KeyManager
 
 load_dotenv()
 
@@ -22,69 +24,90 @@ SOFT_TIMEOUT_SECONDS = 6.0
 DEFAULT_MAX_TOKENS = 96
 DEFAULT_STOP = ["\n\n", "Question:", "Q:"]
 
+
 class LLMHandler:
     """
-    General chat LLM with streaming + hedged requests (winner-only).
+    General chat LLM with:
+      - streaming + hedged requests (winner-only),
+      - multi-account profiles via KeyManager,
+      - NO automatic profile rotation. On quota/auth/rate errors, emits a clear
+        message instructing the user to switch profile from the GUI.
     """
-    def __init__(self):
+    def __init__(self, key_manager: KeyManager):
+        self.key_manager = key_manager
+        self._reload_providers_from_profile()
+        self.current_provider = 0
+        self.client = self._create_client()
+
+    # ----- Profile & provider plumbing -----
+    def _reload_providers_from_profile(self):
+        keys = self.key_manager.get_keys()
         self.api_providers = [
             {
                 "name": "Qwen3 Coder",
-                "api_key": os.getenv("QWEN_API_KEY"),
+                "api_key": keys["QWEN_API_KEY"],
                 "model": "qwen/qwen3-coder:free",
-                "headers": {
-                    "HTTP-Referer": "http://localhost:3000",
-                    "X-Title": "Lingo AI Assistant"
-                }
+                "headers": {"HTTP-Referer": "http://localhost:3000", "X-Title": "Lingo AI Assistant"},
             },
             {
                 "name": "Mistral 7B",
-                "api_key": os.getenv("MISTRAL_API_KEY"),
+                "api_key": keys["MISTRAL_API_KEY"],
                 "model": "mistralai/mistral-7b-instruct:free",
-                "headers": {
-                    "HTTP-Referer": "http://localhost:3000",
-                    "X-Title": "Lingo AI Assistant"
-                }
+                "headers": {"HTTP-Referer": "http://localhost:3000", "X-Title": "Lingo AI Assistant"},
             },
             {
                 "name": "GPT-OSS-20B",
-                "api_key": os.getenv("GPT_OSS_API_KEY"),
+                "api_key": keys["GPT_OSS_API_KEY"],
                 "model": "openai/gpt-oss-20b:free",
-                "headers": {
-                    "HTTP-Referer": "http://localhost:3000",
-                    "X-Title": "Lingo AI Assistant"
-                }
+                "headers": {"HTTP-Referer": "http://localhost:3000", "X-Title": "Lingo AI Assistant"},
             }
         ]
-        self.current_provider = 0  # Start with first
-        self.client = self._create_client()
 
     def _create_client(self, provider_idx=None):
         idx = self.current_provider if provider_idx is None else provider_idx
         p = self.api_providers[idx]
-        client = OpenAI(
-            base_url="https://openrouter.ai/api/v1",
-            api_key=p["api_key"],
-            timeout=20.0
-        )
+        client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=p["api_key"], timeout=20.0)
         client._client.headers.update(p["headers"])
         return client
 
     def _switch_provider(self):
+        # switch between models inside the same profile (for hedging fallback)
         self.current_provider = (self.current_provider + 1) % len(self.api_providers)
-        print(f"Switching to {self.api_providers[self.current_provider]['name']}...")
+        print(f"Switching model to {self.api_providers[self.current_provider]['name']}...")
         self.client = self._create_client()
+
+    # Manual profile switching from GUI
+    def switch_profile(self, index: int):
+        self.key_manager.switch_to(index)
+        self._reload_providers_from_profile()
+        self.current_provider = 0
+        self.client = self._create_client()
+
+    def next_profile(self):
+        idx = self.key_manager.next_profile()
+        self._reload_providers_from_profile()
+        self.current_provider = 0
+        self.client = self._create_client()
+        return idx
+
+    def _is_quota_or_auth_error(self, exc_msg: str) -> bool:
+        m = exc_msg.lower()
+        if any(w in m for w in ["429", "too many requests", "rate"]): return True
+        if any(w in m for w in ["401", "403", "unauthorized", "forbidden", "invalid api key"]): return True
+        if "insufficient_quota" in m: return True
+        return False
+
+    def _quota_message(self) -> str:
+        label = self.key_manager.get_active_label()
+        return (f"[API Notice] The current OpenRouter account “{label}” appears to be rate-limited or out of quota. "
+                f"Please click the API button at the top to switch profiles, then try again.")
 
     # ---------- Blocking (legacy fallback) ----------
     def get_ai_response(self, message=None, conversation_history=None, lesson_context=None, messages=None):
-        """
-        Kept for compatibility (non-streaming). Prefer stream_ai_response for UI.
-        """
         if messages is None:
             if message is None:
                 raise ValueError("Either message or messages must be provided")
 
-            # Build system prompt
             if lesson_context:
                 system_msg = (
                     f"You are Lingo teaching {lesson_context['student_name']} (Level: {lesson_context['student_level']}). "
@@ -93,7 +116,7 @@ class LLMHandler:
                     "Guidelines:\n"
                     "1. Reference the lesson content\n"
                     "2. Personalize explanations\n"
-                    "3. Keep responses focused\n"
+                    "3. Keep responses focused and don't use any emoji and avoid '*' character.\n"
                     "4. Keep responses short (<=2 sentences, <=60 words) and end with one short question.\n"
                 )
             else:
@@ -106,23 +129,23 @@ class LLMHandler:
 
             messages = [{"role": "system", "content": system_msg}]
             if conversation_history:
-                messages.extend(conversation_history[-4:])  # last 4 messages only
+                messages.extend(conversation_history[-4:])
             messages.append({"role": "user", "content": message})
 
         p = self.api_providers[self.current_provider]
         try:
             resp = self.client.chat.completions.create(
-                model=p["model"],
-                messages=messages,
-                max_tokens=DEFAULT_MAX_TOKENS,
-                temperature=0.7,
-                stop=DEFAULT_STOP
+                model=p["model"], messages=messages,
+                max_tokens=DEFAULT_MAX_TOKENS, temperature=0.7, stop=DEFAULT_STOP
             )
             return resp.choices[0].message.content.strip()
         except Exception as e:
-            print(f"Error with {p['name']}: {e}")
+            emsg = str(e)
+            if self._is_quota_or_auth_error(emsg):
+                return self._quota_message()
+            print(f"Error with {p['name']}: {emsg}")
             self._switch_provider()
-            return "I'm having trouble connecting. Please try again."
+            return "I'm having trouble connecting right now. Please try again."
 
     # ---------- Streaming + Hedge (winner-only) ----------
     def stream_ai_response(self, message=None, conversation_history=None, lesson_context=None, messages=None):
@@ -130,10 +153,10 @@ class LLMHandler:
         Yields text chunks as they arrive.
         Races two providers; ONLY the first provider that emits a token continues streaming.
         The loser is signaled to stop immediately.
+        On quota/auth/rate errors, yields a clear instruction to switch profile (no auto-switch).
         """
         import time
         import threading
-        import queue
 
         # Build messages if not supplied
         if messages is None:
@@ -148,7 +171,7 @@ class LLMHandler:
                     "Guidelines:\n"
                     "1. Reference the lesson content\n"
                     "2. Personalize explanations\n"
-                    "3. Keep responses focused\n"
+                    "3. Keep responses focused and don't use any emoji and avoid '*' character.\n"
                     "4. Keep responses short (<=2 sentences, <=60 words) and end with one short question.\n"
                 )
             else:
@@ -169,15 +192,15 @@ class LLMHandler:
 
         out_q: queue.Queue = queue.Queue()
         winner_lock = threading.Lock()
-        winner_idx = {"value": None}  # becomes idx_a or idx_b when first token appears
+        winner_idx = {"value": None}
         stop_flags = {idx_a: threading.Event(), idx_b: threading.Event()}
-        sentinels_needed = 2  # expect two worker terminations
+        sentinels_needed = 2
 
         def stream_from_provider(provider_idx: int):
             p = self.api_providers[provider_idx]
-            client = self._create_client(provider_idx)
-            try:
-                stream = client.chat.completions.create(
+            def _open_stream():
+                client = self._create_client(provider_idx)
+                return client.chat.completions.create(
                     model=p["model"],
                     messages=messages,
                     max_tokens=DEFAULT_MAX_TOKENS,
@@ -185,40 +208,34 @@ class LLMHandler:
                     stop=DEFAULT_STOP,
                     stream=True
                 )
+            try:
+                stream = _open_stream()
                 for event in stream:
-                    # If told to stop (lost the race), exit immediately
                     if stop_flags[provider_idx].is_set():
                         break
-
                     delta = getattr(event.choices[0].delta, "content", None)
                     if not delta:
                         continue
-
-                    # Decide winner on the very first emitted token
                     with winner_lock:
                         if winner_idx["value"] is None:
                             winner_idx["value"] = provider_idx
                             other_idx = idx_a if provider_idx == idx_b else idx_b
-                            stop_flags[other_idx].set()  # stop the loser
+                            stop_flags[other_idx].set()
                         elif winner_idx["value"] != provider_idx:
-                            # We lost the race → exit immediately
                             break
-
-                    # We are the winner → forward token
                     out_q.put(delta)
-
             except Exception as e:
-                # Surface the error only if no winner yet (helps with diagnosing total failures)
+                emsg = str(e)
                 with winner_lock:
                     if winner_idx["value"] is None:
-                        out_q.put(f"\n[Error: {p['name']} failed: {e}]")
-                        # Let the other worker continue trying
+                        if self._is_quota_or_auth_error(emsg):
+                            out_q.put("\n" + self._quota_message())
+                        else:
+                            out_q.put(f"\n[Error: {p['name']} failed: {emsg}]")
             finally:
-                # Signal this worker is done
                 out_q.put((provider_idx, None))
 
         def soft_timeout_referee():
-            """If no one has produced tokens in ~6s, pick idx_a by default."""
             start = time.time()
             while (time.time() - start) < SOFT_TIMEOUT_SECONDS:
                 with winner_lock:
@@ -254,7 +271,10 @@ class MainAIChat:
 
         configure_styles()
 
-        self.llm = LLMHandler()
+        # NEW: key manager + LLM wired together
+        self.key_manager = KeyManager()
+        self.llm = LLMHandler(self.key_manager)
+
         self.lesson_manager = LessonManager(llm_handler=self.llm)
         self.student_manager = StudentManager(lesson_manager=self.lesson_manager)
 
@@ -295,6 +315,15 @@ class MainAIChat:
 
         ttk.Label(header_frame, text="Lingo - AI English Teacher", style="Header.TLabel").pack(side=tk.LEFT, padx=10)
 
+        # Small profile switcher button (cycles profiles)
+        self.profile_btn = ttk.Button(
+            header_frame,
+            text=f"API: {self.key_manager.get_active_label()}",
+            command=self._cycle_profile,
+            style="TButton"
+        )
+        self.profile_btn.pack(side=tk.RIGHT, padx=10)
+
         login_btn = ttk.Button(header_frame, text="Login to Personal Tutor Mode", command=self.open_login, style="Accent.TButton")
         login_btn.pack(side=tk.RIGHT, padx=10)
 
@@ -329,6 +358,12 @@ class MainAIChat:
 
         self.display_message("Lingo", "Hello! I'm Lingo, your AI English Teacher. How can I help you today?")
 
+    def _cycle_profile(self):
+        idx = self.llm.next_profile()
+        label = self.key_manager.get_active_label()
+        self.profile_btn.config(text=f"API: {label}")
+        self.display_message("Lingo", f"Switched API profile to: {label}")
+
     def display_message(self, sender, message):
         self.chat_display.configure(state='normal')
         self.chat_display.tag_config("ai", foreground="#6c5ce7", font=("Segoe UI", 12, "bold"))
@@ -340,68 +375,57 @@ class MainAIChat:
         self.chat_display.configure(state='disabled')
 
     def _append_stream_text(self, text: str):
-        """Tkinter-safe: called from the UI thread via .after() loop."""
         self.chat_display.configure(state='normal')
         self.chat_display.insert(tk.END, text, "message")
         self.chat_display.see(tk.END)
         self.chat_display.configure(state='disabled')
 
     def _drain_stream_queue(self):
-        """UI loop that drains the queue and updates the text box."""
         try:
             while True:
                 chunk = self._stream_queue.get_nowait()
                 if chunk is None:
                     self._streaming = False
-                    # finalize with a newline for spacing
                     self._append_stream_text("\n\n")
                     self.root.config(cursor="")
                     return
                 self._append_stream_text(chunk)
         except queue.Empty:
             pass
-        # continue draining while streaming
         if self._streaming:
             self.root.after(15, self._drain_stream_queue)
 
     def send_message(self, event=None):
         if self._streaming:
-            return  # prevent overlapping sends
+            return
 
         message = self.user_input.get().strip()
         if not message:
             return
 
-        # Show user message immediately
         self.display_message("You", message)
         self.user_input.delete(0, tk.END)
 
-        # Add to conversation history
         self.conversation_history.append({"role": "user", "content": message})
 
-        # Local “fast mode” shortcuts (no LLM)
         simple = self.get_simple_response(message.lower())
         if simple:
             self.display_message("Lingo", simple)
             self.conversation_history.append({"role": "assistant", "content": simple})
             return
 
-        # Prepare lesson context if logged in
         lesson_context = None
-        if getattr(self.student_manager, "current_user", None):
-            if self.current_lesson:
-                lesson_context = {
-                    "student_name": self.student_manager.current_user["name"],
-                    "student_level": self.student_manager.current_user["level"],
-                    "lesson_title": self.current_lesson.get("title", ""),
-                    "lesson_objective": self.current_lesson.get("objective", "")
-                }
+        if getattr(self.student_manager, "current_user", None) and self.current_lesson:
+            lesson_context = {
+                "student_name": self.student_manager.current_user["name"],
+                "student_level": self.student_manager.current_user["level"],
+                "lesson_title": self.current_lesson.get("title", ""),
+                "lesson_objective": self.current_lesson.get("objective", "")
+            }
 
-        # Start streaming worker
         self._streaming = True
         self.root.config(cursor="watch")
 
-        # Prepend the "Lingo: " label and start streaming text right after it
         self.chat_display.configure(state='normal')
         self.chat_display.tag_config("ai", foreground="#6c5ce7", font=("Segoe UI", 12, "bold"))
         self.chat_display.tag_config("message", font=("Segoe UI", 12), lmargin1=20, lmargin2=20, spacing3=5)
@@ -417,14 +441,12 @@ class MainAIChat:
                     lesson_context=lesson_context
                 ):
                     self._stream_queue.put(chunk)
-                # Finish
                 self._stream_queue.put(None)
             except Exception as e:
                 self._stream_queue.put(f"\n[Error: {e}]")
                 self._stream_queue.put(None)
 
-        self._stream_worker = threading.Thread(target=worker, daemon=True)
-        self._stream_worker.start()
+        threading.Thread(target=worker, daemon=True).start()
         self.root.after(15, self._drain_stream_queue)
 
     def get_simple_response(self, message):
