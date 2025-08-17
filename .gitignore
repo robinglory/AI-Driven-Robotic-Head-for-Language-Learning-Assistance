@@ -3,3 +3,7 @@ __pycache__/
 *.pyc
 *.log
 Lingo_V0.00.py
+GUI/keys.json
+STT/whisper.cpp
+TTS/piper 
+
