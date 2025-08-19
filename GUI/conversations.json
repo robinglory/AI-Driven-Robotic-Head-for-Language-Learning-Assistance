@@ -1111,6 +1111,32 @@
         "role": "assistant",
         "content": "Great! Let's start with the word \"another.\" It is used to refer to one more person, thing, or group that is additional to those already mentioned. For example: \"I have a red pen, and another one is blue.\""
       }
+    ],
+    "/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Grammar/Past simple.json": [
+      {
+        "role": "user",
+        "content": "Hello"
+      },
+      {
+        "role": "assistant",
+        "content": "In this lesson, you will learn about the Past Simple tense in English. This tense is used to talk about actions that happened at a specific time in the past. For example, \"I walked to school yesterday.\" The pattern for regular verbs is: Subject + Verb (Base Form) + ed (past tense ending). For irregular verbs, each has a unique past tense form that you will learn."
+      },
+      {
+        "role": "user",
+        "content": "thanks! Can you please tell me more about this?"
+      },
+      {
+        "role": "assistant",
+        "content": "Sure! Regular verbs form the past simple by adding -ed to the base form. For example, \"run\" becomes \"ran\". However, there are many irregular verbs that do not follow this rule. For example, \"go\" becomes \"went\", \"see\" becomes \"saw\", and \"do\" becomes \"did\". To learn more about irregular verbs, you can study the provided list or find additional resources online. Do you have any"
+      },
+      {
+        "role": "user",
+        "content": "thanks"
+      },
+      {
+        "role": "assistant",
+        "content": "You're welcome! If you have any more questions, feel free to ask. Do you have a specific question about the Past Simple tense that you would like to know more about?"
+      }
     ]
   }
 }

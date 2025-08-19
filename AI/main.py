@@ -241,8 +241,8 @@ class VoiceTester(tk.Tk):
         """Quick 3s capture and playback to check input level & routing."""
         test_wav = "/tmp/test_mic.wav"
         try:
-            self._say("Test", "Recording 3s…")
-            subprocess.run(["arecord","-D",f"plughw:{MIC_INDEX},0","-f","S16_LE","-r","16000","-c","1","-d","3",test_wav], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            self._say("Test", "Recording 5s…")
+            subprocess.run(["arecord","-D",f"plughw:{MIC_INDEX},0","-f","S16_LE","-r","16000","-c","1","-d","5",test_wav], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         except subprocess.CalledProcessError:
             self._say("Test", "plughw failed; retry with default…")
             subprocess.run(["arecord","-D","default","-f","S16_LE","-r","16000","-c","1","-d","3",test_wav], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
