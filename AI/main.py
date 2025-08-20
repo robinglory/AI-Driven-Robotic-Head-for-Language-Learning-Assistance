@@ -144,7 +144,7 @@ DEFAULTS = {
     # VAD
     "frame_ms": 30,
     "vad_aggr": 1,
-    "silence_ms": 1000,
+    "silence_ms": 3000,
     "max_record_s": 12,
     "energy_margin": 2.0,
     "energy_min": 2200,
