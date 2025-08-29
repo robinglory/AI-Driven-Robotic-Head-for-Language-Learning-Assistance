@@ -8,6 +8,7 @@ What changed vs your previous AI/main:
 - Loads model ONCE and reuses it (very fast transcribes)
 - Keeps your OpenRouter LLM + Piper TTS flow
 - Adds an STT Settings tab to tweak VAD + model params
+- Added API key rotation functionality
 
 Model folders (as you created):
   /home/robinglory/Desktop/Thesis/STT/faster-whisper/fw-base.en
@@ -143,8 +144,8 @@ class VADRecorder:
 DEFAULTS = {
     # VAD
     "frame_ms": 30,
-    "vad_aggr": 1,
-    "silence_ms": 3000,
+    "vad_aggr": 3,
+    "silence_ms": 2000,
     "max_record_s": 12,
     "energy_margin": 2.0,
     "energy_min": 2200,
@@ -186,6 +187,8 @@ class VoiceTester(tk.Tk):
         ttk.Button(header, text="🎤 Speak", command=self.on_speak).pack(side=tk.RIGHT)
         ttk.Button(header, text="🔈 Speak Reply", command=self.on_speak_reply).pack(side=tk.RIGHT, padx=6)
         ttk.Button(header, text="🔎 Devices", command=self.on_list_devices).pack(side=tk.RIGHT, padx=6)
+        # Add API key rotation button
+        ttk.Button(header, text="🔄 API Key", command=self.on_rotate_keys).pack(side=tk.RIGHT, padx=6)
         self.status_var = tk.StringVar(value="Ready"); ttk.Label(chat_tab, textvariable=self.status_var).pack(anchor="w", padx=8, pady=4)
         # STT Settings tab
         stt_tab = ttk.Frame(nb); nb.add(stt_tab, text="STT Settings")
@@ -226,6 +229,48 @@ class VoiceTester(tk.Tk):
         self._say("System", f"STT settings updated: {self.cfg}")
         # force model reload if compute_type or model toggled
         self._stt_model=None
+
+    # -------- API Key Rotation --------
+    def on_rotate_keys(self):
+        """Rotate to the next API key account"""
+        try:
+            # Get all profiles
+            keys_path = os.path.join(os.path.dirname(KEY_MANAGER_PY), "keys.json")
+            if not os.path.exists(keys_path):
+                messagebox.showerror("Error", "keys.json file not found")
+                return
+                
+            with open(keys_path, 'r') as f:
+                accounts_data = json.load(f)
+                
+            profiles = accounts_data.get("profiles", [])
+            if not profiles:
+                messagebox.showerror("Error", "No profiles found in keys.json")
+                return
+                
+            # Get current profile index
+            current_profile = self.key_manager.get_current_profile()
+            current_index = 0
+            
+            # Find current index
+            for i, profile in enumerate(profiles):
+                if profile.get("label") == current_profile:
+                    current_index = i
+                    break
+                    
+            # Calculate next index (cycle through 0-3)
+            next_index = (current_index + 1) % len(profiles)
+            
+            # Switch to next profile
+            next_profile = profiles[next_index]["label"]
+            self.key_manager.switch_profile(next_profile)
+            
+            # Update status
+            self._say("System", f"Switched to API account: {next_profile}")
+            self.set_status(f"Using API account: {next_profile}")
+            
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to rotate API keys: {str(e)}")
 
     # -------- helpers --------
     def _say(self, who, msg):

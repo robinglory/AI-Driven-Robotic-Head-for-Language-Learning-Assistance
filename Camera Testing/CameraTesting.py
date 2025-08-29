@@ -1,24 +1,18 @@
 from picamera2 import Picamera2, Preview
-import time
+import cv2
 
 picam2 = Picamera2()
-
-# Configure camera
-config = picam2.create_still_configuration()
+config = picam2.create_preview_configuration(main={"size": (1280, 720)})
 picam2.configure(config)
-
-# Take picture
 picam2.start()
-time.sleep(2)  # Camera warm-up time
-picam2.capture_file("image.jpg")
-print("Picture saved as image.jpg")
 
-# For video recording
-video_config = picam2.create_video_configuration()
-picam2.configure(video_config)
-picam2.start_recording("video.h264")
-time.sleep(5)  # Record for 5 seconds
-picam2.stop_recording()
-print("Video saved as video.h264")
+while True:
+    frame = picam2.capture_array()  # numpy array (RGB)
+    # Example: simple grayscale conversion for later face detection
+    gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+    cv2.imshow("PiCam3 Live", gray)  # or use 'frame' for color
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
 
-picam2.close()
+picam2.stop()
+cv2.destroyAllWindows()
