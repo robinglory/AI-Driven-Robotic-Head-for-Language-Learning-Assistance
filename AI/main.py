@@ -1,82 +1,195 @@
 #!/usr/bin/env python3
 """
-AI Voice Tester — LLM + Faster‑Whisper (VAD) + Piper TTS (streaming integrated)
-Folder: /home/robinglory/Desktop/Thesis/AI/main.py
+Minimal STT → LLM(stream) → TTS(stream) app for Raspberry Pi
 
-What this version does:
-- Keeps your Faster‑Whisper + WebRTC VAD recorder for STT
-- Uses your OpenRouter LLM wrapper as before
-- Integrates the streaming Piper GUI module so replies can be spoken as they arrive
-- Adds a new button: "🔊 Stream Reply" to stream the last AI reply word‑by‑word into Piper
-- Leaves your regular "Speak Reply" path untouched
+Key change:
+- We DO NOT use the Tk-based streaming_piper_gui anymore.
+- We spawn a persistent Piper process and pipe its audio into 'aplay'.
+- We write short text chunks to Piper's stdin (newline-terminated) as tokens arrive.
 
-One‑time deps:
-  pip install faster-whisper webrtcvad sounddevice requests
-
-Run:
-  source ~/myenv/bin/activate
-  export OMP_NUM_THREADS=4
-  python /home/robinglory/Desktop/Thesis/AI/main.py
+If auto-detection can't find a Piper voice, set:
+  export PIPER_MODEL="/path/to/your/en_US-voice.onnx"
+Optionally set sample rate if your voice isn't 22050:
+  export PIPER_SR=22050
 """
+
 from __future__ import annotations
-import os, time, json, wave, struct, math, collections, threading, queue, subprocess, importlib.machinery, importlib.util
+import os, sys, time, json, wave, struct, math, collections, threading, subprocess, shlex
+from queue import Queue, Empty
 import tkinter as tk
 from tkinter import ttk, scrolledtext, messagebox
-import requests
-from typing import Optional
-import requests, json
 
-# ------------------- Fixed external module paths -------------------
-# IMPORTANT: now pointing at the streaming Piper GUI module you added
-STT_TTS_DIR   = "/home/robinglory/Desktop/Thesis/TTS/streaming_piper_gui.py"
+# ---------- Optional key manager (your existing file) ----------
 KEY_MANAGER_PY = "/home/robinglory/Desktop/Thesis/GUI/key_manager.py"
-
-# ------------------- Load modules by path -------------------
 def _load_module_from_path(mod_name: str, file_path: str):
+    import importlib.machinery, importlib.util
     loader = importlib.machinery.SourceFileLoader(mod_name, file_path)
     spec = importlib.util.spec_from_loader(loader.name, loader)
     module = importlib.util.module_from_spec(spec)
     loader.exec_module(module)
     return module
+try:
+    _keymgr = _load_module_from_path("key_manager", KEY_MANAGER_PY)
+    KeyManager = _keymgr.KeyManager
+except Exception:
+    KeyManager = None
 
-_ttsmod = _load_module_from_path("streaming_piper_gui", STT_TTS_DIR)
-_keymgr = _load_module_from_path("key_manager", KEY_MANAGER_PY)
-KeyManager = _keymgr.KeyManager
-
-# ------------------- Third‑party STT libs -------------------
+# ---------- STT deps ----------
 try:
     import sounddevice as sd
     import webrtcvad
     from faster_whisper import WhisperModel
 except Exception as e:
-    raise SystemExit("Missing deps. Run: pip install faster-whisper webrtcvad sounddevice\n"+str(e))
+    raise SystemExit("Missing deps. Run:\n  pip install faster-whisper webrtcvad sounddevice requests\n" + str(e))
 
-# ------------------- Paths for Faster‑Whisper models -------------------
+import requests
+
+# ---------- OpenRouter streaming ----------
+def openrouter_stream(api_key: str, model: str, messages, temperature=0.7):
+    url = "https://openrouter.ai/api/v1/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "HTTP-Referer": "http://localhost/",
+        "X-Title": "AI Voice Tester",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "model": model,
+        "messages": messages,
+        "temperature": temperature,
+        "stream": True,
+    }
+    with requests.post(url, headers=headers, json=payload, stream=True, timeout=300) as r:
+        r.raise_for_status()
+        for line in r.iter_lines(decode_unicode=True):
+            if not line or not line.startswith("data:"):
+                continue
+            data = line[5:].strip()
+            if data == "[DONE]":
+                break
+            try:
+                j = json.loads(data)
+                delta = j["choices"][0]["delta"].get("content", "")
+                if delta:
+                    yield delta
+            except Exception:
+                continue
+
+# ---------- Piper streaming engine (CLI) ----------
+def _which(cmd):
+    for p in os.environ.get("PATH","").split(os.pathsep):
+        cand = os.path.join(p, cmd)
+        if os.path.isfile(cand) and os.access(cand, os.X_OK):
+            return cand
+    return None
+
+def _find_piper_model()->str|None:
+    # Priority: env var
+    env = os.environ.get("PIPER_MODEL")
+    if env and os.path.exists(env):
+        return env
+    # Common locations
+    candidates = [
+        os.path.expanduser("~/.local/share/piper/voices"),
+        "/usr/share/piper/voices",
+        "/usr/local/share/piper/voices",
+        "/home/robinglory/Desktop/Thesis/TTS",
+        "/home/robinglory/Desktop/Thesis/TTS/voices",
+        "/home/robinglory/Desktop/Thesis/TTS/models",
+    ]
+    for root in candidates:
+        if not os.path.isdir(root): continue
+        for dirpath, _, files in os.walk(root):
+            for f in files:
+                if f.endswith(".onnx"):
+                    return os.path.join(dirpath, f)
+    return None
+
+class PiperEngine:
+    """
+    Persistent: (text stdin) --> piper --model ... --output-raw --> (raw PCM) --> aplay
+    Write newline-terminated text to speak.
+    """
+    def __init__(self, model_path: str | None = None, sample_rate: int | None = None):
+        self.model = model_path or _find_piper_model()
+        if not self.model:
+            raise RuntimeError("No Piper voice model found. Set PIPER_MODEL='/path/to/voice.onnx'.")
+        self.sample_rate = int(os.environ.get("PIPER_SR", sample_rate or 22050))
+        self._piper = None
+        self._aplay = None
+        self._lock = threading.Lock()  # serialize writes to stdin
+
+    def start(self):
+        piper_bin = _which("piper")
+        aplay_bin = _which("aplay")
+        if not piper_bin:
+            raise RuntimeError("piper not found in PATH.")
+        if not aplay_bin:
+            raise RuntimeError("aplay not found in PATH (alsa-utils).")
+
+        # Start Piper (text in stdin, raw audio on stdout)
+        piper_cmd = [piper_bin, "--model", self.model, "--output-raw", "--sentence_silence", "0.25"]
+        self._piper = subprocess.Popen(
+            piper_cmd,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,  # keep console clean
+            bufsize=0
+        )
+        # Pipe Piper->aplay
+        aplay_cmd = [aplay_bin, "-r", str(self.sample_rate), "-f", "S16_LE", "-t", "raw", "-c", "1"]
+        self._aplay = subprocess.Popen(
+            aplay_cmd,
+            stdin=self._piper.stdout,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            bufsize=0
+        )
+        # Ensure parent doesn't keep extra reference
+        self._piper.stdout.close()
+
+    def say(self, text: str):
+        if not text or not text.strip():
+            return
+        if not self._piper or not self._piper.stdin:
+            raise RuntimeError("PiperEngine not started.")
+        chunk = (text.strip() + "\n").encode("utf-8")
+        with self._lock:
+            try:
+                self._piper.stdin.write(chunk)
+                self._piper.stdin.flush()
+            except BrokenPipeError:
+                # Try to restart once
+                self.close()
+                self.start()
+                self._piper.stdin.write(chunk)
+                self._piper.stdin.flush()
+
+    def close(self):
+        try:
+            if self._piper and self._piper.stdin:
+                self._piper.stdin.close()
+        except Exception:
+            pass
+        try:
+            if self._aplay: self._aplay.terminate()
+        except Exception:
+            pass
+        try:
+            if self._piper: self._piper.terminate()
+        except Exception:
+            pass
+        self._piper = None
+        self._aplay = None
+
+# ---------- Faster-Whisper STT ----------
 FW_BASE = "/home/robinglory/Desktop/Thesis/STT/faster-whisper/fw-base.en"
 FW_TINY = "/home/robinglory/Desktop/Thesis/STT/faster-whisper/fw-tiny.en"
 TEMP_WAV = "/tmp/fw_dialog.wav"
 
-# ------------------- LLM via OpenRouter -------------------
-class LLM:
-    def __init__(self, key_manager: KeyManager, model: str = "openai/gpt-4o-mini"):
-        self.key_manager = key_manager
-        self.model = model
-    def chat(self, messages: list[dict], max_tokens: int = 256, temperature: float = 0.7) -> str:
-        keys = self.key_manager.get_keys()
-        # choose whatever key exists in current profile
-        api_key = keys.get("QWEN_API_KEY") or keys.get("MISTRAL_API_KEY") or keys.get("GPT_OSS_API_KEY") or keys.get("OPENROUTER_API_KEY")
-        if not api_key:
-            raise RuntimeError("No API key found in current profile. Configure keys.json in GUI folder.")
-        url = "https://openrouter.ai/api/v1/chat/completions"
-        headers = {"Authorization": f"Bearer {api_key}", "HTTP-Referer": "http://localhost/", "X-Title": "AI Voice Tester", "Content-Type": "application/json"}
-        payload = {"model": self.model, "messages": messages, "max_tokens": max_tokens, "temperature": temperature}
-        r = requests.post(url, headers=headers, json=payload, timeout=60); r.raise_for_status()
-        return r.json()["choices"][0]["message"]["content"].strip()
-
-# ------------------- VAD Recorder -------------------
 class VADRecorder:
     """WebRTC VAD + optional energy gate. Writes a 16k mono WAV and returns its path."""
-    def __init__(self, sample_rate=16000, frame_ms=30, vad_aggr=1, silence_ms=300, max_record_s=8, device=None,
+    def __init__(self, sample_rate=16000, frame_ms=30, vad_aggr=3, silence_ms=2000, max_record_s=10, device=None,
                  energy_margin=2.0, energy_min=2200, energy_max=6000, energy_calib_ms=500):
         self.sample_rate=sample_rate; self.frame_ms=frame_ms; self.vad_aggr=vad_aggr
         self.silence_ms=silence_ms; self.max_record_s=max_record_s; self.device=device
@@ -86,10 +199,13 @@ class VADRecorder:
         if not b: return 0.0
         n=len(b)//2
         if n<=0: return 0.0
-        s=struct.unpack(f"<{n}h", b); acc=0
+        import struct as _st
+        s=_st.unpack(f"<{n}h", b); acc=0
         for x in s: acc+=x*x
         return math.sqrt(acc/float(n))
     def record(self, out_wav: str) -> str:
+        import struct as _st
+        import webrtcvad, sounddevice as sd
         vad = webrtcvad.Vad(self.vad_aggr)
         frame_samp = int(self.sample_rate*(self.frame_ms/1000.0))
         frame_bytes = frame_samp*2
@@ -133,132 +249,95 @@ class VADRecorder:
                 if voiced and trailing>=silence_frames_needed:
                     print("\n[VAD] silence reached — stop"); break
         os.makedirs(os.path.dirname(out_wav), exist_ok=True)
-        with wave.open(out_wav,'wb') as w:
+        import wave as _wv
+        with _wv.open(out_wav,'wb') as w:
             w.setnchannels(1); w.setsampwidth(2); w.setframerate(self.sample_rate)
             while ring: w.writeframes(ring.popleft())
         dur=total*self.frame_ms/1000.0
         print(f"[VAD] wrote {out_wav} (≈{dur:.2f}s)")
         return out_wav
 
-# ------------------- App GUI -------------------
+# ---------- App GUI ----------
 DEFAULTS = {
-    # VAD
     "frame_ms": 30,
     "vad_aggr": 3,
-    "silence_ms": 500,
-    "max_record_s": 9,
+    "silence_ms": 2000,
+    "max_record_s": 10,
     "energy_margin": 2.0,
     "energy_min": 2200,
     "energy_max": 6000,
-    # Model
-    "use_base": True,         # True=base.en, False=tiny.en
-    "compute_type": "int8",   # best for Pi
+    "use_base": True,
+    "compute_type": "int8",
 }
+
+class LLM:
+    def __init__(self, model: str = "openai/gpt-4o-mini"):
+        self.model = model
+        self.key_manager = KeyManager() if KeyManager else None
+    def _get_api_key(self) -> str:
+        if self.key_manager:
+            keys = self.key_manager.get_keys()
+            api_key = (keys.get("OPENROUTER_API_KEY")
+                       or keys.get("QWEN_API_KEY")
+                       or keys.get("MISTRAL_API_KEY")
+                       or keys.get("GPT_OSS_API_KEY"))
+            if api_key: return api_key
+        env = os.getenv("OPENROUTER_API_KEY")
+        if not env:
+            raise RuntimeError("No OpenRouter API key found (keys.json or env OPENROUTER_API_KEY).")
+        return env
+    def stream_chat(self, messages, temperature=0.7):
+        return openrouter_stream(self._get_api_key(), self.model, messages, temperature)
 
 class VoiceTester(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("AI Voice Tester — Faster‑Whisper VAD")
+        self.title("AI Voice Tester — Streaming STT→LLM→Piper (CLI)")
         self.geometry("980x720")
-        self.key_manager = KeyManager()
-        self.llm = LLM(self.key_manager)
         self.cfg = DEFAULTS.copy()
         self._last_ai_text = ""
-        # TTS player (streaming GUI kept headless in a hidden Toplevel)
-        self.tts_root = tk.Toplevel(self); self.tts_root.withdraw()
-        self.tts = _ttsmod.PiperTTSPlayer(self.tts_root)
-        # STT model (lazy load on first use)
-        self._stt_model: WhisperModel|None = None
-        self._build_ui()
 
-    # -------- UI --------
+        # STT model
+        self._stt_model: WhisperModel|None = None
+
+        # LLM + Piper
+        self.llm = LLM()
+        self.piper = PiperEngine()  # auto-detects voice or uses PIPER_MODEL
+        self.piper.start()
+
+        # UI
+        self._build_ui()
+        self._say("Lingo", "Ready. Press 🎤 Speak, or type and Send. Streaming TTS is enabled.")
+        # Audible check on startup:
+        self.piper.say("Hello. Streaming text to speech is ready.")
+
+        # TTS queue: producer (worker threads) → consumer (Tk main)
+        self.tts_q: Queue[str] = Queue(maxsize=64)
+        self.after(20, self._drain_tts_queue_on_main)
+
+        # Safe shutdown
+        self.protocol("WM_DELETE_WINDOW", self._on_close)
+
+    # ---- UI ----
     def _build_ui(self):
-        nb = ttk.Notebook(self); nb.pack(fill=tk.BOTH, expand=True)
-        # Chat tab
-        chat_tab = ttk.Frame(nb); nb.add(chat_tab, text="Chat")
-        self.chat = scrolledtext.ScrolledText(chat_tab, wrap=tk.WORD, font=("Segoe UI", 12))
+        main = ttk.Frame(self); main.pack(fill=tk.BOTH, expand=True)
+        self.chat = scrolledtext.ScrolledText(main, wrap=tk.WORD, font=("Segoe UI", 12))
         self.chat.pack(fill=tk.BOTH, expand=True, padx=8, pady=8)
-        self._say("Lingo", "Voice test ready. Click 🎤 to dictate, or type below and Send. Typed replies will auto‑speak.")
-        row = ttk.Frame(chat_tab); row.pack(fill=tk.X, pady=4)
+        row = ttk.Frame(main); row.pack(fill=tk.X, pady=4)
         self.entry = ttk.Entry(row, font=("Segoe UI", 12)); self.entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
         self.entry.bind("<Return>", lambda e: self.on_send())
         ttk.Button(row, text="Send", command=self.on_send).pack(side=tk.LEFT, padx=6)
-        header = ttk.Frame(chat_tab); header.pack(fill=tk.X, pady=4)
+        header = ttk.Frame(main); header.pack(fill=tk.X, pady=4)
         ttk.Button(header, text="🎤 Speak", command=self.on_speak).pack(side=tk.RIGHT)
-        ttk.Button(header, text="🔈 Speak Reply", command=self.on_speak_reply).pack(side=tk.RIGHT, padx=6)
-        ttk.Button(header, text="🔊 Stream Reply", command=self.on_stream_reply).pack(side=tk.RIGHT, padx=6)
-        ttk.Button(header, text="🔎 Devices", command=self.on_list_devices).pack(side=tk.RIGHT, padx=6)
-        # Add API key rotation button
-        ttk.Button(header, text="🔄 API Key", command=self.on_rotate_keys).pack(side=tk.RIGHT, padx=6)
-        self.status_var = tk.StringVar(value="Ready"); ttk.Label(chat_tab, textvariable=self.status_var).pack(anchor="w", padx=8, pady=4)
-        # STT Settings tab
-        stt_tab = ttk.Frame(nb); nb.add(stt_tab, text="STT Settings")
-        self.vars = {}
-        def add_row(r, label, key, kind="entry"):
-            ttk.Label(stt_tab, text=label).grid(row=r, column=0, sticky="w", padx=8, pady=4)
-            if kind=="check":
-                v=tk.BooleanVar(value=self.cfg[key]); ttk.Checkbutton(stt_tab, variable=v).grid(row=r, column=1, sticky="w")
-            else:
-                v=tk.StringVar(value=str(self.cfg[key])); ttk.Entry(stt_tab, textvariable=v, width=10).grid(row=r, column=1, sticky="w")
-            self.vars[key]=v
-        r=0
-        add_row(r,"Frame (ms)","frame_ms"); r+=1
-        add_row(r,"VAD aggressiveness (0-3)","vad_aggr"); r+=1
-        add_row(r,"Silence stop (ms)","silence_ms"); r+=1
-        add_row(r,"Max record (s)","max_record_s"); r+=1
-        add_row(r,"Energy margin","energy_margin"); r+=1
-        add_row(r,"Energy min","energy_min"); r+=1
-        add_row(r,"Energy max","energy_max"); r+=1
-        add_row(r,"Use base.en (else tiny.en)","use_base","check"); r+=1
-        add_row(r,"compute_type","compute_type"); r+=1
-        ttk.Button(stt_tab, text="Apply", command=self.apply_stt).grid(row=r, column=0, columnspan=2, pady=8)
+        self.status_var = tk.StringVar(value="Ready")
+        ttk.Label(main, textvariable=self.status_var).pack(anchor="w", padx=8, pady=4)
 
-    def apply_stt(self):
-        for k,v in self.vars.items():
-            if isinstance(v, tk.BooleanVar):
-                self.cfg[k]=bool(v.get())
-            else:
-                # cast numbers where expected
-                if k in ("frame_ms","vad_aggr","silence_ms","max_record_s","energy_min","energy_max"):
-                    try: self.cfg[k]=int(float(v.get()))
-                    except: pass
-                elif k in ("energy_margin",):
-                    try: self.cfg[k]=float(v.get())
-                    except: pass
-                else:
-                    self.cfg[k]=v.get()
-        self._say("System", f"STT settings updated: {self.cfg}")
-        # force model reload if compute_type or model toggled
-        self._stt_model=None
-
-    # -------- API Key Rotation --------
-    def on_rotate_keys(self):
-        try:
-            keys_path = os.path.join(os.path.dirname(KEY_MANAGER_PY), "keys.json")
-            if not os.path.exists(keys_path):
-                messagebox.showerror("Error", "keys.json file not found"); return
-            with open(keys_path, 'r') as f: accounts_data = json.load(f)
-            profiles = accounts_data.get("profiles", [])
-            if not profiles:
-                messagebox.showerror("Error", "No profiles found in keys.json"); return
-            current_profile = self.key_manager.get_current_profile(); current_index = 0
-            for i, profile in enumerate(profiles):
-                if profile.get("label") == current_profile: current_index = i; break
-            next_index = (current_index + 1) % len(profiles)
-            next_profile = profiles[next_index]["label"]
-            self.key_manager.switch_profile(next_profile)
-            self._say("System", f"Switched to API account: {next_profile}")
-            self.set_status(f"Using API account: {next_profile}")
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to rotate API keys: {str(e)}")
-
-    # -------- helpers --------
     def _say(self, who, msg):
         self.chat.insert(tk.END, f"{who}: {msg}\n\n"); self.chat.see(tk.END)
     def set_status(self, text):
         self.status_var.set(text); self.update_idletasks()
 
-    # -------- STT --------
+    # ---- STT ----
     def _ensure_model(self):
         if self._stt_model is not None: return
         model_dir = FW_BASE if self.cfg["use_base"] else FW_TINY
@@ -267,7 +346,7 @@ class VoiceTester(tk.Tk):
         os.environ.setdefault("OMP_NUM_THREADS","4")
         self._say("System", f"Loading STT model: {model_dir} ({self.cfg['compute_type']})")
         t0=time.perf_counter()
-        self._stt_model = WhisperModel(model_dir, device="cpu", compute_type=self.cfg["compute_type"])  # keep resident
+        self._stt_model = WhisperModel(model_dir, device="cpu", compute_type=self.cfg["compute_type"])
         self._say("System", f"STT ready in {time.perf_counter()-t0:.2f}s")
 
     def stt_capture_and_transcribe(self)->str:
@@ -280,101 +359,102 @@ class VoiceTester(tk.Tk):
         wav_path = rec.record(TEMP_WAV)
         self.set_status("Transcribing…")
         t2=time.perf_counter()
-        segments, info = self._stt_model.transcribe(wav_path, language="en", beam_size=3, vad_filter=True,
-                                                     vad_parameters=dict(min_silence_duration_ms=400))
+        segments, info = self._stt_model.transcribe(
+            wav_path, language="en", beam_size=3, vad_filter=True,
+            vad_parameters=dict(min_silence_duration_ms=400)
+        )
         txt="".join(s.text for s in segments).strip()
         self._say("STT", f"(len≈{info.duration:.2f}s, asr={time.perf_counter()-t2:.2f}s)")
         return txt
 
-    # in main.py
-    def tts_speak(self, text: str):
-        if not text.strip():
-            return
-        # DIRECT stream — uses the persistent Piper process from your streaming GUI
-        if hasattr(self.tts, "_say_stream"):
-            self.tts._say_stream(text)     # lowest latency path (no temp WAV, no pygame)
+    # ---- LLM stream → UI + TTS ----
+    def stream_llm_to_ui_and_tts(self, messages):
+        punct = ".,;:!?"
+        buf = []
+        words = 0
+        acc = []
+        try:
+            for delta in self.llm.stream_chat(messages, temperature=0.7):
+                # UI live text
+                self.chat.insert(tk.END, delta); self.chat.see(tk.END)
+                acc.append(delta)
+                # Batch to TTS queue
+                buf.append(delta)
+                words += delta.count(" ")
+                if (delta.endswith(tuple(punct))) or (words >= 5):
+                    chunk = "".join(buf).strip()
+                    if chunk:
+                        self.tts_q.put(chunk)
+                    buf = []; words = 0
+            if buf:
+                self.tts_q.put("".join(buf).strip())
+        except Exception as e:
+            messagebox.showerror("Stream error", str(e))
+        finally:
+            full = "".join(acc).strip()
+            if full:
+                self._last_ai_text = full
+            self.chat.insert(tk.END, "\n\n")
+
+    # Pump TTS on Tk MAIN thread, but actual audio I/O is in Piper subprocess
+    def _drain_tts_queue_on_main(self):
+        try:
+            chunk = self.tts_q.get_nowait()
+        except Empty:
+            pass
         else:
-            # fallback for non-stream builds
-            self.tts.text_input.delete("1.0", tk.END)
-            self.tts.text_input.insert(tk.END, text)
-            self.tts.generate_and_play()
-
-    # -------- TTS (stream word‑by‑word into Piper) --------
-    def tts_stream_words(self, text: str, chunk_words: int = 3, delay_s: float = 0.05):
-        """Feed words in small chunks into the streaming Piper process.
-        chunk_words=3 keeps the voice smooth; lower = lower latency.
-        """
-        words = text.split()
-        i = 0
-        while i < len(words):
-            chunk = " ".join(words[i:i+chunk_words])
             try:
-                # call the streaming method from your GUI module
-                self.tts._say_stream(chunk)
+                self.piper.say(chunk)
             except Exception as e:
-                self._say("TTS", f"stream error: {e}"); break
-            i += chunk_words
-            time.sleep(delay_s)
+                print("[TTS] error:", e)
+        self.after(20, self._drain_tts_queue_on_main)
 
-    # -------- LLM --------
-    def llm_reply(self,user_text:str)->str:
-        messages=[
-            {"role":"system","content":"You are Lingo, a friendly English tutor in a robot head. Keep answers under 2 sentences and end with a short question."},
-            {"role":"user","content":user_text},
-        ]
-        return self.llm.chat(messages)
-
-    # -------- UI actions --------
+    # ---- UI actions ----
     def on_speak(self):
         def _worker():
             try:
-                text=self.stt_capture_and_transcribe()
-                if not text:
+                user_text = self.stt_capture_and_transcribe()
+                if not user_text:
                     self._say("STT","(No speech detected)"); self.set_status("Ready"); return
-                self._say("You",text); self.set_status("Thinking…")
-                ai=self.llm_reply(text); self._last_ai_text=ai; self._say("Lingo",ai)
-                self.set_status("Speaking…"); self.tts_speak(ai); self.set_status("Ready")
+                self._say("You", user_text)
+                self.set_status("Streaming…")
+                messages = [
+                    {"role":"system","content":"You are Lingo, a friendly English tutor. Keep answers under 2 sentences and end with a short question."},
+                    {"role":"user","content":user_text},
+                ]
+                self.stream_llm_to_ui_and_tts(messages)
             except Exception as e:
-                messagebox.showerror("Error",str(e)); self.set_status("Ready")
-        threading.Thread(target=_worker, daemon=True).start()
-
-    def on_speak_reply(self):
-        if not self._last_ai_text.strip(): self._say("System","Nothing to speak yet."); return
-        self.set_status("Speaking…"); self.tts_speak(self._last_ai_text); self.set_status("Ready")
-
-    def on_stream_reply(self):
-        if not self._last_ai_text.strip(): self._say("System","Nothing to stream yet."); return
-        self.set_status("Streaming…")
-        def _worker():
-            try:
-                self.tts_stream_words(self._last_ai_text, chunk_words=3, delay_s=0.05)
+                messagebox.showerror("Error", str(e))
             finally:
                 self.set_status("Ready")
         threading.Thread(target=_worker, daemon=True).start()
 
     def on_send(self):
-        text=self.entry.get().strip()
-        if not text: return
-        self.entry.delete(0,tk.END); self._say("You",text); self.set_status("Thinking…")
+        user_text = self.entry.get().strip()
+        if not user_text: return
+        self.entry.delete(0, tk.END)
+        self._say("You", user_text)
+        self.set_status("Streaming…")
+        messages = [
+            {"role":"system","content":"You are Lingo, a friendly English tutor. Keep answers under 2 sentences and end with a short question."},
+            {"role":"user","content":user_text},
+        ]
         def _worker():
             try:
-                ai=self.llm_reply(text); self._last_ai_text=ai; self._say("Lingo",ai)
-                # Auto‑speak (non‑stream) to preserve existing behavior
-                self.tts_speak(ai)
-            except Exception as e:
-                messagebox.showerror("LLM error",str(e))
+                self.stream_llm_to_ui_and_tts(messages)
             finally:
                 self.set_status("Ready")
         threading.Thread(target=_worker, daemon=True).start()
 
-    def on_list_devices(self):
+    def _on_close(self):
         try:
-            out = sd.query_devices()
-            text_lines=[f"{i}: {d['name']} (in={d.get('max_input_channels',0)}, out={d.get('max_output_channels',0)})" for i,d in enumerate(out)]
-            self._say("Devices (sounddevice)", "\n"+"\n".join(text_lines))
-        except Exception as e:
-            self._say("Devices", f"error: {e}")
+            self.piper.say("Goodbye.")
+        except Exception:
+            pass
+        self.piper.close()
+        self.destroy()
 
 if __name__ == "__main__":
+    os.environ.setdefault("OMP_NUM_THREADS","4")
     app = VoiceTester()
     app.mainloop()
