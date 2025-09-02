@@ -1,7 +1,21 @@
-# main.py
+# main.py  —  Text+Voice GUI: STT → LLM(stream) → TTS (Piper RAW)
+# Requirements:
+#   pip install faster-whisper webrtcvad sounddevice piper-tts requests python-dotenv
+#   sudo apt-get install alsa-utils
+#   export PIPER_SR=24000
+
 import os
-import threading
+import sys
+import time
+import json
+import math
+import wave
+import struct
+import shutil
 import queue
+import threading
+import collections
+import subprocess
 from datetime import datetime
 import tkinter as tk
 from tkinter import ttk, scrolledtext
@@ -18,17 +32,227 @@ from lesson_manager import LessonManager
 # Multi-account manager (keys.json + settings.json)
 from key_manager import KeyManager
 
+# -------------------- NEW: audio & stt deps --------------------
+try:
+    import sounddevice as sd
+    import webrtcvad
+    from faster_whisper import WhisperModel
+except Exception as e:
+    raise SystemExit(
+        "Missing deps. Run:\n"
+        "  pip install faster-whisper webrtcvad sounddevice\n" + str(e)
+    )
+
+# -------------------- NEW: import PIPER paths from your module --------------------
+import importlib.machinery, importlib.util
+def _load_module_from_path(mod_name: str, file_path: str):
+    loader = importlib.machinery.SourceFileLoader(mod_name, file_path)
+    spec = importlib.util.spec_from_loader(loader.name, loader)
+    module = importlib.util.module_from_spec(spec)
+    loader.exec_module(module)
+    return module
+
+# Adjust path if needed (you told me it is correct)
+TTS_MOD_PATH = "/home/robinglory/Desktop/Thesis/TTS/streaming_piper_gui.py"
+ttsmod = _load_module_from_path("streaming_piper_gui", TTS_MOD_PATH)  # exposes PIPER_BIN, DEFAULT_VOICE
+
+# -------------------- NEW: Piper persistent engine --------------------
+def _voice_json_path(onnx_path: str)->str|None:
+    base, _ = os.path.splitext(onnx_path)
+    j = base + ".json"
+    return j if os.path.isfile(j) else None
+
+def _infer_sample_rate(onnx_path: str, default_sr: int = 22050)->int:
+    # Allow manual override via environment (you use 24000)
+    env = os.environ.get("PIPER_SR")
+    if env:
+        try:
+            return int(env)
+        except:
+            pass
+    j = _voice_json_path(onnx_path)
+    if j:
+        try:
+            with open(j, "r", encoding="utf-8") as f:
+                meta = json.load(f)
+            if isinstance(meta, dict):
+                if isinstance(meta.get("sample_rate"), int):
+                    return int(meta["sample_rate"])
+                if isinstance(meta.get("audio"), dict) and isinstance(meta["audio"].get("sample_rate"), int):
+                    return int(meta["audio"]["sample_rate"])
+        except Exception:
+            pass
+    return default_sr
+
+def _find_piper_cmd(piper_bin_hint: str|None)->list[str]|None:
+    if piper_bin_hint and os.path.isfile(piper_bin_hint) and os.access(piper_bin_hint, os.X_OK):
+        return [piper_bin_hint]
+    p = shutil.which("piper")
+    if p: return [p]
+    cand = os.path.join(sys.prefix, "bin", "piper")
+    if os.path.isfile(cand) and os.access(cand, os.X_OK): return [cand]
+    try:
+        import piper  # noqa
+        return [sys.executable, "-m", "piper"]
+    except Exception:
+        return None
+
+class PiperEngine:
+    """
+    Persistent RAW pipeline:
+      (text) → piper --output-raw → (PCM S16_LE mono) → aplay @ correct SR
+    """
+    def __init__(self, piper_bin: str, voice_onnx: str):
+        if not os.path.isfile(voice_onnx):
+            raise RuntimeError(f"Voice model not found: {voice_onnx}")
+        self.voice = voice_onnx
+        self.sr = _infer_sample_rate(voice_onnx, default_sr=22050)
+        self._p1 = None
+        self._p2 = None
+        self._lock = threading.Lock()
+        self._piper_cmd = _find_piper_cmd(piper_bin)
+        if not self._piper_cmd:
+            raise RuntimeError("piper CLI not found. Install with: pip install piper-tts")
+
+    def start(self):
+        aplay = shutil.which("aplay")
+        if not aplay:
+            raise RuntimeError("aplay not found. Install 'alsa-utils'.")
+        cmd = self._piper_cmd + ["--model", self.voice, "--output-raw", "--sentence_silence", "0.25"]
+        self._p1 = subprocess.Popen(
+            cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL, text=True, bufsize=1
+        )
+        self._p2 = subprocess.Popen(
+            [aplay, "-r", str(self.sr), "-f", "S16_LE", "-t", "raw", "-c", "1"],
+            stdin=self._p1.stdout, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, bufsize=0
+        )
+        self._p1.stdout.close()
+
+    # ---- smarter chunk writer (no newline mid-sentence) ----
+    def say_chunk(self, text: str, final: bool):
+        """Write chunk with minimal pause mid-sentence; newline only at sentence end."""
+        if not text or not text.strip():
+            return
+        if not self._p1 or not self._p1.stdin:
+            raise RuntimeError("Piper not started.")
+        suffix = "\n" if final else " "   # newline only for sentence ends
+        with self._lock:
+            try:
+                self._p1.stdin.write(text.strip() + suffix)
+                self._p1.stdin.flush()
+            except BrokenPipeError:
+                self.close(); self.start()
+                self._p1.stdin.write(text.strip() + suffix)
+                self._p1.stdin.flush()
+
+    # kept for legacy/simple calls
+    def say(self, text: str):
+        self.say_chunk(text, final=True)
+
+    def close(self):
+        try:
+            if self._p1 and self._p1.stdin and not self._p1.stdin.closed:
+                self._p1.stdin.close()
+        except Exception:
+            pass
+        try:
+            if self._p2: self._p2.terminate()
+        except Exception:
+            pass
+        try:
+            if self._p1: self._p1.terminate()
+        except Exception:
+            pass
+        self._p1 = None; self._p2 = None
+
+# -------------------- NEW: VAD recorder (16k, mono) --------------------
+class VADRecorder:
+    """WebRTC VAD + energy gate; writes 16k mono WAV and returns its path."""
+    def __init__(self, sample_rate=16000, frame_ms=30, vad_aggr=3,
+                 silence_ms=2000, max_record_s=10, device=None,
+                 energy_margin=2.0, energy_min=2200, energy_max=6000, energy_calib_ms=500):
+        self.sample_rate=sample_rate; self.frame_ms=frame_ms; self.vad_aggr=vad_aggr
+        self.silence_ms=silence_ms; self.max_record_s=max_record_s; self.device=device
+        self.energy_margin=energy_margin; self.energy_min=energy_min; self.energy_max=energy_max; self.energy_calib_ms=energy_calib_ms
+
+    @staticmethod
+    def _rms_int16(b: bytes)->float:
+        if not b: return 0.0
+        n=len(b)//2
+        if n<=0: return 0.0
+        s=struct.unpack(f"<{n}h", b); acc=0
+        for x in s: acc+=x*x
+        return math.sqrt(acc/float(n))
+
+    def record(self, out_wav: str) -> str:
+        vad = webrtcvad.Vad(self.vad_aggr)
+        frame_samp = int(self.sample_rate*(self.frame_ms/1000.0))
+        frame_bytes = frame_samp*2
+        silence_frames_needed = max(1,int(self.silence_ms/self.frame_ms))
+        max_frames = int(self.max_record_s*1000/self.frame_ms)
+        calib_frames = max(1,int(self.energy_calib_ms/self.frame_ms))
+        ring=collections.deque(); voiced=False; trailing=0; total=0
+        energy_thr=None; calib_vals=[]
+        print(f"[VAD] start {self.sample_rate}Hz frame={self.frame_ms}ms agg={self.vad_aggr} stop>{self.silence_ms}ms")
+        def _cb(indata, frames, time_info, status):
+            nonlocal voiced, trailing, total, energy_thr
+            buf=indata.tobytes()
+            if len(buf)<frame_bytes: return
+            ring.append(buf); total+=1
+            if energy_thr is None and len(calib_vals)<calib_frames:
+                calib_vals.append(self._rms_int16(buf))
+                if len(calib_vals)==calib_frames:
+                    base=sorted(calib_vals)[len(calib_vals)//2]
+                    thr=max(self.energy_min,min(self.energy_max, base*self.energy_margin)); energy_thr=thr
+                    print(f"\n[VAD] energy floor≈{int(base)} → thr≈{int(thr)}")
+                return
+            rms=self._rms_int16(buf)
+            try:
+                speech = vad.is_speech(buf,self.sample_rate)
+            except Exception:
+                speech=False
+            if energy_thr is not None and rms<energy_thr:
+                speech=False
+            if speech:
+                voiced=True; trailing=0
+                print(f"\r[VAD] frames={total} rms={int(rms)} (speech)  ", end="")
+            else:
+                if voiced: trailing=min(silence_frames_needed,trailing+1)
+                print(f"\r[VAD] frames={total} rms={int(rms)} (silence {trailing*self.frame_ms} ms)", end="")
+        with sd.InputStream(samplerate=self.sample_rate, channels=1, dtype='int16', device=self.device,
+                             blocksize=frame_samp, callback=_cb):
+            while True:
+                time.sleep(self.frame_ms/1000.0)
+                if total>=max_frames:
+                    print("\n[VAD] max time reached"); break
+                if voiced and trailing>=silence_frames_needed:
+                    print("\n[VAD] silence reached — stop"); break
+        os.makedirs(os.path.dirname(out_wav), exist_ok=True)
+        with wave.open(out_wav,'wb') as w:
+            w.setnchannels(1); w.setsampwidth(2); w.setframerate(self.sample_rate)
+            while ring: w.writeframes(ring.popleft())
+        dur=total*self.frame_ms/1000.0
+        print(f"[VAD] wrote {out_wav} (≈{dur:.2f}s)")
+        return out_wav
+
+# -------------------- Your existing constants (unchanged LLM) --------------------
 load_dotenv()
 
 SOFT_TIMEOUT_SECONDS = 6.0
 DEFAULT_MAX_TOKENS = 96
 DEFAULT_STOP = ["\n\n", "Question:", "Q:"]
 
+# STT models (paths unchanged)
+FW_BASE = "/home/robinglory/Desktop/Thesis/STT/faster-whisper/fw-base.en"
+FW_TINY = "/home/robinglory/Desktop/Thesis/STT/faster-whisper/fw-tiny.en"  # kept for completeness
+TEMP_WAV = "/tmp/fw_dialog.wav"
 
+# -------------------- Your existing LLM handler (with watchdog hedge) --------------------
 class LLMHandler:
     """
     General chat LLM with:
-      - streaming + hedged requests (winner-only),
+      - streaming + hedged requests (winner-first),
       - multi-account profiles via KeyManager,
       - NO automatic profile rotation. On quota/auth/rate errors, emits a clear
         message instructing the user to switch profile from the GUI.
@@ -39,7 +263,6 @@ class LLMHandler:
         self.current_provider = 0
         self.client = self._create_client()
 
-    # ----- Profile & provider plumbing -----
     def _reload_providers_from_profile(self):
         keys = self.key_manager.get_keys()
         self.api_providers = [
@@ -71,12 +294,10 @@ class LLMHandler:
         return client
 
     def _switch_provider(self):
-        # switch between models inside the same profile (for hedging fallback)
         self.current_provider = (self.current_provider + 1) % len(self.api_providers)
         print(f"Switching model to {self.api_providers[self.current_provider]['name']}...")
         self.client = self._create_client()
 
-    # Manual profile switching from GUI
     def switch_profile(self, index: int):
         self.key_manager.switch_to(index)
         self._reload_providers_from_profile()
@@ -102,7 +323,7 @@ class LLMHandler:
         return (f"[API Notice] The current OpenRouter account “{label}” appears to be rate-limited or out of quota. "
                 f"Please click the API button at the top to switch profiles, then try again.")
 
-    # ---------- Blocking (legacy fallback) ----------
+    # (Blocking) left as-is
     def get_ai_response(self, message=None, conversation_history=None, lesson_context=None, messages=None):
         if messages is None:
             if message is None:
@@ -125,6 +346,7 @@ class LLMHandler:
                     "Have natural conversations and help with general English questions. "
                     "Keep responses <=2 sentences (<=60 words) and end with one short question. "
                     "Avoid the '*' character."
+                    "Don't use any emoji at all."
                 )
 
             messages = [{"role": "system", "content": system_msg}]
@@ -147,18 +369,19 @@ class LLMHandler:
             self._switch_provider()
             return "I'm having trouble connecting right now. Please try again."
 
-    # ---------- Streaming + Hedge (winner-only) ----------
+    # ---------- Streaming + Hedge + first-token fallback ----------
     def stream_ai_response(self, message=None, conversation_history=None, lesson_context=None, messages=None):
         """
         Yields text chunks as they arrive.
-        Races two providers; ONLY the first provider that emits a token continues streaming.
-        The loser is signaled to stop immediately.
-        On quota/auth/rate errors, yields a clear instruction to switch profile (no auto-switch).
+        Races two providers (A,B). If no first token within FIRST_TOKEN_TIMEOUT, starts C.
+        Only the first provider to emit continues; others are signaled to stop.
         """
-        import time
+        import time as _time
         import threading
 
-        # Build messages if not supplied
+        FIRST_TOKEN_TIMEOUT = 8.0  # seconds
+
+        # Build messages if not supplied (unchanged prompt style)
         if messages is None:
             if message is None:
                 raise ValueError("Either message or messages must be provided")
@@ -186,15 +409,16 @@ class LLMHandler:
                 messages.extend(conversation_history[-4:])
             messages.append({"role": "user", "content": message})
 
-        # Pick two providers to race
         idx_a = self.current_provider
         idx_b = (self.current_provider + 1) % len(self.api_providers)
+        idx_c = (self.current_provider + 2) % len(self.api_providers)
 
         out_q: queue.Queue = queue.Queue()
         winner_lock = threading.Lock()
         winner_idx = {"value": None}
-        stop_flags = {idx_a: threading.Event(), idx_b: threading.Event()}
-        sentinels_needed = 2
+        first_token_time = {"value": None}
+        stop_flags = {idx_a: threading.Event(), idx_b: threading.Event(), idx_c: threading.Event()}
+        sentinels_needed = 0
 
         def stream_from_provider(provider_idx: int):
             p = self.api_providers[provider_idx]
@@ -217,10 +441,13 @@ class LLMHandler:
                     if not delta:
                         continue
                     with winner_lock:
+                        now = _time.time()
                         if winner_idx["value"] is None:
                             winner_idx["value"] = provider_idx
-                            other_idx = idx_a if provider_idx == idx_b else idx_b
-                            stop_flags[other_idx].set()
+                            first_token_time["value"] = now
+                            for k in stop_flags.keys():
+                                if k != provider_idx:
+                                    stop_flags[k].set()
                         elif winner_idx["value"] != provider_idx:
                             break
                     out_q.put(delta)
@@ -235,23 +462,29 @@ class LLMHandler:
             finally:
                 out_q.put((provider_idx, None))
 
-        def soft_timeout_referee():
-            start = time.time()
-            while (time.time() - start) < SOFT_TIMEOUT_SECONDS:
+        # Start A & B
+        ta = threading.Thread(target=stream_from_provider, args=(idx_a,), daemon=True)
+        tb = threading.Thread(target=stream_from_provider, args=(idx_b,), daemon=True)
+        ta.start(); tb.start()
+        sentinels_needed = 2
+
+        # Watchdog: if no first token, start C
+        def watchdog():
+            nonlocal sentinels_needed
+            start = _time.time()
+            while (_time.time() - start) < FIRST_TOKEN_TIMEOUT:
                 with winner_lock:
                     if winner_idx["value"] is not None:
                         return
-                time.sleep(0.01)
+                _time.sleep(0.02)
             with winner_lock:
-                if winner_idx["value"] is None:
-                    winner_idx["value"] = idx_a
-                    stop_flags[idx_b].set()
+                if winner_idx["value"] is None and not stop_flags[idx_c].is_set():
+                    tc = threading.Thread(target=stream_from_provider, args=(idx_c,), daemon=True)
+                    tc.start()
+                    sentinels_needed += 1
+        threading.Thread(target=watchdog, daemon=True).start()
 
-        ta = threading.Thread(target=stream_from_provider, args=(idx_a,), daemon=True)
-        tb = threading.Thread(target=stream_from_provider, args=(idx_b,), daemon=True)
-        tr = threading.Thread(target=soft_timeout_referee, daemon=True)
-        tr.start(); ta.start(); tb.start()
-
+        # Drain outputs from whichever wins
         finished = 0
         while finished < sentinels_needed:
             item = out_q.get()
@@ -260,7 +493,7 @@ class LLMHandler:
                 continue
             yield item
 
-
+# -------------------- GUI (kept style; TTS-first policy) --------------------
 class MainAIChat:
     def __init__(self, root):
         self.root = root
@@ -271,7 +504,7 @@ class MainAIChat:
 
         configure_styles()
 
-        # NEW: key manager + LLM wired together
+        # Key manager + LLM
         self.key_manager = KeyManager()
         self.llm = LLMHandler(self.key_manager)
 
@@ -283,29 +516,53 @@ class MainAIChat:
         self.login_window = None
         self.dashboard_window = None
 
-        self.create_widgets()
+        # audio state
+        self._stt_model: WhisperModel|None = None
+        self._tts = None
 
-        # streaming plumbing
-        self._stream_queue: queue.Queue = queue.Queue()
-        self._stream_worker: threading.Thread | None = None
+        # TTS queue: tuples of (text, is_sentence_end); sentinel is (None, True)
+        self._tts_q: queue.Queue[tuple[str|None, bool]] = queue.Queue(maxsize=128)
+
+        # streaming state (single turn at a time)
         self._streaming = False
 
-    def show_dashboard(self):
-        if self.dashboard_window and self.dashboard_window.winfo_exists():
-            self.dashboard_window.lift()
-            return
-        self.root.withdraw()
-        dashboard_root = tk.Toplevel(self.root)
-        self.dashboard_window = dashboard_root
+        # spinner state
+        self._thinking = False
+        self._spinner_phase = 0
+        self._spinner_glyphs = ["⠋","⠙","⠹","⠸","⠼","⠴","⠦","⠧","⠇","⠏"]
 
-        from dashboard import Dashboard
-        Dashboard(dashboard_root, self, self.student_manager)
+        # pending full text for GUI (printed after TTS finishes)
+        self._pending_gui_text: str|None = None
 
-        dashboard_root.geometry("1000x700")
-        dashboard_root.protocol("WM_DELETE_WINDOW", self.return_to_main)
-        dashboard_root.transient(self.root)
-        dashboard_root.grab_set()
+        self.create_widgets()
+        self.root.protocol("WM_DELETE_WINDOW", self._on_close)
 
+        # Start Piper
+        self._init_tts()
+
+        # Drain TTS queue
+        self.root.after(20, self._drain_tts_queue)
+
+    # ---- setup helpers ----
+    def _init_tts(self):
+        try:
+            self._tts = PiperEngine(ttsmod.PIPER_BIN, ttsmod.DEFAULT_VOICE)
+            self._tts.start()
+        except Exception as e:
+            print("[TTS] init error:", e)
+
+    def _ensure_stt(self):
+        if self._stt_model is not None: return
+        model_dir = FW_BASE  # fixed path you prefer
+        if not os.path.isdir(model_dir):
+            raise RuntimeError(f"STT model folder not found: {model_dir}")
+        os.environ.setdefault("OMP_NUM_THREADS","4")
+        print(f"[STT] Loading model: {model_dir} (int8)")
+        t0=time.perf_counter()
+        self._stt_model = WhisperModel(model_dir, device="cpu", compute_type="int8")
+        print(f"[STT] Ready in {time.perf_counter()-t0:.2f}s")
+
+    # ---- UI ----
     def create_widgets(self):
         main_frame = ttk.Frame(self.root, padding=(20, 15))
         main_frame.pack(fill=tk.BOTH, expand=True)
@@ -315,7 +572,6 @@ class MainAIChat:
 
         ttk.Label(header_frame, text="Lingo - AI English Teacher", style="Header.TLabel").pack(side=tk.LEFT, padx=10)
 
-        # Small profile switcher button (cycles profiles)
         self.profile_btn = ttk.Button(
             header_frame,
             text=f"API: {self.key_manager.get_active_label()}",
@@ -349,15 +605,46 @@ class MainAIChat:
         input_frame = ttk.Frame(main_frame, style="Input.TFrame")
         input_frame.pack(fill=tk.X)
 
+        # Status label (left)
+        self.status_var = tk.StringVar(value="Ready")
+        self.status_label = ttk.Label(input_frame, textvariable=self.status_var)
+        self.status_label.pack(side=tk.LEFT, padx=(0, 10))
+
         self.user_input = ttk.Entry(input_frame, font=("Segoe UI", 12))
         self.user_input.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 10))
         self.user_input.bind("<Return>", self.send_message)
+
+        # 🎤 Speak button (primary)
+        self.speak_btn = ttk.Button(input_frame, text="🎤 Speak", command=self.on_speak, style="Accent.TButton")
+        self.speak_btn.pack(side=tk.RIGHT, padx=(0, 10))
+        self.speak_btn.focus_set()
 
         send_btn = ttk.Button(input_frame, text="Send", command=self.send_message, style="Accent.TButton")
         send_btn.pack(side=tk.RIGHT)
 
         self.display_message("Lingo", "Hello! I'm Lingo, your AI English Teacher. How can I help you today?")
 
+    def set_status(self, text: str):
+        self.status_var.set(text)
+        self.root.update_idletasks()
+
+    # ---- spinner helpers ----
+    def _start_thinking(self):
+        if self._thinking: return
+        self._thinking = True
+        def _tick():
+            if not self._thinking: return
+            g = self._spinner_glyphs[self._spinner_phase % len(self._spinner_glyphs)]
+            self.set_status(f"Thinking… {g}")
+            self._spinner_phase += 1
+            self.root.after(120, _tick)
+        _tick()
+
+    def _stop_thinking(self):
+        self._thinking = False
+        self.set_status("Ready")
+
+    # ---- chat helpers ----
     def _cycle_profile(self):
         idx = self.llm.next_profile()
         label = self.key_manager.get_active_label()
@@ -380,21 +667,36 @@ class MainAIChat:
         self.chat_display.see(tk.END)
         self.chat_display.configure(state='disabled')
 
-    def _drain_stream_queue(self):
+    # ---- TTS drain (also commits GUI after speech ends) ----
+    def _drain_tts_queue(self):
         try:
-            while True:
-                chunk = self._stream_queue.get_nowait()
-                if chunk is None:
-                    self._streaming = False
-                    self._append_stream_text("\n\n")
-                    self.root.config(cursor="")
-                    return
-                self._append_stream_text(chunk)
+            item = self._tts_q.get_nowait()
         except queue.Empty:
             pass
-        if self._streaming:
-            self.root.after(15, self._drain_stream_queue)
+        else:
+            try:
+                if self._tts:
+                    text, is_final = item
+                    if text is None:
+                        # Sentinel: TTS input fully fed; commit GUI text now
+                        pending = (self._pending_gui_text or "").strip()
+                        if pending:
+                            self._append_stream_text(pending + "\n\n")
+                            self.conversation_history.append({"role": "assistant", "content": pending})
+                        # turn end
+                        self.root.config(cursor="")
+                        self._stop_thinking()
+                        self.set_status("Ready")
+                        self._streaming = False
+                        self._pending_gui_text = None
+                    else:
+                        self._tts.say_chunk(text, final=is_final)
+                        self.set_status("Speaking…")
+            except Exception as e:
+                print("[TTS] error:", e)
+        self.root.after(20, self._drain_tts_queue)
 
+    # ---- typed path (TTS-first, GUI-after) ----
     def send_message(self, event=None):
         if self._streaming:
             return
@@ -410,8 +712,11 @@ class MainAIChat:
 
         simple = self.get_simple_response(message.lower())
         if simple:
-            self.display_message("Lingo", simple)
-            self.conversation_history.append({"role": "assistant", "content": simple})
+            # TTS-first for simple responses too
+            self._begin_turn_gui_header()
+            self._pending_gui_text = simple
+            self._tts_q.put((simple, True))
+            self._tts_q.put((None, True))  # sentinel → print after speech
             return
 
         lesson_context = None
@@ -423,31 +728,141 @@ class MainAIChat:
                 "lesson_objective": self.current_lesson.get("objective", "")
             }
 
+        self._begin_turn_gui_header()
+
+        def worker():
+            try:
+                # Accumulate full text for GUI while feeding TTS immediately
+                full_parts = []
+                punct_final = (".", "?", "!")
+                MAX_WORDS = 10
+                buf = []; words = 0; last_flush = time.perf_counter()
+
+                def flush(final=False):
+                    nonlocal buf, words, last_flush
+                    piece = "".join(buf).strip()
+                    if piece and self._tts:
+                        self._tts_q.put((piece, final))
+                    buf = []; words = 0; last_flush = time.perf_counter()
+
+                for chunk in self.llm.stream_ai_response(
+                    message=message,
+                    conversation_history=self.conversation_history,
+                    lesson_context=lesson_context
+                ):
+                    full_parts.append(chunk)
+                    buf.append(chunk); words += chunk.count(" ")
+                    if chunk.endswith(punct_final):
+                        flush(final=True)
+                        continue
+                    if words >= MAX_WORDS or (time.perf_counter() - last_flush) > 0.9:
+                        flush(final=False)
+
+                if buf:
+                    flush(final=True)
+
+                # hold full text for GUI, then signal TTS turn end
+                self._pending_gui_text = "".join(full_parts).strip()
+                self._tts_q.put((None, True))  # sentinel
+            except Exception as e:
+                self._pending_gui_text = f"[Error: {e}]"
+                self._tts_q.put((None, True))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    # ---- helper: start GUI turn header & state ----
+    def _begin_turn_gui_header(self):
         self._streaming = True
         self.root.config(cursor="watch")
-
         self.chat_display.configure(state='normal')
         self.chat_display.tag_config("ai", foreground="#6c5ce7", font=("Segoe UI", 12, "bold"))
         self.chat_display.tag_config("message", font=("Segoe UI", 12), lmargin1=20, lmargin2=20, spacing3=5)
         self.chat_display.insert(tk.END, "Lingo: ", "ai")
         self.chat_display.configure(state='disabled')
         self.chat_display.see(tk.END)
+        self._start_thinking()
 
-        def worker():
+    # ---- voice path (TTS-first, GUI-after) ----
+    def on_speak(self):
+        if self._streaming:
+            return
+        def _worker():
             try:
+                self._ensure_stt()
+                # RECORD
+                self.set_status("Recording…"); print("[GUI] Recording…")
+                rec = VADRecorder(sample_rate=16000, frame_ms=30, vad_aggr=3,
+                                  silence_ms=2000, max_record_s=10,
+                                  energy_margin=2.0, energy_min=2200, energy_max=6000)
+                wav_path = rec.record(TEMP_WAV)
+
+                # TRANSCRIBE
+                self.set_status("Transcribing…"); print("[GUI] Transcribing…")
+                t0 = time.perf_counter()
+                segments, info = self._stt_model.transcribe(
+                    wav_path, language="en", beam_size=3, vad_filter=True,
+                    vad_parameters=dict(min_silence_duration_ms=400)
+                )
+                user_text = "".join(s.text for s in segments).strip()
+                print(f"[STT] (len≈{info.duration:.2f}s, asr={time.perf_counter()-t0:.2f}s)")
+                self.set_status("Ready")
+                if not user_text:
+                    self.display_message("STT", "(No speech detected)")
+                    return
+
+                # push transcript to chat & history
+                self.display_message("You", user_text)
+                self.conversation_history.append({"role": "user", "content": user_text})
+
+                # lesson context
+                lesson_context = None
+                if getattr(self.student_manager, "current_user", None) and self.current_lesson:
+                    lesson_context = {
+                        "student_name": self.student_manager.current_user["name"],
+                        "student_level": self.student_manager.current_user["level"],
+                        "lesson_title": self.current_lesson.get("title", ""),
+                        "lesson_objective": self.current_lesson.get("objective", "")
+                    }
+
+                # start turn (GUI header only)
+                self._begin_turn_gui_header()
+
+                # TTS-first streaming
+                full_parts = []
+                punct_final = (".", "?", "!")
+                MAX_WORDS = 10
+                buf = []; words = 0; last_flush = time.perf_counter()
+
+                def flush(final=False):
+                    nonlocal buf, words, last_flush
+                    piece = "".join(buf).strip()
+                    if piece and self._tts:
+                        self._tts_q.put((piece, final))
+                    buf = []; words = 0; last_flush = time.perf_counter()
+
                 for chunk in self.llm.stream_ai_response(
-                    message=message,
+                    message=user_text,
                     conversation_history=self.conversation_history,
                     lesson_context=lesson_context
                 ):
-                    self._stream_queue.put(chunk)
-                self._stream_queue.put(None)
-            except Exception as e:
-                self._stream_queue.put(f"\n[Error: {e}]")
-                self._stream_queue.put(None)
+                    full_parts.append(chunk)
+                    buf.append(chunk); words += chunk.count(" ")
+                    if chunk.endswith(punct_final):
+                        flush(final=True)
+                        continue
+                    if words >= MAX_WORDS or (time.perf_counter() - last_flush) > 0.9:
+                        flush(final=False)
 
-        threading.Thread(target=worker, daemon=True).start()
-        self.root.after(15, self._drain_stream_queue)
+                if buf:
+                    flush(final=True)
+
+                self._pending_gui_text = "".join(full_parts).strip()
+                self._tts_q.put((None, True))  # sentinel → commit GUI
+            except Exception as e:
+                self._pending_gui_text = f"[Error: {e}]"
+                self._tts_q.put((None, True))
+
+        threading.Thread(target=_worker, daemon=True).start()
 
     def get_simple_response(self, message):
         import random
@@ -489,8 +904,20 @@ class MainAIChat:
             self.dashboard_window = None
         self.root.deiconify()
 
+    def _on_close(self):
+        try:
+            if self._tts: self._tts.say("Goodbye.")
+        except Exception:
+            pass
+        try:
+            if self._tts: self._tts.close()
+        except Exception:
+            pass
+        self.root.destroy()
 
+# -------------------- main --------------------
 if __name__ == "__main__":
+    os.environ.setdefault("OMP_NUM_THREADS", "4")
     root = tk.Tk()
     app = MainAIChat(root)
     root.mainloop()

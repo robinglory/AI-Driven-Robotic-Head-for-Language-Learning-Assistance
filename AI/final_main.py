@@ -392,7 +392,7 @@ class VoiceTester(tk.Tk):
                 self._say("You", user_text)
                 self.set_status("Streaming…")
                 messages = [
-                    {"role":"system","content":"You are Lingo, a friendly English tutor. Keep answers under 2 sentences and end with a short question. only use text! don't use punctuation marks or symbols"},
+                    {"role":"system","content":"You are Lingo, a friendly English tutor. Keep answers under 2 sentences and end with a short question. Don't use excessive punctuation marks or symbols"},
                     {"role":"user","content":user_text},
                 ]
                 self.stream_llm_to_ui_and_tts(messages)
@@ -409,7 +409,7 @@ class VoiceTester(tk.Tk):
         self._say("You", user_text)
         self.set_status("Streaming…")
         messages = [
-            {"role":"system","content":"You are Lingo, a friendly English tutor. Keep answers under 2 sentences and end with a short question. Only use text. Don't use any punctuation marks or symbols"},
+            {"role":"system","content":"You are Lingo, a friendly English tutor. Keep answers under 2 sentences and end with a short question. Don't use excessive punctuation marks or symbols"},
             {"role":"user","content":user_text},
         ]
         def _worker():
