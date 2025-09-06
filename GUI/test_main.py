@@ -51,6 +51,11 @@ def _load_module_from_path(mod_name: str, file_path: str):
 TTS_MOD_PATH = "/home/robinglory/Desktop/Thesis/TTS/streaming_piper_gui.py"
 ttsmod = _load_module_from_path("streaming_piper_gui", TTS_MOD_PATH)  # exposes PIPER_BIN, DEFAULT_VOICE
 
+os.environ.setdefault("OMP_NUM_THREADS", "2")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "2")
+os.environ.setdefault("MKL_NUM_THREADS", "2")
+os.environ.setdefault("NUMBA_NUM_THREADS", "2")
+
 # -------------------- NEW: Piper persistent engine --------------------
 def _voice_json_path(onnx_path: str) -> str | None:
     base, _ = os.path.splitext(onnx_path)
@@ -438,7 +443,8 @@ class LLMHandler:
                 system_msg = (
                     "You are Lingo, a friendly AI English Teacher. "
                     "Keep responses <=2 sentences (<=60 words) and end with one short question. "
-                    "Avoid the '*' character."
+                    "Avoid the '*' andcharacter."
+                    "Don't use any emoji at all."
                 )
 
             messages = [{"role": "system", "content": system_msg}]
@@ -559,7 +565,7 @@ class MainAIChat:
         self._tts = None
 
         # NEW: filler audio manager (plays 1 random clip after 3s if STT is slow)
-        self.trans_spent = TransSpent("/home/robinglory/Desktop/Thesis/GUI/audio_filler")
+        self.trans_spent = None
 
         # TTS queue: tuples of (text, is_sentence_end); sentinel is (None, True)
         self._tts_q: queue.Queue[tuple[str | None, bool]] = queue.Queue(maxsize=128)
@@ -589,36 +595,17 @@ class MainAIChat:
         try:
             self._tts = PiperEngine(ttsmod.PIPER_BIN, ttsmod.DEFAULT_VOICE)
             self._tts.start()
+            self.trans_spent = TransSpent(self._tts.say_chunk)
         except Exception as e:
             print("[TTS] init error:", e)
     
-    def _restart_tts_safe(self, retries: int = 3, delay: float = 0.25):
-        """
-        Close and restart Piper so the output device is re-acquired.
-        Retries a few times in case ALSA needs a moment to release.
-        """
-        try:
-            if self._tts:
-                self._tts.close()
-        except Exception:
-            pass
-        for _ in range(max(1, retries)):
-            try:
-                if self._tts:
-                    self._tts.start()
-                    return
-            except Exception as e:
-                print("[TTS] restart retry due to:", e)
-            time.sleep(delay)
-
-
     def _ensure_stt(self):
         if self._stt_model is not None:
             return
-        model_dir = FW_BASE  # fixed path you prefer
+        model_dir = FW_TINY  # fixed path you prefer
         if not os.path.isdir(model_dir):
             raise RuntimeError(f"STT model folder not found: {model_dir}")
-        os.environ.setdefault("OMP_NUM_THREADS", "4")
+        os.environ.setdefault("OMP_NUM_THREADS", "2") ##I have to change this form 4 to 2!!
         print(f"[STT] Loading model: {model_dir} (int8)")
         t0 = time.perf_counter()
         self._stt_model = WhisperModel(model_dir, device="cpu", compute_type="int8")
@@ -865,8 +852,8 @@ class MainAIChat:
                 self.set_status("Recording…")
                 print("[GUI] Recording…")
                 rec = VADRecorder(
-                    sample_rate=16000, frame_ms=30, vad_aggr=3,
-                    silence_ms=2000, max_record_s=10,
+                    sample_rate=16000, frame_ms=20, vad_aggr=3,
+                    silence_ms=1200, max_record_s=7.5,
                     energy_margin=2.0, energy_min=2200, energy_max=6000
                 )
                 wav_path = rec.record(TEMP_WAV)
@@ -876,26 +863,20 @@ class MainAIChat:
                 self.set_status("Transcribing…")
                 print("[GUI] Transcribing…")
 
-                # Release Piper so the filler can use the audio device
-                try:
-                    if self._tts:
-                        self._tts.close()
-                except Exception:
-                    pass
-
                 # Arm a single filler clip if STT takes longer than 3 seconds
                 self.trans_spent.start_for_transcribing(delay_sec=3.0)
 
 
                 t0 = time.perf_counter()
                 segments, info = self._stt_model.transcribe(
-                    wav_path, language="en", beam_size=3, vad_filter=True,
+                    wav_path, language="en", beam_size=1, vad_filter=False,
                     vad_parameters=dict(min_silence_duration_ms=400)
                 )
+                #I have change the beam_size = 1 from 3 and can't add the num_workers as it will raise the error.
 
                 # NEW: stop filler now; Piper will speak next
                 self.trans_spent.stop()
-                self._restart_tts_safe()
+                
 
                 user_text = "".join(s.text for s in segments).strip()
                 print(f"[STT] (len≈{info.duration:.2f}s, asr={time.perf_counter() - t0:.2f}s)")
@@ -906,7 +887,6 @@ class MainAIChat:
                         self.trans_spent.stop()
                     except Exception:
                         pass
-                    self._restart_tts_safe()
                     self.display_message("STT", "(No speech detected)")
                     return
 
