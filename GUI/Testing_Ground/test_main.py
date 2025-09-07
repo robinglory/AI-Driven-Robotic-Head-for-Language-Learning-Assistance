@@ -22,7 +22,6 @@ from styles import configure_styles
 from login import LoginScreen
 from student_manager import StudentManager
 from lesson_manager import LessonManager
-from trans_spent import TransSpent
 
 # Multi-account manager (keys.json + settings.json)
 from key_manager import KeyManager
@@ -595,7 +594,6 @@ class MainAIChat:
         try:
             self._tts = PiperEngine(ttsmod.PIPER_BIN, ttsmod.DEFAULT_VOICE)
             self._tts.start()
-            self.trans_spent = TransSpent(self._tts.say_chunk)
         except Exception as e:
             print("[TTS] init error:", e)
     
@@ -863,30 +861,17 @@ class MainAIChat:
                 self.set_status("Transcribing…")
                 print("[GUI] Transcribing…")
 
-                # Arm a single filler clip if STT takes longer than 3 seconds
-                self.trans_spent.start_for_transcribing(delay_sec=3.0)
-
-
                 t0 = time.perf_counter()
                 segments, info = self._stt_model.transcribe(
                     wav_path, language="en", beam_size=1, vad_filter=False,
                     vad_parameters=dict(min_silence_duration_ms=400)
                 )
-                #I have change the beam_size = 1 from 3 and can't add the num_workers as it will raise the error.
-
-                # NEW: stop filler now; Piper will speak next
-                self.trans_spent.stop()
-                
+                #I have change the beam_size = 1 from 3 and can't add the num_workers as it will raise the error.             
 
                 user_text = "".join(s.text for s in segments).strip()
                 print(f"[STT] (len≈{info.duration:.2f}s, asr={time.perf_counter() - t0:.2f}s)")
                 self.set_status("Ready")
                 if not user_text:
-                    # Ensure filler is stopped and Piper is back before returning
-                    try:
-                        self.trans_spent.stop()
-                    except Exception:
-                        pass
                     self.display_message("STT", "(No speech detected)")
                     return
 
@@ -945,11 +930,6 @@ class MainAIChat:
                 self._pending_gui_text = "".join(full_parts).strip()
                 self._tts_q.put((None, True))  # sentinel → commit GUI
             except Exception as e:
-                # ensure filler stops even on error
-                try:
-                    self.trans_spent.stop()
-                except Exception:
-                    pass
                 self._pending_gui_text = f"[Error: {e}]"
                 self._tts_q.put((None, True))
 
@@ -999,10 +979,6 @@ class MainAIChat:
         try:
             if self._tts:
                 self._tts.say("Goodbye.")
-        except Exception:
-            pass
-        try:
-            self.trans_spent.stop()
         except Exception:
             pass
         try:
