@@ -1247,6 +1247,108 @@
         "role": "assistant",
         "content": "I don't seeany specific lesson text provided yet. What type of English lesson wouldyou like to start with - reading, grammar, or vocabulary?"
       }
+    ],
+    "/home/robinglory/Desktop/Thesis/english_lessons/A2 Level (Pre-Intermediate)/Reading/Three Popular Inventions from the 1920s.json": [
+      {
+        "role": "user",
+        "content": "Yo!"
+      },
+      {
+        "role": "assistant",
+        "content": "Inthe1920s,threepopularinventionsrevolutionizedvarioussectors.Thefirstwastheelectrictoaster,whichmadebreakfastpreparationmoreefficient.Anothernotableinventionwasthefirstpracticaltelevision,allowingpeopletowatchmovingimagesintheirhomes.Lastly,theinventionoftheelectricblendermadeiteasiertomakesmoothiesandotherblendeddrinks."
+      }
+    ],
+    "/home/robinglory/Desktop/Thesis/english_lessons/B1 Level (Intermediate)/Grammar/Can, could, be able to Ability and possibility.json": [
+      {
+        "role": "user",
+        "content": "Yo!"
+      },
+      {
+        "role": "assistant",
+        "content": "In this lesson, we will learn about the use of \"can\", \"could\", and \"be able to\" to express ability and possibility."
+      },
+      {
+        "role": "user",
+        "content": "Before that, can you please introduce yourself to me?"
+      },
+      {
+        "role": "assistant",
+        "content": "I am Lingo, your personal English tutor, here to help you improve your English skills! Let's start learning about \"can\", \"could\", and \"be able to\" now."
+      },
+      {
+        "role": "user",
+        "content": "Ok let's do it my friend."
+      },
+      {
+        "role": "assistant",
+        "content": "Great! I'm ready to help you learn about expressing ability and possibility in English."
+      },
+      {
+        "role": "user",
+        "content": "Ok what about it?"
+      },
+      {
+        "role": "assistant",
+        "content": "In English, we use \"can\" and \"could\" to talk about ability, and \"be able to\" to express the same."
+      },
+      {
+        "role": "user",
+        "content": "I see, so is this sentence correct? I can do a great job in coding."
+      },
+      {
+        "role": "assistant",
+        "content": "Yes, that sentence is correct! It expresses that you have the ability to do a great job in coding. dern Can you identify another sentence in the lesson text that uses \"can\" to express ability?"
+      }
+    ],
+    "/home/robinglory/Desktop/Thesis/english_lessons/B1 Level (Intermediate)/Grammar/Comparative and superlative adjectives and adverbs.json": [
+      {
+        "role": "user",
+        "content": "You are your turn today. I hope that will just find a backing from me."
+      },
+      {
+        "role": "assistant",
+        "content": "In this lesson, we will learn about comparative and superlative forms of adjectives and adverbs. Comparative form is used to compare two things, while superlative form is used to compare three or more things."
+      },
+      {
+        "role": "user",
+        "content": "Do you understand the word that I can be out of my mouth? Do you speak English?"
+      },
+      {
+        "role": "assistant",
+        "content": "The lesson text doesn't say yet. Please look at the lesson text I provided - it's currently empty."
+      },
+      {
+        "role": "user",
+        "content": "Can you please tell me what time saw this now we are going to act today?"
+      },
+      {
+        "role": "assistant",
+        "content": "The lesson text doesn't mention any specific time or action for today. Let's focus on the lesson at hand, which is learning about comparative and superlative adjectives and adverbs. Would you like to start with an example?  For instance, the comparative form of the adjective \"big\" is \"bigger,\" and the superlative form is \"biggest.\"  Is that clear so far?"
+      },
+      {
+        "role": "user",
+        "content": "Can you please tell me what time saw us saying we are going to that today?"
+      },
+      {
+        "role": "assistant",
+        "content": "I apologize for the confusion. The lesson text doesn't mention any specific time or action being planned for today. Let's focus on learning about comparative and superlative adjectives and adverbs. Here's a tip: To form the comparative form of an adjective, you typically add \"-er\" or \"-est\" to the end of the word. For example, \"tall\" becomes \"taller\" and \"tall"
+      },
+      {
+        "role": "user",
+        "content": "Can you please tell me what types of nuts are I going to let you go?"
+      },
+      {
+        "role": "assistant",
+        "content": "It looks like there might be a mistake in your question. The lesson text doesn't mention any nuts or letting anyone go. Let's focus on learning about comparative and superlative adjectives and adverbs. Here's a tip: To form the comparative form of an adjective, you typically add \"-er\" or \"-est\" to the end of the word. For example, \"tall\" becomes \"taller\" and \""
+      },
+      {
+        "role": "user",
+        "content": "Can you please introduce yourself to me? I will have to know your name."
+      },
+      {
+        "role": "assistant",
+        "content": "I am Lingo, a personal English tutor. While I don't have a physical form, I am here to help you learn English. Let's focus on our lesson about comparative and superlative adjectives and adverbs. Here's a tip: To form the comparative form of an adjective, you typically add \"-er\" or \"-est\" to the end of the word. For example, \"tall\" becomes \""
+      }
     ]
   }
 }

@@ -1,9 +1,3 @@
-# main.py  —  Text+Voice GUI: STT → LLM(stream) → TTS (Piper RAW)
-# Requirements:
-#   pip install faster-whisper webrtcvad sounddevice piper-tts requests python-dotenv
-#   sudo apt-get install alsa-utils
-#   export PIPER_SR=24000
-
 import os
 import sys
 import time

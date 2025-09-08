@@ -1,15 +1,4 @@
-# lesson.py — Personalized Lesson Screen with STT → LLM(stream) → TTS (Piper RAW)
-# Deps (same as main.py):
-#   pip install faster-whisper webrtcvad sounddevice piper-tts python-dotenv
-#   sudo apt-get install alsa-utils
-#   export PIPER_SR=24000
-#
-# Notes:
-# - LLM handler is reused from main_app.llm (unchanged).
-# - We only adjust the lesson-mode system messages to (a) ban emoji and (b) allow ~15% concise outside knowledge
-#   while keeping ~85% grounded in the provided lesson text.
-# - We strip any accidental emojis from streamed output before TTS/GUI.
-
+# lesson.py
 import os
 import json
 import random
@@ -18,25 +7,21 @@ import queue
 import tkinter as tk
 from tkinter import ttk, scrolledtext, messagebox
 from tkinter import font as tkfont
-import re
-import unicodedata
-import time
-
+import math, wave, struct, collections, time
 from styles import configure_styles
 from api_manager import APIManager  # fallback if needed
 
-# -------------------- NEW: audio & stt deps --------------------
+# --- STT deps (same as main.py) ---
 try:
     import sounddevice as sd
     import webrtcvad
     from faster_whisper import WhisperModel
 except Exception as e:
     raise SystemExit(
-        "Missing audio/STT deps. Run:\n"
+        "Missing deps. Run:\n"
         "  pip install faster-whisper webrtcvad sounddevice\n" + str(e)
     )
-
-# -------------------- NEW: import PIPER paths from your module --------------------
+# --- Piper access ---
 import importlib.machinery, importlib.util
 def _load_module_from_path(mod_name: str, file_path: str):
     loader = importlib.machinery.SourceFileLoader(mod_name, file_path)
@@ -45,12 +30,8 @@ def _load_module_from_path(mod_name: str, file_path: str):
     loader.exec_module(module)
     return module
 
-# Adjust path if needed (same as main.py)
-TTS_MOD_PATH = "/home/robinglory/Desktop/Thesis/TTS/streaming_piper_gui.py"
-ttsmod = _load_module_from_path("streaming_piper_gui", TTS_MOD_PATH)  # exposes PIPER_BIN, DEFAULT_VOICE
+import shutil, subprocess, sys, json, os, threading
 
-# -------------------- NEW: Piper persistent engine --------------------
-import sys, shutil, subprocess, wave, struct, math, collections
 def _voice_json_path(onnx_path: str)->str|None:
     base, _ = os.path.splitext(onnx_path)
     j = base + ".json"
@@ -122,7 +103,6 @@ class PiperEngine:
         )
         self._p1.stdout.close()
 
-    # smarter chunk writer: newline only on sentence ends
     def say_chunk(self, text: str, final: bool):
         if not text or not text.strip():
             return
@@ -157,11 +137,34 @@ class PiperEngine:
             pass
         self._p1 = None; self._p2 = None
 
-# -------------------- NEW: VAD recorder (16k, mono) --------------------
+
+TTS_MOD_PATH = "/home/robinglory/Desktop/Thesis/TTS/streaming_piper_gui.py"
+ttsmod = _load_module_from_path("streaming_piper_gui", TTS_MOD_PATH)  # exposes PIPER_BIN, DEFAULT_VOICE
+
+# ---------- Simple JSON helpers ----------
+def load_json(filepath):
+    if not os.path.exists(filepath):
+        return {}
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+        
+# --- STT constants (tiny + temp wav) ---
+FW_TINY = "/home/robinglory/Desktop/Thesis/STT/faster-whisper/fw-tiny.en"
+TEMP_WAV = "/tmp/fw_lesson.wav"
+
+def save_json(filepath, data):
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+        
+        
+# --- Minimal VAD recorder ---
 class VADRecorder:
     """WebRTC VAD + energy gate; writes 16k mono WAV and returns its path."""
-    def __init__(self, sample_rate=16000, frame_ms=30, vad_aggr=3,
-                 silence_ms=2000, max_record_s=10, device=None,
+    def __init__(self, sample_rate=16000, frame_ms=20, vad_aggr=3,
+                 silence_ms=1200, max_record_s=7.5, device=None,
                  energy_margin=2.0, energy_min=2200, energy_max=6000, energy_calib_ms=500):
         self.sample_rate=sample_rate; self.frame_ms=frame_ms; self.vad_aggr=vad_aggr
         self.silence_ms=silence_ms; self.max_record_s=max_record_s; self.device=device
@@ -185,89 +188,39 @@ class VADRecorder:
         calib_frames = max(1,int(self.energy_calib_ms/self.frame_ms))
         ring=collections.deque(); voiced=False; trailing=0; total=0
         energy_thr=None; calib_vals=[]
-        print(f"[VAD] start {self.sample_rate}Hz frame={self.frame_ms}ms agg={self.vad_aggr} stop>{self.silence_ms}ms")
+
         def _cb(indata, frames, time_info, status):
             nonlocal voiced, trailing, total, energy_thr
             buf=indata.tobytes()
             if len(buf)<frame_bytes: return
             ring.append(buf); total+=1
             if energy_thr is None and len(calib_vals)<calib_frames:
-                calib_vals.append(self._rms_int16(buf))
-                if len(calib_vals)==calib_frames:
-                    base=sorted(calib_vals)[len(calib_vals)//2]
-                    thr=max(self.energy_min,min(self.energy_max, base*self.energy_margin)); energy_thr=thr
-                    print(f"\n[VAD] energy floor≈{int(base)} → thr≈{int(thr)}")
-                return
+                calib_vals.append(self._rms_int16(buf)); return
+            if energy_thr is None and len(calib_vals)==calib_frames:
+                base=sorted(calib_vals)[len(calib_vals)//2]
+                thr=max(self.energy_min,min(self.energy_max, base*self.energy_margin)); energy_thr=thr
             rms=self._rms_int16(buf)
             try:
                 speech = vad.is_speech(buf,self.sample_rate)
             except Exception:
                 speech=False
-            if energy_thr is not None and rms<energy_thr:
-                speech=False
-            if speech:
-                voiced=True; trailing=0
-                print(f"\r[VAD] frames={total} rms={int(rms)} (speech)  ", end="")
+            if energy_thr is not None and rms<energy_thr: speech=False
+            if speech: voiced=True; trailing=0
             else:
                 if voiced: trailing=min(silence_frames_needed,trailing+1)
-                print(f"\r[VAD] frames={total} rms={int(rms)} (silence {trailing*self.frame_ms} ms)", end="")
-        with sd.InputStream(samplerate=self.sample_rate, channels=1, dtype='int16', device=self.device,
-                             blocksize=frame_samp, callback=_cb):
+
+        with sd.InputStream(samplerate=self.sample_rate, channels=1, dtype='int16',
+                             device=self.device, blocksize=frame_samp, callback=_cb):
             while True:
                 time.sleep(self.frame_ms/1000.0)
-                if total>=max_frames:
-                    print("\n[VAD] max time reached"); break
-                if voiced and trailing>=silence_frames_needed:
-                    print("\n[VAD] silence reached — stop"); break
+                if total>=max_frames: break
+                if voiced and trailing>=silence_frames_needed: break
+
         os.makedirs(os.path.dirname(out_wav), exist_ok=True)
         with wave.open(out_wav,'wb') as w:
             w.setnchannels(1); w.setsampwidth(2); w.setframerate(self.sample_rate)
             while ring: w.writeframes(ring.popleft())
-        dur=total*self.frame_ms/1000.0
-        print(f"[VAD] wrote {out_wav} (≈{dur:.2f}s)")
         return out_wav
-
-# ---------- Simple JSON helpers ----------
-def load_json(filepath):
-    if not os.path.exists(filepath):
-        return {}
-    try:
-        with open(filepath, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return {}
-
-def save_json(filepath, data):
-    with open(filepath, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-
-# ---------- Text cleanup helpers (ban emojis) ----------
-_EMOJI_RE = re.compile(
-    "["  # broad unicode ranges that commonly include emojis/symbols
-    "\U0001F300-\U0001F6FF"
-    "\U0001F700-\U0001F77F"
-    "\U0001F780-\U0001F7FF"
-    "\U0001F800-\U0001F8FF"
-    "\U0001F900-\U0001F9FF"
-    "\U0001FA00-\U0001FAFF"
-    "\U0001FB00-\U0001FBFF"
-    "\U00002700-\U000027BF"
-    "\U00002600-\U000026FF"
-    "\U00002B00-\U00002BFF"
-    "]+",
-    flags=re.UNICODE
-)
-
-def strip_emoji_and_extras(text: str) -> str:
-    if not text:
-        return text
-    text = _EMOJI_RE.sub("", text)
-    text = "".join(ch for ch in text if unicodedata.category(ch) != "Cs")
-    return re.sub(r"\s{2,}", " ", text).strip(" \t")
-
-# ---------- Constants ----------
-FW_BASE = "/home/robinglory/Desktop/Thesis/STT/faster-whisper/fw-base.en"
-TEMP_WAV = "/tmp/fw_dialog_lesson.wav"
 
 class LessonScreen:
     STUDENTS_JSON_PATH = "/home/robinglory/Desktop/Thesis/GUI/students.json"
@@ -286,11 +239,20 @@ class LessonScreen:
 
         # Identify user/lesson for persistence
         self.user_id = str(self.student_manager.current_user.get("id", "default"))
-        self.lesson_path = (self.current_lesson or {}).get("filepath", f"default_{lesson_type}")
+        self.lesson_path = self.current_lesson.get("filepath", f"default_{lesson_type}")
 
         # Load persisted data
         self.conversation_data = load_json(self.CONVERSATIONS_JSON_PATH)
         self.students_data = load_json(self.STUDENTS_JSON_PATH)
+        
+        self._stt_model: WhisperModel | None = None
+        self.status_var = tk.StringVar(value="Ready")
+        
+        # --- TTS state (like main.py) ---
+        self._tts: PiperEngine | None = None
+        self._tts_q: queue.Queue[tuple[str|None, bool]] = queue.Queue(maxsize=128)
+        self._pending_gui_text: str | None = None
+
 
         # Load or start fresh conversation
         self.conversation_history = self.conversation_data.get(self.user_id, {}).get(self.lesson_path, [])
@@ -304,11 +266,6 @@ class LessonScreen:
         self._thinking_start_index = None
         self._first_chunk_seen = False
         self._current_response_buffer = []  # accumulate streamed chunks
-
-        # NEW: audio state
-        self._stt_model: WhisperModel | None = None
-        self._tts = None
-        self._tts_q: queue.Queue[tuple[str, bool]] = queue.Queue(maxsize=64)  # (text, is_sentence_end)
 
         # Window config
         self.root.title(f"Lingo - AI Personal English Teacher ({lesson_type.capitalize()} Section)")
@@ -324,10 +281,14 @@ class LessonScreen:
         configure_styles()
         self.create_widgets()
         self.load_lesson()
-
-        # Init TTS and drain queue
+        
+        # Start Piper
         self._init_tts()
+
+        # Drain TTS queue forever
         self.root.after(20, self._drain_tts_queue)
+
+
 
     # ---------- UI ----------
     def create_widgets(self):
@@ -351,14 +312,12 @@ class LessonScreen:
         )
         back_btn.pack(side=tk.RIGHT, padx=10)
 
-        chat_frame = ttk.Frame(main_frame, style="Chat.TFrame")
-        chat_frame.pack(fill=tk.BOTH, expand=True, pady=(0, 15))
-
+        # Keep input row visible
         self.conversation_display = scrolledtext.ScrolledText(
-            chat_frame,
+            main_frame,
             wrap=tk.WORD,
             font=self.content_font,
-            height=18,
+            height=18,            # was 30; this avoids the input row being pushed out
             padx=15,
             pady=15,
             state='disabled',
@@ -380,31 +339,28 @@ class LessonScreen:
         input_frame = ttk.Frame(main_frame, style="Input.TFrame")
         input_frame.pack(fill=tk.X)
 
-        # Status label (left)
-        self.status_var = tk.StringVar(value="Ready")
-        self.status_label = ttk.Label(input_frame, textvariable=self.status_var)
-        self.status_label.pack(side=tk.LEFT, padx=(0, 10))
-
         self.user_input = ttk.Entry(input_frame, font=("Segoe UI", 12))
         self.user_input.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 10))
         self.user_input.bind("<Return>", self.handle_input)
 
-        # 🎤 Speak button (primary)
-        self.speak_btn = ttk.Button(input_frame, text="🎤 Speak", command=self.on_speak, style="Accent.TButton")
-        self.speak_btn.pack(side=tk.RIGHT, padx=(0, 10))
-        self.speak_btn.focus_set()
-
         send_btn = ttk.Button(input_frame, text="Send", command=self.handle_input, style="Accent.TButton")
         send_btn.pack(side=tk.RIGHT)
+
+        self.user_input.focus()
 
         # Replay prior conversation
         for msg in self.conversation_history:
             sender = "You" if msg["role"] == "user" else "Lingo"
             self.display_message(sender, msg["content"])
+            
+        # status label (left)
+        status_lbl = ttk.Label(input_frame, textvariable=self.status_var)
+        status_lbl.pack(side=tk.LEFT, padx=(0, 10))
 
-    def set_status(self, txt: str):
-        self.status_var.set(txt)
-        self.root.update_idletasks()
+        # 🎤 Speak button
+        speak_btn = ttk.Button(input_frame, text="🎤 Speak", command=self.on_speak, style="Accent.TButton")
+        speak_btn.pack(side=tk.RIGHT, padx=(0, 10))
+
 
     def load_lesson(self):
         try:
@@ -424,12 +380,6 @@ class LessonScreen:
             self.current_lesson_path = lesson.get("filepath")
             self.student_manager.current_lesson = lesson
 
-            # Align conversation key with current lesson
-            self.lesson_path = self.current_lesson_path or self.lesson_path
-            self.conversation_data = load_json(self.CONVERSATIONS_JSON_PATH)
-            self.conversation_history = self.conversation_data.get(self.user_id, {}).get(self.lesson_path, [])
-            self.student_manager.conversation_history = self.conversation_history
-
             self.display_lesson_content(lesson)
             self.display_personalized_welcome(lesson)
         except Exception as e:
@@ -447,10 +397,10 @@ class LessonScreen:
     def display_personalized_welcome(self, lesson):
         student_name = self.student_manager.current_user["name"].split()[0]
         praise = random.choice([
+            "This is going to really boost your English skills!",
+            "I'm excited to help you master this important area!",
             "You're making great progress by working on this!",
-            "This will boost your English skills.",
-            "I'm excited to guide you through this topic.",
-            "This lesson will build your confidence."
+            "This lesson will take your English to the next level!",
         ])
         welcome_msg = (
             f"Hello {student_name}! I'm Lingo, Your Personal AI English Teacher.\n"
@@ -517,6 +467,7 @@ class LessonScreen:
         self.conversation_display.configure(state='disabled')
 
     def _replace_thinking_header_if_needed(self):
+        """Replace 'Lingo (Thinking…): ' with 'Lingo: ' on first token."""
         if self._first_chunk_seen or not self._thinking_tagged or self._thinking_start_index is None:
             return
         try:
@@ -532,73 +483,62 @@ class LessonScreen:
 
     def _drain_stream_queue(self):
         try:
-            while True:
-                chunk = self._stream_queue.get_nowait()
-                if chunk is None:
-                    self._streaming = False
-                    if not self._first_chunk_seen and self._thinking_tagged and self._thinking_start_index:
-                        self._replace_thinking_header_if_needed()
-                    self._append_stream_text("\n")
-                    self.root.config(cursor="")
-
-                    # Persist full assistant message to history
-                    full_assistant = "".join(self._current_response_buffer).strip()
-                    if full_assistant:
-                        self.student_manager.conversation_history.append(
-                            {"role": "assistant", "content": full_assistant}
-                        )
-
-                    # Save updated conversation
-                    self.conversation_data.setdefault(self.user_id, {})
-                    self.conversation_data[self.user_id][self.lesson_path] = self.student_manager.conversation_history
-                    save_json(self.CONVERSATIONS_JSON_PATH, self.conversation_data)
-                    self._current_response_buffer.clear()
-                    return
-                else:
-                    if not self._first_chunk_seen:
-                        self._replace_thinking_header_if_needed()
-                    self._current_response_buffer.append(chunk)
-                    self._append_stream_text(chunk)
+            item = self._stream_queue.get_nowait()
         except queue.Empty:
-            pass
-        if self._streaming:
+            # poll again shortly
             self.root.after(15, self._drain_stream_queue)
+            return
 
-    # ---------- Audio helpers ----------
-    def _init_tts(self):
-        try:
-            self._tts = PiperEngine(ttsmod.PIPER_BIN, ttsmod.DEFAULT_VOICE)
-            self._tts.start()
-        except Exception as e:
-            print("[TTS] init error:", e)
+        # Sentinel means stream finished
+        if item is None:
+            # Collect the full response text we buffered while streaming
+            full_text = "".join(getattr(self, "_lesson_full_parts", [])).strip()
+            self._pending_gui_text = full_text  # <-- this was missing
 
-    def _ensure_stt(self):
-        if self._stt_model is not None: return
-        model_dir = FW_BASE
-        if not os.path.isdir(model_dir):
-            raise RuntimeError(f"STT model folder not found: {model_dir}")
-        os.environ.setdefault("OMP_NUM_THREADS","4")
-        print(f"[STT] Loading model: {model_dir} (int8)")
-        t0=time.perf_counter()
-        self._stt_model = WhisperModel(model_dir, device="cpu", compute_type="int8")
-        print(f"[STT] Ready in {time.perf_counter()-t0:.2f}s")
+            # Ask TTS drainer to commit the GUI *after* speech ends
+            self._tts_q.put((None, True))
+            return
 
-    def _drain_tts_queue(self):
-        try:
-            item = self._tts_q.get_nowait()
-        except queue.Empty:
-            pass
+
+        # item is a chunk string
+        chunk = item
+        # Flip the header on the first token so the label reads "Lingo:"
+        self._replace_thinking_header_if_needed()
+
+        # Accumulate for GUI while feeding TTS immediately in small chunks
+        # We buffer and flush exactly like main.py
+        if not hasattr(self, "_lesson_tts_buf"):
+            self._lesson_tts_buf = []
+            self._lesson_tts_words = 0
+            self._lesson_last_flush = time.perf_counter()
+            self._lesson_full_parts = []
+            self._punct_final = (".", "?", "!")
+            self._max_words = 10
+
+        self._lesson_full_parts.append(chunk)
+        self._lesson_tts_buf.append(chunk)
+        self._lesson_tts_words += chunk.count(" ")
+
+        def _flush(final=False):
+            piece = "".join(self._lesson_tts_buf).strip()
+            if piece and self._tts:
+                self._tts_q.put((piece, final))
+            self._lesson_tts_buf.clear()
+            self._lesson_tts_words = 0
+            self._lesson_last_flush = time.perf_counter()
+
+        if chunk.endswith(self._punct_final):
+            _flush(final=True)
         else:
-            try:
-                if self._tts:
-                    text, is_final = item
-                    self._tts.say_chunk(text, final=is_final)
-                    self.set_status("Speaking…")
-            except Exception as e:
-                print("[TTS] error:", e)
-        self.root.after(20, self._drain_tts_queue)
+            if (self._lesson_tts_words >= self._max_words) or ((time.perf_counter() - self._lesson_last_flush) > 0.9):
+                _flush(final=False)
 
-    # ---------- Input handling (typed) ----------
+        # When the stream finishes, we’ll set _pending_gui_text and send TTS sentinel in the sentinel branch above
+        # Schedule next poll
+        self.root.after(15, self._drain_stream_queue)
+
+
+    # ---------- Input handling ----------
     def handle_input(self, event=None):
         if self._streaming:
             return
@@ -611,34 +551,29 @@ class LessonScreen:
         self.user_input.delete(0, tk.END)
 
         try:
-            # Build lesson-aware prompts (keep original style; add 85/15 + no-emoji)
+            # Build lesson-aware prompts that FORCE answers from lesson text only
             lesson = self.student_manager.current_lesson or {}
             lesson_title = lesson.get("title", "")
             lesson_type = self.lesson_type
             lesson_objective = lesson.get("objective", "")
             lesson_text = lesson.get("text", "") or ""
 
-            LESSON_SLICE_LIMIT = int(os.getenv("LESSON_SLICE", "4000"))
+            LESSON_SLICE_LIMIT = 1200
             lesson_slice = lesson_text[:LESSON_SLICE_LIMIT]
 
-            print("[Lesson] type:", lesson_type, "| title:", lesson_title)
-            print("[Lesson] path:", getattr(self, "current_lesson_path", None))
-            print("[Lesson] slice[0:160]:", lesson_slice[:160].replace("\n", " "))
-            if not lesson_slice.strip():
-                print("[Lesson] WARNING: lesson text is empty for this section.")
-
             system_rules = (
-                "You are Lingo, a personal English tutor.\n"
-                "You are teaching the following LESSON. Follow these rules:\n"
-                "• Ground your response ~85% in the LESSON TEXT below (quote or paraphrase it).\n"
-                "• You may add ~15% brief, relevant outside knowledge to improve understanding, but do not contradict the LESSON TEXT.\n"
-                "• If the LESSON TEXT does not contain the needed info, say: \"The lesson text doesn’t say yet.\" and ask a short guiding question.\n"
-                "• Keep responses short (≤2 sentences, ≤60 words) and end with one short question.\n"
-                "• Do not use emojis. Do not use the '*' character.\n"
-                "• Match the lesson type (Reading/Grammar/Vocabulary):\n"
-                "  - Reading: brief, text-based explanation + one comprehension question.\n"
-                "  - Grammar: explain only rules/examples present in the text.\n"
-                "  - Vocabulary: define/illustrate only words appearing in the text.\n"
+                "You are Lingo, a personal English tutor. "
+                "You are currently teaching a specific LESSON to the student. "
+                "CRITICAL:\n"
+                "1) Base your responses ONLY on the provided LESSON TEXT below. Do not use outside knowledge.\n"
+                "2) If the answer is not in the LESSON TEXT yet, say: \"The lesson text doesn’t say yet.\" and guide the student to the relevant part.\n"
+                "3) Keep answers short (≤2 sentences, ≤60 words) and end with one simple question.\n"
+                "4) Avoid the '*' character.\n"
+                "5) Do not invent names or facts not present in the LESSON TEXT.\n"
+                "6) Match the lesson type (Reading/Grammar/Vocabulary):\n"
+                "   - Reading: give a brief, text‑based explanation + one comprehension question.\n"
+                "   - Grammar: explain the rule using examples from the text; avoid new rules not in text.\n"
+                "   - Vocabulary: define/illustrate only words appearing in the text.\n"
             )
 
             lesson_header = (
@@ -649,12 +584,13 @@ class LessonScreen:
             )
 
             lesson_payload = (
-                "LESSON TEXT (authoritative; primary source):\n"
+                "LESSON TEXT (authoritative; use this ONLY):\n"
                 "<<<BEGIN LESSON TEXT>>>\n"
                 f"{lesson_slice}\n"
                 "<<<END LESSON TEXT>>>\n"
             )
 
+            # Cap history to last 6 messages (3 pairs) to keep latency low
             recent_history = self.student_manager.conversation_history[-6:] if self.student_manager.conversation_history else []
 
             messages = [
@@ -680,7 +616,7 @@ class LessonScreen:
 
             def worker():
                 try:
-                    # Prefer shared LLM; fallback to APIManager if missing
+                    # Prefer main_app.llm streaming; fallback to APIManager if missing for any reason
                     if hasattr(self.llm, "stream_ai_response"):
                         gen = self.llm.stream_ai_response(messages=messages)
                     else:
@@ -688,35 +624,11 @@ class LessonScreen:
                             self._fallback_llm = APIManager()
                         gen = self._fallback_llm.stream_ai_response(messages=messages)
 
-                    # Stream to GUI + TTS simultaneously (cleaned, chunked)
-                    punct_final = (".", "?", "!")
-                    MAX_WORDS = 10
-                    buf = []; words = 0; last_flush = time.perf_counter()
-
-                    def flush(final=False):
-                        nonlocal buf, words, last_flush
-                        piece = "".join(buf).strip()
-                        if piece and self._tts:
-                            self._tts_q.put((piece, final))
-                        buf = []; words = 0; last_flush = time.perf_counter()
-
                     for chunk in gen:
-                        clean = strip_emoji_and_extras(chunk)
-                        if not clean:
-                            continue
-                        # GUI stream
-                        self._stream_queue.put(clean)
-
-                        # TTS batching
-                        buf.append(clean); words += clean.count(" ")
-                        if clean.endswith(punct_final):
-                            flush(final=True)
-                            continue
-                        if words >= MAX_WORDS or (time.perf_counter() - last_flush) > 0.9:
-                            flush(final=False)
-
-                    if buf:
-                        flush(final=True)
+                        self._stream_queue.put(chunk)
+                        # Stash the full text for GUI commit after speech finishes
+                        full_text = "".join(self._lesson_full_parts).strip() if hasattr(self, "_lesson_full_parts") else ""
+                        self._pending_gui_text = full_text
                     self._stream_queue.put(None)
                 except Exception as e:
                     self._stream_queue.put(f"\n[Error: {e}]")
@@ -732,143 +644,109 @@ class LessonScreen:
         except Exception as e:
             print(f"Error in lesson: {str(e)}")
             self.display_message("Lingo", "Let me check the material... One moment please!")
+    
+    def _ensure_stt(self):
+        if self._stt_model is not None:
+            return
+        os.environ.setdefault("OMP_NUM_THREADS","4")
+        # tiny.en, int8 CPU for speed
+        model_dir = FW_TINY
+        if not os.path.isdir(model_dir):
+            raise RuntimeError(f"STT model folder not found: {model_dir}")
+        print(f"[STT] Loading model: {model_dir} (int8)")
+        t0=time.perf_counter()
+        self._stt_model = WhisperModel(model_dir, device="cpu", compute_type="int8")
+        print(f"[STT] Ready in {time.perf_counter()-t0:.2f}s")
+        
+    def _init_tts(self):
+        try:
+            self._tts = PiperEngine(ttsmod.PIPER_BIN, ttsmod.DEFAULT_VOICE)
+            self._tts.start()
+        except Exception as e:
+            print("[TTS] init error:", e)
 
-    # ---------- Voice path (record → transcribe → stream LLM → TTS) ----------
+    def _drain_tts_queue(self):
+        # Pull (text, is_final) items; None sentinel commits GUI and ends the turn
+        try:
+            item = self._tts_q.get_nowait()
+        except queue.Empty:
+            pass
+        else:
+            try:
+                if self._tts:
+                    text, is_final = item
+                    if text is None:
+                        # Commit the full response text to GUI after speech ends
+                        pending = (self._pending_gui_text or "").strip()
+                        if pending:
+                            self._append_stream_text(pending + "\n\n")
+                            # Add assistant message to history here if you maintain one
+                            self.student_manager.conversation_history.append({"role": "assistant", "content": pending})
+                        # turn end
+                        self.root.config(cursor="")
+                        self._streaming = False
+                        self._pending_gui_text = None
+                    else:
+                        self._tts.say_chunk(text, final=is_final)
+                        # optional: set a status label if you have one
+            except Exception as e:
+                print("[TTS] error:", e)
+        self.root.after(20, self._drain_tts_queue)
+
+    def _append_stream_text(self, text: str):
+        # If you already have a method that appends to the conversation_display, keep using it.
+        self.conversation_display.configure(state='normal')
+        self.conversation_display.insert(tk.END, text, "message")
+        self.conversation_display.see(tk.END)
+        self.conversation_display.configure(state='disabled')
+
     def on_speak(self):
         if self._streaming:
             return
         def _worker():
             try:
                 self._ensure_stt()
-                # RECORD
-                self.set_status("Recording…"); print("[GUI] Recording…")
-                rec = VADRecorder(sample_rate=16000, frame_ms=30, vad_aggr=3,
-                                  silence_ms=2000, max_record_s=10,
+
+                # 1) RECORD
+                self.status_var.set("Recording…")
+                rec = VADRecorder(sample_rate=16000, frame_ms=20, vad_aggr=3,
+                                  silence_ms=1200, max_record_s=7.5,
                                   energy_margin=2.0, energy_min=2200, energy_max=6000)
                 wav_path = rec.record(TEMP_WAV)
 
-                # TRANSCRIBE
-                self.set_status("Transcribing…"); print("[GUI] Transcribing…")
+                # 2) TRANSCRIBE (greedy, fastest)
+                self.status_var.set("Transcribing…")
                 t0 = time.perf_counter()
                 segments, info = self._stt_model.transcribe(
-                    wav_path, language="en", beam_size=3, vad_filter=True,
-                    vad_parameters=dict(min_silence_duration_ms=400)
+                    wav_path,
+                    language="en",
+                    beam_size=1,
+                    vad_filter=False,
+                    temperature=0.0,
+                    condition_on_previous_text=False
                 )
                 user_text = "".join(s.text for s in segments).strip()
-                print(f"[STT] (len≈{info.duration:.2f}s, asr={time.perf_counter()-t0:.2f}s)")
-                self.set_status("Ready")
+                print(f"[STT] (len≈{getattr(info,'duration',0):.2f}s, asr={time.perf_counter()-t0:.2f}s)")
+                self.status_var.set("Ready")
+
                 if not user_text:
+                    # Just inform the UI; do NOT call LLM
                     self.display_message("STT", "(No speech detected)")
                     return
 
-                # Push transcript to chat & history
-                self.display_message("You", user_text)
-                self.student_manager.conversation_history.append({"role": "user", "content": user_text})
+                # Push transcript into the entry and reuse your existing flow
+                self.user_input.delete(0, tk.END)
+                self.user_input.insert(0, user_text)
+                # Call your existing handler (this preserves your LLM + DB logic)
+                self.handle_input()
 
-                # Build lesson-aware messages (same rules as typed)
-                lesson = self.student_manager.current_lesson or {}
-                lesson_title = lesson.get("title", "")
-                lesson_type = self.lesson_type
-                lesson_objective = lesson.get("objective", "")
-                lesson_text = lesson.get("text", "") or ""
-                LESSON_SLICE_LIMIT = int(os.getenv("LESSON_SLICE", "4000"))
-                lesson_slice = lesson_text[:LESSON_SLICE_LIMIT]
-
-                system_rules = (
-                    "You are Lingo, a personal English tutor.\n"
-                    "You are teaching the following LESSON. Follow these rules:\n"
-                    "• Ground your response ~85% in the LESSON TEXT below (quote or paraphrase it).\n"
-                    "• You may add ~15% brief, relevant outside knowledge to improve understanding, but do not contradict the LESSON TEXT.\n"
-                    "• If the LESSON TEXT does not contain the needed info, say: \"The lesson text doesn’t say yet.\" and ask a short guiding question.\n"
-                    "• Keep responses short (≤2 sentences, ≤60 words) and end with one short question.\n"
-                    "• Do not use emojis. Do not use the '*' character.\n"
-                    "• Match the lesson type (Reading/Grammar/Vocabulary).\n"
-                )
-                lesson_header = (
-                    f"LESSON METADATA:\n"
-                    f"Title: {lesson_title}\n"
-                    f"Type: {lesson_type}\n"
-                    f"Objective: {lesson_objective}\n"
-                )
-                lesson_payload = (
-                    "LESSON TEXT (authoritative; primary source):\n"
-                    "<<<BEGIN LESSON TEXT>>>\n"
-                    f"{lesson_slice}\n"
-                    "<<<END LESSON TEXT>>>\n"
-                )
-                recent_history = self.student_manager.conversation_history[-6:] if self.student_manager.conversation_history else []
-                messages = [
-                    {"role": "system", "content": system_rules},
-                    {"role": "system", "content": lesson_header + "\n" + lesson_payload},
-                ]
-                messages.extend(recent_history)
-                messages.append({"role": "user", "content": user_text})
-
-                # Start streaming
-                self._streaming = True
-                self._first_chunk_seen = False
-                self._current_response_buffer.clear()
-                self.root.config(cursor="watch")
-
-                self.conversation_display.configure(state='normal')
-                self._thinking_start_index = self.conversation_display.index(tk.END)
-                self.conversation_display.insert(tk.END, "\nLingo (Thinking…): ", "ai")
-                self.conversation_display.configure(state='disabled')
-                self.conversation_display.see(tk.END)
-                self._thinking_tagged = True
-
-                punct_final = (".", "?", "!")
-                MAX_WORDS = 10
-                buf = []; words = 0; last_flush = time.perf_counter()
-
-                def flush(final=False):
-                    nonlocal buf, words, last_flush
-                    piece = "".join(buf).strip()
-                    if piece and self._tts:
-                        self._tts_q.put((piece, final))
-                    buf = []; words = 0; last_flush = time.perf_counter()
-
-                # Prefer shared LLM; fallback to APIManager if missing
-                if hasattr(self.llm, "stream_ai_response"):
-                    gen = self.llm.stream_ai_response(messages=messages)
-                else:
-                    if self._fallback_llm is None:
-                        self._fallback_llm = APIManager()
-                    gen = self._fallback_llm.stream_ai_response(messages=messages)
-
-                for chunk in gen:
-                    clean = strip_emoji_and_extras(chunk)
-                    if not clean:
-                        continue
-                    self._stream_queue.put(clean)
-                    buf.append(clean); words += clean.count(" ")
-                    if clean.endswith(punct_final):
-                        flush(final=True)
-                        continue
-                    if words >= MAX_WORDS or (time.perf_counter() - last_flush) > 0.9:
-                        flush(final=False)
-
-                if buf:
-                    flush(final=True)
-                self._stream_queue.put(None)
             except Exception as e:
-                self._stream_queue.put(f"\n[Error: {e}]")
-                self._stream_queue.put(None)
+                self.status_var.set("Ready")
+                self.display_message("Lingo", f"[STT error] {e}")
 
         threading.Thread(target=_worker, daemon=True).start()
-        self.root.after(15, self._drain_stream_queue)
 
-    def _on_close(self):
-        try:
-            if self._tts: self._tts.say("Goodbye.")
-        except Exception:
-            pass
-        try:
-            if self._tts: self._tts.close()
-        except Exception:
-            pass
-        try:
-            if isinstance(self.root, tk.Toplevel):
-                self.root.destroy()
-        except:
-            pass
+
+    def _generate_system_prompt(self, context):
+        """Deprecated: kept for compatibility."""
+        return "You are Lingo, a personal English tutor. Use only the provided lesson text."
