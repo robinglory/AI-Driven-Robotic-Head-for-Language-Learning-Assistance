@@ -23,6 +23,13 @@ from login import LoginScreen
 from student_manager import StudentManager
 from lesson_manager import LessonManager
 
+# --- Arduino serial helper (from gui_serial.py) ---
+from gui_serial import UnoSerial  # reuses your existing class
+try:
+    from serial.tools import list_ports  # for auto-pick of the port
+except Exception:
+    list_ports = None
+
 # Multi-account manager (keys.json + settings.json)
 from key_manager import KeyManager
 
@@ -163,8 +170,8 @@ class PiperEngine:
 # -------------------- NEW: VAD recorder (16k, mono) --------------------
 class VADRecorder:
     """WebRTC VAD + energy gate; writes 16k mono WAV and returns its path."""
-    def __init__(self, sample_rate=16000, frame_ms=30, vad_aggr=3,
-                 silence_ms=2000, max_record_s=10, device=None,
+    def __init__(self, sample_rate=16000, frame_ms=20, vad_aggr=3,
+                 silence_ms=1200, max_record_s=10, device=None,
                  energy_margin=2.0, energy_min=2200, energy_max=6000, energy_calib_ms=500):
         self.sample_rate=sample_rate; self.frame_ms=frame_ms; self.vad_aggr=vad_aggr
         self.silence_ms=silence_ms; self.max_record_s=max_record_s; self.device=device
@@ -230,7 +237,7 @@ class VADRecorder:
         print(f"[VAD] wrote {out_wav} (≈{dur:.2f}s)")
         return out_wav
 
-# -------------------- Your existing constants (unchanged LLM) --------------------
+# -------------------- Existing constants (unchanged LLM) --------------------
 load_dotenv()
 
 SOFT_TIMEOUT_SECONDS = 6.0
@@ -352,7 +359,7 @@ class LLMHandler:
         try:
             resp = self.client.chat.completions.create(
                 model=p["model"], messages=messages,
-                max_tokens=DEFAULT_MAX_TOKENS, temperature=0.7, stop=DEFAULT_STOP
+                max_tokens=DEFAULT_MAX_TOKENS, temperature=0.5, stop=DEFAULT_STOP
             )
             return resp.choices[0].message.content.strip()
         except Exception as e:
@@ -422,7 +429,7 @@ class LLMHandler:
                     model=p["model"],
                     messages=messages,
                     max_tokens=DEFAULT_MAX_TOKENS,
-                    temperature=0.7,
+                    temperature=0.5,
                     stop=DEFAULT_STOP,
                     stream=True
                 )
@@ -497,6 +504,11 @@ class MainAIChat:
         self.root.configure(bg="#f8f9fa")
 
         configure_styles()
+        # --- Arduino serial + gesture state ---
+        self._uno = UnoSerial()      # serial session to Arduino
+        self._uno_port = None        # last-connected port
+        self._speech_state = "IDLE"  # IDLE | LISTENING | THINKING | TALKING
+        self._speaking_active = False  # flips True on first TTS chunk
 
         # Key manager + LLM
         self.key_manager = KeyManager()
@@ -544,10 +556,50 @@ class MainAIChat:
             self._tts.start()
         except Exception as e:
             print("[TTS] init error:", e)
+    
+    # ---------- ARDUINO SERIAL HELPERS ----------
+    def _ensure_serial(self):
+        if self._uno_port:
+            return
+        try:
+            if list_ports is None:
+                return
+            ports = list(list_ports.comports())
+            ports = sorted(ports, key=lambda p: (("ACM" not in p.device), ("USB" not in p.device), p.device))
+            if not ports:
+                print("[SERIAL] no ports")
+                return
+            self._uno_port = ports[0].device
+            self._uno.connect(self._uno_port, baud=115200)
+            print(f"[SERIAL] connected {self._uno_port}")
+                # new: push your preferred durations
+            self._uno.send("set_total_listen 6000")
+            self._uno.send("set_return 2500")
+            self._uno.send("set_total_think 10000")
+        except Exception as e:
+            print("[SERIAL] connect failed:", e)
+
+    def _serial_send(self, cmd: str):
+        try:
+            self._ensure_serial()
+            if not self._uno or not self._uno.ser or not self._uno.ser.is_open:
+                return
+            self._uno.send(cmd)
+            print(f"[SERIAL] -> {cmd}")
+        except Exception as e:
+            print("[SERIAL] send failed:", e)
+
+
+    def _set_state(self, new_state: str):
+        """Debounce and print state changes."""
+        if self._speech_state == new_state:
+            return
+        print(f"[STATE] {self._speech_state} -> {new_state}")
+        self._speech_state = new_state
 
     def _ensure_stt(self):
         if self._stt_model is not None: return
-        model_dir = FW_BASE  # fixed path you prefer
+        model_dir = FW_TINY  # fixed path you prefer
         if not os.path.isdir(model_dir):
             raise RuntimeError(f"STT model folder not found: {model_dir}")
         os.environ.setdefault("OMP_NUM_THREADS","4")
@@ -683,7 +735,29 @@ class MainAIChat:
                         self.set_status("Ready")
                         self._streaming = False
                         self._pending_gui_text = None
+                        # --- Arduino: double STOP at end of speech ---
+                        # --- Arduino: double STOP shortly AFTER audio finishes ---
+                        def _double_stop_after_tail():
+                            try:
+                                TAIL_S = 8  # tune 0.4–0.8 for your setup
+                                time.sleep(TAIL_S)      # let aplay drain the last audio
+                                self._serial_send("stop")
+                                time.sleep(0.12)        # tiny gap helps servo stacks
+                                self._serial_send("stop")
+                                self._speaking_active = False
+                                self._set_state("IDLE")
+                            except Exception as _e:
+                                print("[SERIAL] stop error:", _e)
+
+                        threading.Thread(target=_double_stop_after_tail, daemon=True).start()
+
+                        
                     else:
+                        # --- Arduino: TALK starts on first audio chunk ---
+                        if not self._speaking_active and self._speech_state == "THINKING":
+                            self._serial_send("talk")
+                            self._set_state("TALKING")
+                            self._speaking_active = True
                         self._tts.say_chunk(text, final=is_final)
                         self.set_status("Speaking…")
             except Exception as e:
@@ -723,6 +797,10 @@ class MainAIChat:
             }
 
         self._begin_turn_gui_header()
+        # --- Arduino: THINK for typed path too ---
+        self._serial_send("think")
+        self._speech_state = "THINKING"
+
 
         def worker():
             try:
@@ -761,6 +839,9 @@ class MainAIChat:
             except Exception as e:
                 self._pending_gui_text = f"[Error: {e}]"
                 self._tts_q.put((None, True))
+                self._serial_send("stop")
+                self._set_state("IDLE")
+
 
         threading.Thread(target=worker, daemon=True).start()
 
@@ -785,13 +866,22 @@ class MainAIChat:
                 self._ensure_stt()
                 # RECORD
                 self.set_status("Recording…"); print("[GUI] Recording…")
+                import random
+                side_cmd = random.choice(["listen_left", "listen_right"])
+                self._serial_send(side_cmd)
+                self._set_state("LISTENING")
                 rec = VADRecorder(sample_rate=16000, frame_ms=30, vad_aggr=3,
-                                  silence_ms=2000, max_record_s=10,
+                                  silence_ms=1200, max_record_s=10,
                                   energy_margin=2.0, energy_min=2200, energy_max=6000)
+                self._speech_state = "LISTENING"
                 wav_path = rec.record(TEMP_WAV)
 
                 # TRANSCRIBE
                 self.set_status("Transcribing…"); print("[GUI] Transcribing…")
+                # --- Arduino: THINK during STT/LLM ---
+                self._serial_send("think")
+                self._set_state("THINKING")
+
                 t0 = time.perf_counter()
                 segments, info = self._stt_model.transcribe(
                     wav_path, language="en", beam_size=3, vad_filter=True,
@@ -802,6 +892,8 @@ class MainAIChat:
                 self.set_status("Ready")
                 if not user_text:
                     self.display_message("STT", "(No speech detected)")
+                    self._serial_send("stop")
+                    self._set_state("IDLE")
                     return
 
                 # push transcript to chat & history
@@ -855,6 +947,9 @@ class MainAIChat:
             except Exception as e:
                 self._pending_gui_text = f"[Error: {e}]"
                 self._tts_q.put((None, True))
+                self._serial_send("stop")
+                self._set_state("IDLE")
+
 
         threading.Thread(target=_worker, daemon=True).start()
 
