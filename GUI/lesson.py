@@ -317,7 +317,7 @@ class LessonScreen:
             main_frame,
             wrap=tk.WORD,
             font=self.content_font,
-            height=18,            # was 30; this avoids the input row being pushed out
+            height=16,            # was 30; this avoids the input row being pushed out
             padx=15,
             pady=15,
             state='disabled',
@@ -485,28 +485,23 @@ class LessonScreen:
         try:
             item = self._stream_queue.get_nowait()
         except queue.Empty:
-            # poll again shortly
             self.root.after(15, self._drain_stream_queue)
             return
 
-        # Sentinel means stream finished
+        # When streaming finishes, stash final text ONCE and tell TTS drainer to commit after speech
         if item is None:
-            # Collect the full response text we buffered while streaming
             full_text = "".join(getattr(self, "_lesson_full_parts", [])).strip()
-            self._pending_gui_text = full_text  # <-- this was missing
-
-            # Ask TTS drainer to commit the GUI *after* speech ends
-            self._tts_q.put((None, True))
+            self._pending_gui_text = full_text  # set once, at the end
+            self._tts_q.put((None, True))       # sentinel for GUI commit after TTS
             return
 
-
-        # item is a chunk string
+        # item is a streamed text chunk
         chunk = item
-        # Flip the header on the first token so the label reads "Lingo:"
+
+        # Flip "Lingo (Thinking…): " to "Lingo: " on the very first token
         self._replace_thinking_header_if_needed()
 
-        # Accumulate for GUI while feeding TTS immediately in small chunks
-        # We buffer and flush exactly like main.py
+        # TTS buffering logic (unchanged)
         if not hasattr(self, "_lesson_tts_buf"):
             self._lesson_tts_buf = []
             self._lesson_tts_words = 0
@@ -533,10 +528,7 @@ class LessonScreen:
             if (self._lesson_tts_words >= self._max_words) or ((time.perf_counter() - self._lesson_last_flush) > 0.9):
                 _flush(final=False)
 
-        # When the stream finishes, we’ll set _pending_gui_text and send TTS sentinel in the sentinel branch above
-        # Schedule next poll
         self.root.after(15, self._drain_stream_queue)
-
 
     # ---------- Input handling ----------
     def handle_input(self, event=None):
@@ -625,10 +617,7 @@ class LessonScreen:
                         gen = self._fallback_llm.stream_ai_response(messages=messages)
 
                     for chunk in gen:
-                        self._stream_queue.put(chunk)
-                        # Stash the full text for GUI commit after speech finishes
-                        full_text = "".join(self._lesson_full_parts).strip() if hasattr(self, "_lesson_full_parts") else ""
-                        self._pending_gui_text = full_text
+                        self._stream_queue.put(chunk)                        
                     self._stream_queue.put(None)
                 except Exception as e:
                     self._stream_queue.put(f"\n[Error: {e}]")
@@ -666,7 +655,6 @@ class LessonScreen:
             print("[TTS] init error:", e)
 
     def _drain_tts_queue(self):
-        # Pull (text, is_final) items; None sentinel commits GUI and ends the turn
         try:
             item = self._tts_q.get_nowait()
         except queue.Empty:
@@ -676,29 +664,26 @@ class LessonScreen:
                 if self._tts:
                     text, is_final = item
                     if text is None:
-                        # Commit the full response text to GUI after speech ends
+                        # Commit the full response once speech ends
                         pending = (self._pending_gui_text or "").strip()
                         if pending:
                             self._append_stream_text(pending + "\n\n")
-                            # Add assistant message to history here if you maintain one
                             self.student_manager.conversation_history.append({"role": "assistant", "content": pending})
                         # turn end
                         self.root.config(cursor="")
                         self._streaming = False
                         self._pending_gui_text = None
+                        self._thinking_tagged = False
+                        self._thinking_start_index = None
+                        self._first_chunk_seen = False
                     else:
+                        # Speak the chunk now
                         self._tts.say_chunk(text, final=is_final)
-                        # optional: set a status label if you have one
             except Exception as e:
                 print("[TTS] error:", e)
+
         self.root.after(20, self._drain_tts_queue)
 
-    def _append_stream_text(self, text: str):
-        # If you already have a method that appends to the conversation_display, keep using it.
-        self.conversation_display.configure(state='normal')
-        self.conversation_display.insert(tk.END, text, "message")
-        self.conversation_display.see(tk.END)
-        self.conversation_display.configure(state='disabled')
 
     def on_speak(self):
         if self._streaming:
