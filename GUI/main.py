@@ -13,7 +13,7 @@ import subprocess
 from datetime import datetime
 import tkinter as tk
 from tkinter import ttk, scrolledtext
-
+from face_tracker import FaceTracker
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -97,11 +97,31 @@ def _find_piper_cmd(piper_bin_hint: str|None)->list[str]|None:
         return [sys.executable, "-m", "piper"]
     except Exception:
         return None
+        
+def open_login(self):
+    # NEW: pause face tracking to free the camera for login’s face recognition
+    try:
+        if getattr(self, "_tracker", None):
+            self._tracker.pause_and_trackoff()
+    except Exception as _e:
+        print("[TRACK] pause for login error:", _e)
+
+    if self.login_window and self.login_window.winfo_exists():
+        self.login_window.lift()
+        return
+    self.login_window = tk.Toplevel(self.root)
+    self.login_window.protocol("WM_DELETE_WINDOW", self.on_login_close)
+    LoginScreen(self.login_window, self)
+    self.login_window.geometry("400x300")
+    self.login_window.transient(self.root)
+    self.login_window.grab_set()
+
 
 class PiperEngine:
     """
     Persistent RAW pipeline:
-      (text) → piper --output-raw → (PCM S16_LE mono) → aplay @ correct SR
+      (text) → piper --output-raw → (PCM S16_LE mono) → sounddevice OutputStream
+    Allows us to know when playback has actually drained.
     """
     def __init__(self, piper_bin: str, voice_onnx: str):
         if not os.path.isfile(voice_onnx):
@@ -109,26 +129,46 @@ class PiperEngine:
         self.voice = voice_onnx
         self.sr = _infer_sample_rate(voice_onnx, default_sr=22050)
         self._p1 = None
-        self._p2 = None
         self._lock = threading.Lock()
         self._piper_cmd = _find_piper_cmd(piper_bin)
         if not self._piper_cmd:
             raise RuntimeError("piper CLI not found. Install with: pip install piper-tts")
+        # playback fields
+        self._sd = None
+        self._alive = False
+        self._reader = None
+        self._last_audio_ts = 0.0
 
     def start(self):
-        aplay = shutil.which("aplay")
-        if not aplay:
-            raise RuntimeError("aplay not found. Install 'alsa-utils'.")
+        import sounddevice as sd
+        # Start Piper in **binary** mode (text=False) so stdout is bytes
         cmd = self._piper_cmd + ["--model", self.voice, "--output-raw", "--sentence_silence", "0.25"]
         self._p1 = subprocess.Popen(
             cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL, text=True, bufsize=1
+            stderr=subprocess.DEVNULL, text=False, bufsize=0
         )
-        self._p2 = subprocess.Popen(
-            [aplay, "-r", str(self.sr), "-f", "S16_LE", "-t", "raw", "-c", "1"],
-            stdin=self._p1.stdout, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, bufsize=0
-        )
-        self._p1.stdout.close()
+
+        # Start audio device
+        self._sd = sd.OutputStream(samplerate=self.sr, channels=1, dtype='int16', blocksize=2048)
+        self._sd.start()
+        self._alive = True
+        self._last_audio_ts = 0.0
+
+        # Pump piper stdout → sounddevice
+        def _pump():
+            try:
+                while self._alive and self._p1 and self._p1.stdout:
+                    data = self._p1.stdout.read(4096)
+                    if not data:
+                        time.sleep(0.005)
+                        continue
+                    # Write to audio device; this blocks until accepted by device buffer
+                    self._sd.write(memoryview(data).cast('h'))  # reinterpret bytes as int16
+                    self._last_audio_ts = time.time()
+            except Exception:
+                pass
+        self._reader = threading.Thread(target=_pump, daemon=True)
+        self._reader.start()
 
     # ---- smarter chunk writer (no newline mid-sentence) ----
     def say_chunk(self, text: str, final: bool):
@@ -137,35 +177,51 @@ class PiperEngine:
             return
         if not self._p1 or not self._p1.stdin:
             raise RuntimeError("Piper not started.")
-        suffix = "\n" if final else " "   # newline only for sentence ends
+        suffix = "\n" if final else " "
         with self._lock:
             try:
-                self._p1.stdin.write(text.strip() + suffix)
+                self._p1.stdin.write((text.strip() + suffix).encode("utf-8"))
                 self._p1.stdin.flush()
             except BrokenPipeError:
                 self.close(); self.start()
-                self._p1.stdin.write(text.strip() + suffix)
+                self._p1.stdin.write((text.strip() + suffix).encode("utf-8"))
                 self._p1.stdin.flush()
 
     # kept for legacy/simple calls
     def say(self, text: str):
         self.say_chunk(text, final=True)
 
+    def wait_until_quiet(self, quiet_ms: int = 600, poll_ms: int = 40):
+        """
+        Block until no audio has been written to the device for 'quiet_ms'.
+        Use after you've fed the sentinel to ensure playback really finished.
+        """
+        deadline = float(quiet_ms) / 1000.0
+        while True:
+            now = time.time()
+            last = self._last_audio_ts
+            if last > 0 and (now - last) >= deadline:
+                return
+            time.sleep(poll_ms / 1000.0)
+
     def close(self):
         try:
+            self._alive = False
             if self._p1 and self._p1.stdin and not self._p1.stdin.closed:
                 self._p1.stdin.close()
         except Exception:
             pass
         try:
-            if self._p2: self._p2.terminate()
+            if self._sd:
+                self._sd.stop(); self._sd.close()
         except Exception:
             pass
         try:
             if self._p1: self._p1.terminate()
         except Exception:
             pass
-        self._p1 = None; self._p2 = None
+        self._p1 = None; self._sd = None; self._reader = None
+
 
 # -------------------- NEW: VAD recorder (16k, mono) --------------------
 class VADRecorder:
@@ -359,7 +415,7 @@ class LLMHandler:
         try:
             resp = self.client.chat.completions.create(
                 model=p["model"], messages=messages,
-                max_tokens=DEFAULT_MAX_TOKENS, temperature=0.5, stop=DEFAULT_STOP
+                max_tokens=DEFAULT_MAX_TOKENS, temperature=0.45, stop=DEFAULT_STOP
             )
             return resp.choices[0].message.content.strip()
         except Exception as e:
@@ -429,7 +485,7 @@ class LLMHandler:
                     model=p["model"],
                     messages=messages,
                     max_tokens=DEFAULT_MAX_TOKENS,
-                    temperature=0.5,
+                    temperature=0.45,
                     stop=DEFAULT_STOP,
                     stream=True
                 )
@@ -545,6 +601,16 @@ class MainAIChat:
 
         # Start Piper
         self._init_tts()
+        # NEW: start face tracker in the background (eyes follow face when IDLE)
+        self._tracker = FaceTracker(
+            send_cmd=self._serial_send,
+            get_state=lambda: self._speech_state,
+            ensure_serial=self._ensure_serial,
+            width=1280, height=720,     # match your camera config
+            rate_hz=10.0,               # 10 Hz max command rate
+            deadband_deg=1.0
+        )
+        self._tracker.start()
 
         # Drain TTS queue
         self.root.after(20, self._drain_tts_queue)
@@ -737,19 +803,26 @@ class MainAIChat:
                         self._pending_gui_text = None
                         # --- Arduino: double STOP at end of speech ---
                         # --- Arduino: double STOP shortly AFTER audio finishes ---
-                        def _double_stop_after_tail():
+                        def _double_stop_after_playback():
                             try:
-                                TAIL_S = 8  # tune 0.4–0.8 for your setup
-                                time.sleep(TAIL_S)      # let aplay drain the last audio
+                                # Wait until audio device has been quiet for 600 ms
+                                self._tts.wait_until_quiet(quiet_ms=600)
                                 self._serial_send("stop")
-                                time.sleep(0.12)        # tiny gap helps servo stacks
+                                time.sleep(0.12)
                                 self._serial_send("stop")
+                                # only now leave TALKING
                                 self._speaking_active = False
                                 self._set_state("IDLE")
+                                # NEW: wait 5s in idle, then resume soft face tracking
+                                def _resume_later():
+                                    try: self._tracker.resume_and_trackon()
+                                    except Exception as _e: print("[TRACK] resume error:", _e)
+                                self.root.after(5000, _resume_later)
                             except Exception as _e:
                                 print("[SERIAL] stop error:", _e)
 
-                        threading.Thread(target=_double_stop_after_tail, daemon=True).start()
+                        threading.Thread(target=_double_stop_after_playback, daemon=True).start()
+
 
                         
                     else:
@@ -800,6 +873,10 @@ class MainAIChat:
         # --- Arduino: THINK for typed path too ---
         self._serial_send("think")
         self._speech_state = "THINKING"
+        # NEW: pause tracking while THINK/TALK runs
+        try: self._tracker.pause_and_trackoff()
+        except Exception as _e: print("[TRACK] pause error:", _e)
+
 
 
         def worker():
@@ -866,6 +943,11 @@ class MainAIChat:
                 self._ensure_stt()
                 # RECORD
                 self.set_status("Recording…"); print("[GUI] Recording…")
+                
+                # NEW: pause tracking and send track_off so gestures have full control
+                try: self._tracker.pause_and_trackoff()
+                except Exception as _e: print("[TRACK] pause error:", _e)
+                
                 import random
                 side_cmd = random.choice(["listen_left", "listen_right"])
                 self._serial_send(side_cmd)
@@ -986,6 +1068,13 @@ class MainAIChat:
         if self.login_window:
             self.login_window.destroy()
             self.login_window = None
+        # NEW: resume face tracking after login is done
+        try:
+            if getattr(self, "_tracker", None):
+                self._tracker.resume_and_trackon()
+        except Exception as _e:
+            print("[TRACK] resume after login error:", _e)
+
 
     def return_to_main(self):
         if self.dashboard_window:
@@ -1000,6 +1089,7 @@ class MainAIChat:
             pass
         try:
             if self._tts: self._tts.close()
+            if getattr(self, "_tracker", None): self._tracker.stop()
         except Exception:
             pass
         self.root.destroy()

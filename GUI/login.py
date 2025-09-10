@@ -121,7 +121,8 @@ class LoginScreen:
                 out_lines = (proc.stdout.strip().splitlines() or ["{}"])
                 data = json.loads(out_lines[-1])
             except Exception as e:
-                self.root.after(0, lambda: self._face_login_failed(f"Error: {e}"))
+                err_msg = f"Error: {e}"
+                self.root.after(0, lambda m=err_msg: self._face_login_failed(m))
                 return
 
             name = data.get("name")
