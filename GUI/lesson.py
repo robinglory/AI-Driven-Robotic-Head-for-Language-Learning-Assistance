@@ -72,10 +72,12 @@ def _find_piper_cmd(piper_bin_hint: str|None)->list[str]|None:
     except Exception:
         return None
 
+# --- Piper persistent engine (binary → sounddevice) ---
 class PiperEngine:
     """
     Persistent RAW pipeline:
-      (text) → piper --output-raw → (PCM S16_LE mono) → aplay @ correct SR
+      (text) → piper --output-raw (bytes) → sounddevice OutputStream
+    Provides wait_until_quiet() so we can STOP only after audio is truly done.
     """
     def __init__(self, piper_bin: str, voice_onnx: str):
         if not os.path.isfile(voice_onnx):
@@ -83,60 +85,98 @@ class PiperEngine:
         self.voice = voice_onnx
         self.sr = _infer_sample_rate(voice_onnx, default_sr=22050)
         self._p1 = None
-        self._p2 = None
         self._lock = threading.Lock()
         self._piper_cmd = _find_piper_cmd(piper_bin)
         if not self._piper_cmd:
             raise RuntimeError("piper CLI not found. Install with: pip install piper-tts")
 
+        # playback fields
+        self._sd = None               # sounddevice.OutputStream
+        self._alive = False
+        self._reader = None           # background thread pumping bytes → audio
+        self._last_audio_ts = 0.0     # last time audio was written (seconds)
+
     def start(self):
-        aplay = shutil.which("aplay")
-        if not aplay:
-            raise RuntimeError("aplay not found. Install 'alsa-utils'.")
+        import sounddevice as sd
+        # Start Piper in **binary** mode (text=False) → stdout is raw bytes
         cmd = self._piper_cmd + ["--model", self.voice, "--output-raw", "--sentence_silence", "0.25"]
         self._p1 = subprocess.Popen(
             cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL, text=True, bufsize=1
+            stderr=subprocess.DEVNULL, text=False, bufsize=0
         )
-        self._p2 = subprocess.Popen(
-            [aplay, "-r", str(self.sr), "-f", "S16_LE", "-t", "raw", "-c", "1"],
-            stdin=self._p1.stdout, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, bufsize=0
-        )
-        self._p1.stdout.close()
+
+        # Start audio device
+        self._sd = sd.OutputStream(samplerate=self.sr, channels=1, dtype='int16', blocksize=2048)
+        self._sd.start()
+        self._alive = True
+        self._last_audio_ts = 0.0
+
+        # Pump Piper stdout → sounddevice
+        def _pump():
+            try:
+                while self._alive and self._p1 and self._p1.stdout:
+                    data = self._p1.stdout.read(4096)
+                    if not data:
+                        time.sleep(0.005)
+                        continue
+                    # reinterpret bytes as int16 and write to device
+                    self._sd.write(memoryview(data).cast('h'))
+                    self._last_audio_ts = time.time()
+            except Exception:
+                pass
+
+        self._reader = threading.Thread(target=_pump, daemon=True)
+        self._reader.start()
 
     def say_chunk(self, text: str, final: bool):
+        """Write text to Piper; Piper returns audio bytes on stdout which our _pump plays."""
         if not text or not text.strip():
             return
         if not self._p1 or not self._p1.stdin:
             raise RuntimeError("Piper not started.")
-        suffix = "\n" if final else " "
+        # Piper expects utf-8 text + newline to synthesize a sentence.
+        suffix = b"\n" if final else b" "
         with self._lock:
             try:
-                self._p1.stdin.write(text.strip() + suffix)
+                self._p1.stdin.write((text.strip()).encode("utf-8") + suffix)
                 self._p1.stdin.flush()
             except BrokenPipeError:
                 self.close(); self.start()
-                self._p1.stdin.write(text.strip() + suffix)
+                self._p1.stdin.write((text.strip()).encode("utf-8") + suffix)
                 self._p1.stdin.flush()
 
     def say(self, text: str):
         self.say_chunk(text, final=True)
 
+    def wait_until_quiet(self, quiet_ms: int = 600, timeout_s: float = 5.0):
+        """Block until we’ve had no audio writes for quiet_ms, or timeout."""
+        start = time.time()
+        q = quiet_ms / 1000.0
+        while time.time() - start < timeout_s:
+            last = self._last_audio_ts
+            if last and (time.time() - last) >= q:
+                return
+            time.sleep(0.05)
+
     def close(self):
+        try:
+            self._alive = False
+            if self._sd:
+                try: self._sd.stop(); self._sd.close()
+                except Exception: pass
+        except Exception:
+            pass
         try:
             if self._p1 and self._p1.stdin and not self._p1.stdin.closed:
                 self._p1.stdin.close()
         except Exception:
             pass
         try:
-            if self._p2: self._p2.terminate()
-        except Exception:
-            pass
-        try:
             if self._p1: self._p1.terminate()
         except Exception:
             pass
-        self._p1 = None; self._p2 = None
+        self._p1 = None
+        self._sd = None
 
 
 TTS_MOD_PATH = "/home/robinglory/Desktop/Thesis/TTS/streaming_piper_gui.py"
@@ -543,10 +583,18 @@ class LessonScreen:
 
         # When streaming finishes, stash final text ONCE and tell TTS drainer to commit after speech
         if item is None:
+            # NEW: ensure the last buffered chunk reaches TTS before we signal end-of-turn
+            if hasattr(self, "_lesson_tts_buf") and self._lesson_tts_buf:
+                piece = "".join(self._lesson_tts_buf).strip()
+                if piece and self._tts:
+                    self._tts_q.put((piece, True))  # flush the last chunk as final
+                self._lesson_tts_buf.clear()
+                self._lesson_tts_words = 0
             full_text = "".join(getattr(self, "_lesson_full_parts", [])).strip()
-            self._pending_gui_text = full_text  # set once, at the end
-            self._tts_q.put((None, True))       # sentinel for GUI commit after TTS
+            self._pending_gui_text = full_text
+            self._tts_q.put((None, True))  # sentinel after all chunks
             return
+
 
         # item is a streamed text chunk
         chunk = item
@@ -600,10 +648,6 @@ class LessonScreen:
                 self._tracker.pause_and_trackoff()
         except Exception as _e:
             print("[TRACK] pause error:", _e)
-
-        self._serial_send("think")
-        self._set_state("THINKING")
-
 
         try:
             # Build lesson-aware prompts that FORCE answers from lesson text only
@@ -668,9 +712,7 @@ class LessonScreen:
             self.conversation_display.configure(state='disabled')
             self.conversation_display.see(tk.END)
             self._thinking_tagged = True
-            # --- Arduino: THINK for typed path too (mirror main.py) ---
-            self._serial_send("think")
-            self._set_state("THINKING")
+
             # Pause tracking while THINK/TALK runs
             try:
                 self._tracker.pause_and_trackoff()
@@ -729,58 +771,71 @@ class LessonScreen:
         try:
             item = self._tts_q.get_nowait()
         except queue.Empty:
-            pass
-        else:
-            try:
-                if self._tts:
-                    text, is_final = item
-                    if text is None:
-                        # Commit the full response once speech ends
-                        pending = (self._pending_gui_text or "").strip()
-                        if pending:
-                            self._append_stream_text(pending + "\n\n")
-                            self.student_manager.conversation_history.append({"role": "assistant", "content": pending})
-                        # turn end
-                        self.root.config(cursor="")
-                        self._streaming = False
-                        self._pending_gui_text = None
-                        self._thinking_tagged = False
-                        self._thinking_start_index = None
-                        self._first_chunk_seen = False
-                        # End of speech: wait a hair, then stop×2; go IDLE; resume tracking later.
-                        def _double_stop_after_playback():
-                            try:
-                                # Our PiperEngine in lesson.py doesn't expose wait_until_quiet(),
-                                # so give a small grace window for aplay to drain:
-                                time.sleep(0.7)
-                            except Exception:
-                                pass
-                            self._serial_send("stop")
-                            time.sleep(0.12)
-                            self._serial_send("stop")
-                            # leave TALKING only after stops
-                            self._speaking_active = False
-                            self._set_state("IDLE")
-                            # resume face-tracking a little later so things feel natural
-                            try:
-                                self.root.after(5000, self._tracker.resume_and_trackon)
-                            except Exception as _e:
-                                print("[TRACK] resume error:", _e)
+            self.root.after(20, self._drain_tts_queue)
+            return
 
-                        threading.Thread(target=_double_stop_after_playback, daemon=True).start()
-                        return                    
-                    else:
-                        text, is_final = item
-                        # --- begin TALK on the first audio chunk after THINK ---
-                        if not self._speaking_active and self._speech_state == "THINKING":
-                            self._serial_send("talk")
-                            self._set_state("TALKING")
-                            self._speaking_active = True
-                        self._tts.say_chunk(text, final=is_final)
-            except Exception as e:
-                print("[TTS] error:", e)
+        try:
+            if not self._tts:
+                # nothing to speak; just keep draining
+                self.root.after(20, self._drain_tts_queue)
+                return
+
+            text, is_final = item
+
+            if text is None:
+                # ---- SENTINEL: the model finished streaming all chunks ----
+                # 1) Commit GUI text now
+                pending = (self._pending_gui_text or "").strip()
+                if pending:
+                    self._append_stream_text(pending + "\n\n")
+                    self.student_manager.conversation_history.append({"role": "assistant", "content": pending})
+
+                # 2) Clear UI streaming flags
+                self.root.config(cursor="")
+                self._streaming = False
+                self._pending_gui_text = None
+                self._thinking_tagged = False
+                self._thinking_start_index = None
+                self._first_chunk_seen = False
+
+                # 3) Only STOP after the audio device has really gone quiet
+                def _stop_after_quiet():
+                    try:
+                        self._tts.wait_until_quiet(quiet_ms=600, timeout_s=6.0)
+                    except Exception:
+                        pass
+                    # double STOP like main.py
+                    self._serial_send("stop")
+                    time.sleep(0.12)
+                    self._serial_send("stop")
+                    # leave TALKING only after stops
+                    self._speaking_active = False
+                    self._set_state("IDLE")
+                    # resume face tracking a little later
+                    try:
+                        if hasattr(self, "_tracker"):
+                            self.root.after(5000, self._tracker.resume_and_trackon)
+                    except Exception as _e:
+                        print("[TRACK] resume error:", _e)
+
+                threading.Thread(target=_stop_after_quiet, daemon=True).start()
+
+            else:
+                # ---- NORMAL CHUNK ----
+                # Begin TALK exactly once on the first audible chunk after THINK
+                if not self._speaking_active and self._speech_state == "THINKING":
+                    self._serial_send("talk")
+                    self._set_state("TALKING")
+                    self._speaking_active = True
+
+                # Send every chunk to Piper; 'final' just toggles newline vs space
+                self._tts.say_chunk(text, final=is_final)
+
+        except Exception as e:
+            print("[TTS] error:", e)
 
         self.root.after(20, self._drain_tts_queue)
+
 
 
     def on_speak(self):
