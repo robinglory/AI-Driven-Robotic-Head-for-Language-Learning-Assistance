@@ -1,0 +1,34 @@
+[1:37:57.675756683] [5531] ERROR Camera camera.cpp:693 Camera in Running state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+Exception in thread Thread-10 (listen):
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/threading.py", line 1038, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.11/threading.py", line 975, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/lib/python3/dist-packages/picamera2/picamera2.py", line 125, in listen
+    callback()
+  File "/usr/lib/python3/dist-packages/picamera2/picamera2.py", line 142, in handle_request
+    self.cameras[req.cookie]._requests += [CompletedRequest(req, self.cameras[req.cookie])]
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/picamera2/request.py", line 93, in __init__
+    self.syncs = [picam2.allocator.sync(self.picam2.allocator, buffer, False)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/picamera2/request.py", line 93, in <listcomp>
+    self.syncs = [picam2.allocator.sync(self.picam2.allocator, buffer, False)
+                  ^^^^^^^^^^^^^^^^
+AttributeError: 'Picamera2' object has no attribute 'allocator'
+[1:38:00.187918850] [5531] ERROR Camera camera.cpp:693 Camera in Running state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+[1:38:02.691785286] [5531] ERROR Camera camera.cpp:693 Camera in Running state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+[1:38:05.196171093] [5531] ERROR Camera camera.cpp:693 Camera in Running state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+[1:38:07.703280084] [5531] ERROR Camera camera.cpp:693 Camera in Running state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+[1:38:10.211011261] [5531] ERROR Camera camera.cpp:693 Camera in Running state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+[1:38:12.715582159] [5531] ERROR Camera camera.cpp:693 Camera in Running state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+[1:38:15.222974425] [5531] ERROR Camera camera.cpp:693 Camera in Running state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
