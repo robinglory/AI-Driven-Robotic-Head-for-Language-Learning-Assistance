@@ -10,6 +10,7 @@ from tkinter import font as tkfont
 import math, wave, struct, collections, time
 from styles import configure_styles
 from api_manager import APIManager  # fallback if needed
+from face_tracker import FaceTracker
 
 # --- STT deps (same as main.py) ---
 try:
@@ -163,8 +164,8 @@ def save_json(filepath, data):
 # --- Minimal VAD recorder ---
 class VADRecorder:
     """WebRTC VAD + energy gate; writes 16k mono WAV and returns its path."""
-    def __init__(self, sample_rate=16000, frame_ms=20, vad_aggr=3,
-                 silence_ms=1200, max_record_s=7.5, device=None,
+    def __init__(self, sample_rate=16000, frame_ms=30, vad_aggr=3,
+                 silence_ms=1200, max_record_s= 10, device=None,
                  energy_margin=2.0, energy_min=2200, energy_max=6000, energy_calib_ms=500):
         self.sample_rate=sample_rate; self.frame_ms=frame_ms; self.vad_aggr=vad_aggr
         self.silence_ms=silence_ms; self.max_record_s=max_record_s; self.device=device
@@ -284,6 +285,50 @@ class LessonScreen:
         
         # Start Piper
         self._init_tts()
+                # --- Arduino / gesture state (mirror main.py) ---
+        self._speech_state = "IDLE"       # IDLE | LISTENING | THINKING | TALKING
+        self._speaking_active = False     # flips True on first TTS audio chunk
+
+        def _set_state(s: str):
+            # (Keep it simple; main.py prints a line, we can keep it quiet here)
+            self._speech_state = s
+        self._set_state = _set_state
+
+        def _ensure_serial():
+            # If main window exposes _ensure_serial, use it. Otherwise no-op.
+            try:
+                if hasattr(self.main_app, "_ensure_serial"):
+                    self.main_app._ensure_serial()
+            except Exception as e:
+                print("[SERIAL] ensure error:", e)
+        self._ensure_serial = _ensure_serial
+
+        def _serial_send(cmd: str):
+            # Proxy to main app's sender, same as main.py’s pipeline
+            try:
+                if hasattr(self.main_app, "_serial_send"):
+                    self.main_app._serial_send(cmd)
+                elif hasattr(self.main_app, "serial_send"):
+                    self.main_app.serial_send(cmd)
+                else:
+                    print(f"[SERIAL] (no sender) -> {cmd}")
+            except Exception as e:
+                print("[SERIAL] send error:", e)
+        self._serial_send = _serial_send
+
+        # --- Start face tracker (eyes follow face only while IDLE) ---
+        try:
+            self._tracker = FaceTracker(
+                send_cmd=self._serial_send,
+                get_state=lambda: self._speech_state,
+                ensure_serial=self._ensure_serial,   # FaceTracker expects this param
+                width=1280, height=720,
+                rate_hz=10.0,
+                deadband_deg=1.0
+            )
+            self._tracker.start()
+        except Exception as _e:
+            print("[TRACK] init error:", _e)
 
         # Drain TTS queue forever
         self.root.after(20, self._drain_tts_queue)
@@ -425,6 +470,14 @@ class LessonScreen:
 
     def return_to_dashboard(self):
         try:
+            # Make sure tracking is fully stopped on exit so the camera is released
+            try:
+                if hasattr(self, "_tracker"):
+                    self._tracker.pause_and_trackoff()
+                    self._tracker.stop()
+            except Exception as _e:
+                print("[TRACK] stop error:", _e)
+
             if getattr(self, "current_lesson_path", None) and self.student_manager:
                 self.student_manager.lesson_manager.record_lesson_completion(
                     self.student_manager.current_user["name"],
@@ -541,6 +594,16 @@ class LessonScreen:
 
         self.display_message("You", user_input)
         self.user_input.delete(0, tk.END)
+        # Typed turns still pause tracking during THINK/TALK
+        try:
+            if hasattr(self, "_tracker"):
+                self._tracker.pause_and_trackoff()
+        except Exception as _e:
+            print("[TRACK] pause error:", _e)
+
+        self._serial_send("think")
+        self._set_state("THINKING")
+
 
         try:
             # Build lesson-aware prompts that FORCE answers from lesson text only
@@ -605,6 +668,14 @@ class LessonScreen:
             self.conversation_display.configure(state='disabled')
             self.conversation_display.see(tk.END)
             self._thinking_tagged = True
+            # --- Arduino: THINK for typed path too (mirror main.py) ---
+            self._serial_send("think")
+            self._set_state("THINKING")
+            # Pause tracking while THINK/TALK runs
+            try:
+                self._tracker.pause_and_trackoff()
+            except Exception as _e:
+                print("[TRACK] pause error:", _e)
 
             def worker():
                 try:
@@ -676,8 +747,35 @@ class LessonScreen:
                         self._thinking_tagged = False
                         self._thinking_start_index = None
                         self._first_chunk_seen = False
+                        # End of speech: wait a hair, then stop×2; go IDLE; resume tracking later.
+                        def _double_stop_after_playback():
+                            try:
+                                # Our PiperEngine in lesson.py doesn't expose wait_until_quiet(),
+                                # so give a small grace window for aplay to drain:
+                                time.sleep(0.7)
+                            except Exception:
+                                pass
+                            self._serial_send("stop")
+                            time.sleep(0.12)
+                            self._serial_send("stop")
+                            # leave TALKING only after stops
+                            self._speaking_active = False
+                            self._set_state("IDLE")
+                            # resume face-tracking a little later so things feel natural
+                            try:
+                                self.root.after(5000, self._tracker.resume_and_trackon)
+                            except Exception as _e:
+                                print("[TRACK] resume error:", _e)
+
+                        threading.Thread(target=_double_stop_after_playback, daemon=True).start()
+                        return                    
                     else:
-                        # Speak the chunk now
+                        text, is_final = item
+                        # --- begin TALK on the first audio chunk after THINK ---
+                        if not self._speaking_active and self._speech_state == "THINKING":
+                            self._serial_send("talk")
+                            self._set_state("TALKING")
+                            self._speaking_active = True
                         self._tts.say_chunk(text, final=is_final)
             except Exception as e:
                 print("[TTS] error:", e)
@@ -691,16 +789,28 @@ class LessonScreen:
         def _worker():
             try:
                 self._ensure_stt()
+                # --- pause face-tracking and start listening gesture ---
+                try:
+                    self._tracker.pause_and_trackoff()
+                except Exception as _e:
+                    print("[TRACK] pause error:", _e)
+
+                self._serial_send(random.choice(["listen_left", "listen_right"]))
+                self._set_state("LISTENING")
 
                 # 1) RECORD
                 self.status_var.set("Recording…")
-                rec = VADRecorder(sample_rate=16000, frame_ms=20, vad_aggr=3,
-                                  silence_ms=1200, max_record_s=7.5,
+                rec = VADRecorder(sample_rate=16000, frame_ms=30, vad_aggr=3,
+                                  silence_ms=1200, max_record_s=10,
                                   energy_margin=2.0, energy_min=2200, energy_max=6000)
                 wav_path = rec.record(TEMP_WAV)
 
                 # 2) TRANSCRIBE (greedy, fastest)
                 self.status_var.set("Transcribing…")
+                # --- switch to THINK while we transcribe / prepare reply ---
+                self._serial_send("think")
+                self._set_state("THINKING")
+
                 t0 = time.perf_counter()
                 segments, info = self._stt_model.transcribe(
                     wav_path,

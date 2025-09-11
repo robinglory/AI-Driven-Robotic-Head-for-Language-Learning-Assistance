@@ -7,9 +7,139 @@ import queue
 import tkinter as tk
 from tkinter import ttk, scrolledtext, messagebox
 from tkinter import font as tkfont
-
+import math, wave, struct, collections, time
 from styles import configure_styles
 from api_manager import APIManager  # fallback if needed
+
+# --- STT deps (same as main.py) ---
+try:
+    import sounddevice as sd
+    import webrtcvad
+    from faster_whisper import WhisperModel
+except Exception as e:
+    raise SystemExit(
+        "Missing deps. Run:\n"
+        "  pip install faster-whisper webrtcvad sounddevice\n" + str(e)
+    )
+# --- Piper access ---
+import importlib.machinery, importlib.util
+def _load_module_from_path(mod_name: str, file_path: str):
+    loader = importlib.machinery.SourceFileLoader(mod_name, file_path)
+    spec = importlib.util.spec_from_loader(loader.name, loader)
+    module = importlib.util.module_from_spec(spec)
+    loader.exec_module(module)
+    return module
+
+import shutil, subprocess, sys, json, os, threading
+
+def _voice_json_path(onnx_path: str)->str|None:
+    base, _ = os.path.splitext(onnx_path)
+    j = base + ".json"
+    return j if os.path.isfile(j) else None
+
+def _infer_sample_rate(onnx_path: str, default_sr: int = 22050)->int:
+    env = os.environ.get("PIPER_SR")
+    if env:
+        try:
+            return int(env)
+        except:
+            pass
+    j = _voice_json_path(onnx_path)
+    if j:
+        try:
+            with open(j, "r", encoding="utf-8") as f:
+                meta = json.load(f)
+            if isinstance(meta, dict):
+                if isinstance(meta.get("sample_rate"), int):
+                    return int(meta["sample_rate"])
+                if isinstance(meta.get("audio"), dict) and isinstance(meta["audio"].get("sample_rate"), int):
+                    return int(meta["audio"]["sample_rate"])
+        except Exception:
+            pass
+    return default_sr
+
+def _find_piper_cmd(piper_bin_hint: str|None)->list[str]|None:
+    if piper_bin_hint and os.path.isfile(piper_bin_hint) and os.access(piper_bin_hint, os.X_OK):
+        return [piper_bin_hint]
+    p = shutil.which("piper")
+    if p: return [p]
+    cand = os.path.join(sys.prefix, "bin", "piper")
+    if os.path.isfile(cand) and os.access(cand, os.X_OK): return [cand]
+    try:
+        import piper  # noqa
+        return [sys.executable, "-m", "piper"]
+    except Exception:
+        return None
+
+class PiperEngine:
+    """
+    Persistent RAW pipeline:
+      (text) → piper --output-raw → (PCM S16_LE mono) → aplay @ correct SR
+    """
+    def __init__(self, piper_bin: str, voice_onnx: str):
+        if not os.path.isfile(voice_onnx):
+            raise RuntimeError(f"Voice model not found: {voice_onnx}")
+        self.voice = voice_onnx
+        self.sr = _infer_sample_rate(voice_onnx, default_sr=22050)
+        self._p1 = None
+        self._p2 = None
+        self._lock = threading.Lock()
+        self._piper_cmd = _find_piper_cmd(piper_bin)
+        if not self._piper_cmd:
+            raise RuntimeError("piper CLI not found. Install with: pip install piper-tts")
+
+    def start(self):
+        aplay = shutil.which("aplay")
+        if not aplay:
+            raise RuntimeError("aplay not found. Install 'alsa-utils'.")
+        cmd = self._piper_cmd + ["--model", self.voice, "--output-raw", "--sentence_silence", "0.25"]
+        self._p1 = subprocess.Popen(
+            cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL, text=True, bufsize=1
+        )
+        self._p2 = subprocess.Popen(
+            [aplay, "-r", str(self.sr), "-f", "S16_LE", "-t", "raw", "-c", "1"],
+            stdin=self._p1.stdout, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, bufsize=0
+        )
+        self._p1.stdout.close()
+
+    def say_chunk(self, text: str, final: bool):
+        if not text or not text.strip():
+            return
+        if not self._p1 or not self._p1.stdin:
+            raise RuntimeError("Piper not started.")
+        suffix = "\n" if final else " "
+        with self._lock:
+            try:
+                self._p1.stdin.write(text.strip() + suffix)
+                self._p1.stdin.flush()
+            except BrokenPipeError:
+                self.close(); self.start()
+                self._p1.stdin.write(text.strip() + suffix)
+                self._p1.stdin.flush()
+
+    def say(self, text: str):
+        self.say_chunk(text, final=True)
+
+    def close(self):
+        try:
+            if self._p1 and self._p1.stdin and not self._p1.stdin.closed:
+                self._p1.stdin.close()
+        except Exception:
+            pass
+        try:
+            if self._p2: self._p2.terminate()
+        except Exception:
+            pass
+        try:
+            if self._p1: self._p1.terminate()
+        except Exception:
+            pass
+        self._p1 = None; self._p2 = None
+
+
+TTS_MOD_PATH = "/home/robinglory/Desktop/Thesis/TTS/streaming_piper_gui.py"
+ttsmod = _load_module_from_path("streaming_piper_gui", TTS_MOD_PATH)  # exposes PIPER_BIN, DEFAULT_VOICE
 
 # ---------- Simple JSON helpers ----------
 def load_json(filepath):
@@ -20,10 +150,77 @@ def load_json(filepath):
             return json.load(f)
     except Exception:
         return {}
+        
+# --- STT constants (tiny + temp wav) ---
+FW_TINY = "/home/robinglory/Desktop/Thesis/STT/faster-whisper/fw-tiny.en"
+TEMP_WAV = "/tmp/fw_lesson.wav"
 
 def save_json(filepath, data):
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
+        
+        
+# --- Minimal VAD recorder ---
+class VADRecorder:
+    """WebRTC VAD + energy gate; writes 16k mono WAV and returns its path."""
+    def __init__(self, sample_rate=16000, frame_ms=20, vad_aggr=3,
+                 silence_ms=1200, max_record_s=7.5, device=None,
+                 energy_margin=2.0, energy_min=2200, energy_max=6000, energy_calib_ms=500):
+        self.sample_rate=sample_rate; self.frame_ms=frame_ms; self.vad_aggr=vad_aggr
+        self.silence_ms=silence_ms; self.max_record_s=max_record_s; self.device=device
+        self.energy_margin=energy_margin; self.energy_min=energy_min; self.energy_max=energy_max; self.energy_calib_ms=energy_calib_ms
+
+    @staticmethod
+    def _rms_int16(b: bytes)->float:
+        if not b: return 0.0
+        n=len(b)//2
+        if n<=0: return 0.0
+        s=struct.unpack(f"<{n}h", b); acc=0
+        for x in s: acc+=x*x
+        return math.sqrt(acc/float(n))
+
+    def record(self, out_wav: str) -> str:
+        vad = webrtcvad.Vad(self.vad_aggr)
+        frame_samp = int(self.sample_rate*(self.frame_ms/1000.0))
+        frame_bytes = frame_samp*2
+        silence_frames_needed = max(1,int(self.silence_ms/self.frame_ms))
+        max_frames = int(self.max_record_s*1000/self.frame_ms)
+        calib_frames = max(1,int(self.energy_calib_ms/self.frame_ms))
+        ring=collections.deque(); voiced=False; trailing=0; total=0
+        energy_thr=None; calib_vals=[]
+
+        def _cb(indata, frames, time_info, status):
+            nonlocal voiced, trailing, total, energy_thr
+            buf=indata.tobytes()
+            if len(buf)<frame_bytes: return
+            ring.append(buf); total+=1
+            if energy_thr is None and len(calib_vals)<calib_frames:
+                calib_vals.append(self._rms_int16(buf)); return
+            if energy_thr is None and len(calib_vals)==calib_frames:
+                base=sorted(calib_vals)[len(calib_vals)//2]
+                thr=max(self.energy_min,min(self.energy_max, base*self.energy_margin)); energy_thr=thr
+            rms=self._rms_int16(buf)
+            try:
+                speech = vad.is_speech(buf,self.sample_rate)
+            except Exception:
+                speech=False
+            if energy_thr is not None and rms<energy_thr: speech=False
+            if speech: voiced=True; trailing=0
+            else:
+                if voiced: trailing=min(silence_frames_needed,trailing+1)
+
+        with sd.InputStream(samplerate=self.sample_rate, channels=1, dtype='int16',
+                             device=self.device, blocksize=frame_samp, callback=_cb):
+            while True:
+                time.sleep(self.frame_ms/1000.0)
+                if total>=max_frames: break
+                if voiced and trailing>=silence_frames_needed: break
+
+        os.makedirs(os.path.dirname(out_wav), exist_ok=True)
+        with wave.open(out_wav,'wb') as w:
+            w.setnchannels(1); w.setsampwidth(2); w.setframerate(self.sample_rate)
+            while ring: w.writeframes(ring.popleft())
+        return out_wav
 
 class LessonScreen:
     STUDENTS_JSON_PATH = "/home/robinglory/Desktop/Thesis/GUI/students.json"
@@ -47,6 +244,15 @@ class LessonScreen:
         # Load persisted data
         self.conversation_data = load_json(self.CONVERSATIONS_JSON_PATH)
         self.students_data = load_json(self.STUDENTS_JSON_PATH)
+        
+        self._stt_model: WhisperModel | None = None
+        self.status_var = tk.StringVar(value="Ready")
+        
+        # --- TTS state (like main.py) ---
+        self._tts: PiperEngine | None = None
+        self._tts_q: queue.Queue[tuple[str|None, bool]] = queue.Queue(maxsize=128)
+        self._pending_gui_text: str | None = None
+
 
         # Load or start fresh conversation
         self.conversation_history = self.conversation_data.get(self.user_id, {}).get(self.lesson_path, [])
@@ -75,6 +281,14 @@ class LessonScreen:
         configure_styles()
         self.create_widgets()
         self.load_lesson()
+        
+        # Start Piper
+        self._init_tts()
+
+        # Drain TTS queue forever
+        self.root.after(20, self._drain_tts_queue)
+
+
 
     # ---------- UI ----------
     def create_widgets(self):
@@ -103,7 +317,7 @@ class LessonScreen:
             main_frame,
             wrap=tk.WORD,
             font=self.content_font,
-            height=18,            # was 30; this avoids the input row being pushed out
+            height=16,            # was 30; this avoids the input row being pushed out
             padx=15,
             pady=15,
             state='disabled',
@@ -138,6 +352,15 @@ class LessonScreen:
         for msg in self.conversation_history:
             sender = "You" if msg["role"] == "user" else "Lingo"
             self.display_message(sender, msg["content"])
+            
+        # status label (left)
+        status_lbl = ttk.Label(input_frame, textvariable=self.status_var)
+        status_lbl.pack(side=tk.LEFT, padx=(0, 10))
+
+        # 🎤 Speak button
+        speak_btn = ttk.Button(input_frame, text="🎤 Speak", command=self.on_speak, style="Accent.TButton")
+        speak_btn.pack(side=tk.RIGHT, padx=(0, 10))
+
 
     def load_lesson(self):
         try:
@@ -260,38 +483,52 @@ class LessonScreen:
 
     def _drain_stream_queue(self):
         try:
-            while True:
-                chunk = self._stream_queue.get_nowait()
-                if chunk is None:
-                    self._streaming = False
-                    # Ensure header is correct even if no tokens arrived
-                    if not self._first_chunk_seen and self._thinking_tagged and self._thinking_start_index:
-                        self._replace_thinking_header_if_needed()
-                    self._append_stream_text("\n")
-                    self.root.config(cursor="")
-
-                    # Persist full assistant message to history
-                    full_assistant = "".join(self._current_response_buffer).strip()
-                    if full_assistant:
-                        self.student_manager.conversation_history.append(
-                            {"role": "assistant", "content": full_assistant}
-                        )
-
-                    # Save updated conversation
-                    self.conversation_data.setdefault(self.user_id, {})
-                    self.conversation_data[self.user_id][self.lesson_path] = self.student_manager.conversation_history
-                    save_json(self.CONVERSATIONS_JSON_PATH, self.conversation_data)
-                    self._current_response_buffer.clear()
-                    return
-                else:
-                    if not self._first_chunk_seen:
-                        self._replace_thinking_header_if_needed()
-                    self._current_response_buffer.append(chunk)
-                    self._append_stream_text(chunk)
+            item = self._stream_queue.get_nowait()
         except queue.Empty:
-            pass
-        if self._streaming:
             self.root.after(15, self._drain_stream_queue)
+            return
+
+        # When streaming finishes, stash final text ONCE and tell TTS drainer to commit after speech
+        if item is None:
+            full_text = "".join(getattr(self, "_lesson_full_parts", [])).strip()
+            self._pending_gui_text = full_text  # set once, at the end
+            self._tts_q.put((None, True))       # sentinel for GUI commit after TTS
+            return
+
+        # item is a streamed text chunk
+        chunk = item
+
+        # Flip "Lingo (Thinking…): " to "Lingo: " on the very first token
+        self._replace_thinking_header_if_needed()
+
+        # TTS buffering logic (unchanged)
+        if not hasattr(self, "_lesson_tts_buf"):
+            self._lesson_tts_buf = []
+            self._lesson_tts_words = 0
+            self._lesson_last_flush = time.perf_counter()
+            self._lesson_full_parts = []
+            self._punct_final = (".", "?", "!")
+            self._max_words = 10
+
+        self._lesson_full_parts.append(chunk)
+        self._lesson_tts_buf.append(chunk)
+        self._lesson_tts_words += chunk.count(" ")
+
+        def _flush(final=False):
+            piece = "".join(self._lesson_tts_buf).strip()
+            if piece and self._tts:
+                self._tts_q.put((piece, final))
+            self._lesson_tts_buf.clear()
+            self._lesson_tts_words = 0
+            self._lesson_last_flush = time.perf_counter()
+
+        if chunk.endswith(self._punct_final):
+            _flush(final=True)
+        else:
+            if (self._lesson_tts_words >= self._max_words) or ((time.perf_counter() - self._lesson_last_flush) > 0.9):
+                _flush(final=False)
+
+        self.root.after(15, self._drain_stream_queue)
 
     # ---------- Input handling ----------
     def handle_input(self, event=None):
@@ -380,7 +617,7 @@ class LessonScreen:
                         gen = self._fallback_llm.stream_ai_response(messages=messages)
 
                     for chunk in gen:
-                        self._stream_queue.put(chunk)
+                        self._stream_queue.put(chunk)                        
                     self._stream_queue.put(None)
                 except Exception as e:
                     self._stream_queue.put(f"\n[Error: {e}]")
@@ -396,6 +633,104 @@ class LessonScreen:
         except Exception as e:
             print(f"Error in lesson: {str(e)}")
             self.display_message("Lingo", "Let me check the material... One moment please!")
+    
+    def _ensure_stt(self):
+        if self._stt_model is not None:
+            return
+        os.environ.setdefault("OMP_NUM_THREADS","4")
+        # tiny.en, int8 CPU for speed
+        model_dir = FW_TINY
+        if not os.path.isdir(model_dir):
+            raise RuntimeError(f"STT model folder not found: {model_dir}")
+        print(f"[STT] Loading model: {model_dir} (int8)")
+        t0=time.perf_counter()
+        self._stt_model = WhisperModel(model_dir, device="cpu", compute_type="int8")
+        print(f"[STT] Ready in {time.perf_counter()-t0:.2f}s")
+        
+    def _init_tts(self):
+        try:
+            self._tts = PiperEngine(ttsmod.PIPER_BIN, ttsmod.DEFAULT_VOICE)
+            self._tts.start()
+        except Exception as e:
+            print("[TTS] init error:", e)
+
+    def _drain_tts_queue(self):
+        try:
+            item = self._tts_q.get_nowait()
+        except queue.Empty:
+            pass
+        else:
+            try:
+                if self._tts:
+                    text, is_final = item
+                    if text is None:
+                        # Commit the full response once speech ends
+                        pending = (self._pending_gui_text or "").strip()
+                        if pending:
+                            self._append_stream_text(pending + "\n\n")
+                            self.student_manager.conversation_history.append({"role": "assistant", "content": pending})
+                        # turn end
+                        self.root.config(cursor="")
+                        self._streaming = False
+                        self._pending_gui_text = None
+                        self._thinking_tagged = False
+                        self._thinking_start_index = None
+                        self._first_chunk_seen = False
+                    else:
+                        # Speak the chunk now
+                        self._tts.say_chunk(text, final=is_final)
+            except Exception as e:
+                print("[TTS] error:", e)
+
+        self.root.after(20, self._drain_tts_queue)
+
+
+    def on_speak(self):
+        if self._streaming:
+            return
+        def _worker():
+            try:
+                self._ensure_stt()
+
+                # 1) RECORD
+                self.status_var.set("Recording…")
+                rec = VADRecorder(sample_rate=16000, frame_ms=20, vad_aggr=3,
+                                  silence_ms=1200, max_record_s=7.5,
+                                  energy_margin=2.0, energy_min=2200, energy_max=6000)
+                wav_path = rec.record(TEMP_WAV)
+
+                # 2) TRANSCRIBE (greedy, fastest)
+                self.status_var.set("Transcribing…")
+                t0 = time.perf_counter()
+                segments, info = self._stt_model.transcribe(
+                    wav_path,
+                    language="en",
+                    beam_size=1,
+                    vad_filter=False,
+                    temperature=0.0,
+                    condition_on_previous_text=False
+                )
+                user_text = "".join(s.text for s in segments).strip()
+                print(f"[STT] (len≈{getattr(info,'duration',0):.2f}s, asr={time.perf_counter()-t0:.2f}s)")
+                self.status_var.set("Ready")
+
+                if not user_text:
+                    # Just inform the UI; do NOT call LLM
+                    self.display_message("STT", "(No speech detected)")
+                    return
+
+                # Push transcript into the entry and reuse your existing flow
+                self.user_input.delete(0, tk.END)
+                self.user_input.insert(0, user_text)
+                # Call your existing handler (this preserves your LLM + DB logic)
+                self.handle_input()
+
+            except Exception as e:
+                self.status_var.set("Ready")
+                self.display_message("Lingo", f"[STT error] {e}")
+
+        threading.Thread(target=_worker, daemon=True).start()
+
 
     def _generate_system_prompt(self, context):
         """Deprecated: kept for compatibility."""

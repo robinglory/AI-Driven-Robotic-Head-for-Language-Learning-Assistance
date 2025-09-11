@@ -26,7 +26,6 @@ class LoginScreen:
 
         self._resolve_paths()
         self.create_widgets()
-
     def _resolve_paths(self):
         here = os.path.abspath(os.path.dirname(__file__))
         self.face_dir = os.path.join(here, "Face_Recognition")
@@ -64,6 +63,7 @@ class LoginScreen:
 
         # Tabs
         nb = ttk.Notebook(main)
+        self.nb = nb 
         nb.pack(fill=tk.BOTH, expand=True, pady=(12,0))
 
         # --- TAB A: Log-in (default) ---
@@ -80,9 +80,9 @@ class LoginScreen:
         nb.select(self.tab_login)
 
         # When login tab is shown, auto-start face login once
-        nb.bind("<<NotebookTabChanged>>", lambda e: self._maybe_auto_face(nb))
-        # Also trigger after initial layout
-        self.root.after(250, lambda: self._maybe_auto_face(nb))
+        self.nb.bind("<<NotebookTabChanged>>", lambda e: self._maybe_auto_face())
+        self.root.after(250, self._maybe_auto_face)
+
 
     # ===================== TAB: LOG-IN =====================
     def _build_tab_login(self, parent):
@@ -94,17 +94,25 @@ class LoginScreen:
         self.login_status = ttk.Label(parent, text="", foreground="#e74c3c", font=("Segoe UI", 10))
         self.login_status.pack(pady=(6,0))
 
-    def _maybe_auto_face(self, nb):
-        # Only run when Log-in tab is active and we haven't launched yet
-        if nb.select() != str(self.tab_login):
-            return
-        # Prevent repeated spawns on tab flicker
-        if getattr(self, "_face_login_running", False):
-            return
-        self._face_login_running = True
-        self.login_status.config(text="Starting camera…")
-        self.root.after(50, self._start_face_login_once)
+    def _face_login_failed(self, msg):
+            self.login_status.config(text=msg)
+            def retry():
+                self._face_login_running = False
+                self._maybe_auto_face()  # <— no args
+            self.root.after(1200, retry)
 
+
+    def _maybe_auto_face(self):
+            # Only when the Login tab is active
+            if self.nb.select() != str(self.tab_login):
+                return
+            if getattr(self, "_face_login_running", False):
+                return
+            self._face_login_running = True
+            self.login_status.config(text="Starting camera…")
+            self.root.after(50, self._start_face_login_once)
+
+        
     def _start_face_login_once(self):
         if not os.path.exists(self.recognize_py):
             self.login_status.config(text="Face recognizer not found.")
@@ -118,10 +126,20 @@ class LoginScreen:
                     [self.py_exec, self.recognize_py, "--once", "--json", "--timeout", "12", "--show"],
                     capture_output=True, text=True, cwd=self.face_dir
                 )
-                out_lines = (proc.stdout.strip().splitlines() or ["{}"])
-                data = json.loads(out_lines[-1])
+                raw = (proc.stdout or "").strip()
+                # Be robust: find the last JSON-looking line
+                candidate = None
+                for line in reversed(raw.splitlines()):
+                    s = line.strip()
+                    if s.startswith("{") and s.endswith("}"):
+                        candidate = s
+                        break
+                if not candidate:
+                    # No JSON produced (camera busy / timeout / no face)
+                    raise ValueError("No JSON from recognizer")
+                data = json.loads(candidate)
             except Exception as e:
-                err_msg = f"Error: {e}"
+                err_msg = f"Face login error: {e}"
                 self.root.after(0, lambda m=err_msg: self._face_login_failed(m))
                 return
 
@@ -130,28 +148,20 @@ class LoginScreen:
                 self.root.after(0, lambda: self._face_login_failed("No face match. Try again."))
                 return
 
-            # Lookup in DB
             student = self.student_manager.get_student(name)
             if not student:
                 self.root.after(0, lambda: self._face_login_failed(f"Recognized '{name}', but no account found. Please Sign up."))
                 return
 
-            # Success → open dashboard
             def open_ok():
                 self.student_manager.current_user = student
                 self.root.destroy()
                 self.open_dashboard()
             self.root.after(0, open_ok)
 
+
         threading.Thread(target=worker, daemon=True).start()
 
-    def _face_login_failed(self, msg):
-        self.login_status.config(text=msg)
-        # Allow a single auto-retry after a short pause (still no buttons)
-        def retry():
-            self._face_login_running = False
-            self._maybe_auto_face(self.tab_login.nametowidget(self.tab_login.master.select()))
-        self.root.after(1200, retry)
 
     # ===================== TAB: SIGN-UP =====================
     def _build_tab_signup(self, parent):

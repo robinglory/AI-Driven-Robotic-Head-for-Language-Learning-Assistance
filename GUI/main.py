@@ -98,8 +98,10 @@ def _find_piper_cmd(piper_bin_hint: str|None)->list[str]|None:
     except Exception:
         return None
         
+# inside class MainAIChat, replace the whole open_login() with this:
+
 def open_login(self):
-    # NEW: pause face tracking to free the camera for login’s face recognition
+    # Pause face tracking & free camera
     try:
         if getattr(self, "_tracker", None):
             self._tracker.pause_and_trackoff()
@@ -109,6 +111,7 @@ def open_login(self):
     if self.login_window and self.login_window.winfo_exists():
         self.login_window.lift()
         return
+
     self.login_window = tk.Toplevel(self.root)
     self.login_window.protocol("WM_DELETE_WINDOW", self.on_login_close)
     LoginScreen(self.login_window, self)
@@ -116,6 +119,16 @@ def open_login(self):
     self.login_window.transient(self.root)
     self.login_window.grab_set()
 
+def on_login_close(self):
+    if self.login_window:
+        self.login_window.destroy()
+        self.login_window = None
+    try:
+        if getattr(self, "_tracker", None):
+            # resume after 1200 ms to avoid racing Picamera2 teardown
+            self.root.after(1200, self._tracker.resume_and_trackon)
+    except Exception as _e:
+        print("[TRACK] resume after login error:", _e)
 
 class PiperEngine:
     """
@@ -415,7 +428,7 @@ class LLMHandler:
         try:
             resp = self.client.chat.completions.create(
                 model=p["model"], messages=messages,
-                max_tokens=DEFAULT_MAX_TOKENS, temperature=0.45, stop=DEFAULT_STOP
+                max_tokens=DEFAULT_MAX_TOKENS, temperature=0.4, stop=DEFAULT_STOP
             )
             return resp.choices[0].message.content.strip()
         except Exception as e:
@@ -485,7 +498,7 @@ class LLMHandler:
                     model=p["model"],
                     messages=messages,
                     max_tokens=DEFAULT_MAX_TOKENS,
-                    temperature=0.45,
+                    temperature=0.4,
                     stop=DEFAULT_STOP,
                     stream=True
                 )
@@ -611,6 +624,20 @@ class MainAIChat:
             deadband_deg=1.0
         )
         self._tracker.start()
+        # --- Nudge the Arduino to PARK twice on startup (non-blocking) ---
+        def _startup_park():
+            try:
+                # ensure we are connected first
+                self._ensure_serial()
+                # small wait so UNO finishes boot text
+                time.sleep(0.2)
+                self._serial_send("park")
+                time.sleep(0.12)
+                self._serial_send("park")
+            except Exception as _e:
+                print("[SERIAL] startup park error:", _e)
+        threading.Thread(target=_startup_park, daemon=True).start()
+
 
         # Drain TTS queue
         self.root.after(20, self._drain_tts_queue)
@@ -638,7 +665,12 @@ class MainAIChat:
             self._uno_port = ports[0].device
             self._uno.connect(self._uno_port, baud=115200)
             print(f"[SERIAL] connected {self._uno_port}")
-                # new: push your preferred durations
+            # NEW: hard reset pose on boot — double park
+            self._uno.send("park"); time.sleep(0.12)
+            self._uno.send("park"); time.sleep(0.12)
+            print(f"park")
+            
+            # new: push your preferred durations
             self._uno.send("set_total_listen 6000")
             self._uno.send("set_return 2500")
             self._uno.send("set_total_think 10000")
@@ -1054,6 +1086,13 @@ class MainAIChat:
         return None
 
     def open_login(self):
+        # Pause face tracking to free the camera and send 'track_off' to UNO
+        try:
+            if getattr(self, "_tracker", None):
+                self._tracker.pause_and_trackoff()
+        except Exception as _e:
+            print("[TRACK] pause for login error:", _e)
+
         if self.login_window and self.login_window.winfo_exists():
             self.login_window.lift()
             return
@@ -1064,14 +1103,15 @@ class MainAIChat:
         self.login_window.transient(self.root)
         self.login_window.grab_set()
 
+
     def on_login_close(self):
         if self.login_window:
             self.login_window.destroy()
             self.login_window = None
-        # NEW: resume face tracking after login is done
         try:
             if getattr(self, "_tracker", None):
-                self._tracker.resume_and_trackon()
+                # Give recognize_live.py time to release camera cleanly
+                self.root.after(1200, self._tracker.resume_and_trackon)
         except Exception as _e:
             print("[TRACK] resume after login error:", _e)
 

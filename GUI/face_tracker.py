@@ -42,6 +42,7 @@ class FaceTracker:
         self._period = 1.0 / max(1e-6, rate_hz)
         self._deadband = float(deadband_deg)
 
+
         self._want_run = False
         self._paused = False
         self._thread = None
@@ -57,6 +58,11 @@ class FaceTracker:
         # choose the “mid” we compare against for sign of the push
         self._ud_mid = 150.0  # if you prefer, set to 140.0 to match EYE_UD_MID
         self._lr_mid = 85.0
+        
+        self._cam = None  # Picamera2 handle; opened on-demand, closed when paused
+        self._cam_lock = threading.Lock()
+        self._next_retry_t = 0.0
+        self._idle_since = 0.0
 
 
     def start(self):
@@ -75,44 +81,91 @@ class FaceTracker:
             try: self._send("track_off")
             except: pass
             self._track_on_sent = False
+        # Immediately release the camera
+        try:
+            if hasattr(self, "_cam_lock") and hasattr(self, "_cam"):
+                with self._cam_lock:
+                    if self._cam is not None:
+                        try: self._cam.stop()
+                        except Exception: pass
+                        try:
+                            if hasattr(self._cam, "close"):
+                                self._cam.close()
+                        except Exception:
+                            pass
+                        self._cam = None
+        except Exception:
+            pass
+
 
     def resume_and_trackon(self):
         self._paused = False
         # let the loop send track_on when it sees IDLE
 
     def _loop(self):
-        # late import so your app still runs if camera stack is missing
         try:
             from picamera2 import Picamera2
         except Exception as e:
             print("[TRACK] Picamera2 not available:", e)
             return
 
-        cam = Picamera2()
-        cam.configure(cam.create_preview_configuration(main={"size": (self._W, self._H)}))
-        cam.start()
-        time.sleep(0.5)
+        def _open_cam():
+            with self._cam_lock:
+                if self._cam is not None:
+                    return True
+                try:
+                    cam = Picamera2()
+                    # keep the same resolution you already use
+                    cam.configure(cam.create_preview_configuration(main={"size": (self._W, self._H)}))
+                    cam.start()
+                    time.sleep(0.30)  # small warm-up
+                    self._cam = cam
+                    return True
+                except Exception as e:
+                    # Opening failed — don't keep a half-initialized handle
+                    self._cam = None
+                    return False
+
+        def _close_cam():
+            with self._cam_lock:
+                if self._cam is not None:
+                    try:
+                        self._cam.stop()
+                    except Exception:
+                        pass
+                    # NEW: if Picamera2 has close(), call it to fully release libcamera
+                    try:
+                        if hasattr(self._cam, "close"):
+                            self._cam.close()
+                    except Exception:
+                        pass
+                    self._cam = None
 
         try:
             while self._want_run:
                 t0 = time.time()
-
-                # If not idle or explicitly paused → ensure track_off once, then sleep
                 state = (self._get_state() or "").upper()
+
+                # Paused or not IDLE → ensure 'track_off' and release the camera
                 if self._paused or state != "IDLE":
+                    self._idle_since = 0.0
                     if self._track_on_sent:
                         try: self._send("track_off")
                         except: pass
                         self._track_on_sent = False
+                    _close_cam()
                     time.sleep(0.12)
                     continue
 
-                # We are idle: ensure serial + track_on (once)
+                # We are IDLE and not paused
+                if self._idle_since == 0.0:
+                    self._idle_since = time.time()
+
+                # Ensure serial + 'track_on' once
                 try:
                     self._ensure_serial()
                     if not self._track_on_sent:
                         self._send("track_on")
-                        # seed to center once (inside Arduino it will clamp/smooth)
                         self._send("gaze 140 85")
                         self._track_on_sent = True
                 except Exception as e:
@@ -120,10 +173,37 @@ class FaceTracker:
                     time.sleep(0.3)
                     continue
 
-                # Grab frame (RGB), convert to gray and detect
-                frame_rgb = cam.capture_array()
+                now = time.time()
+
+                # Respect global backoff after any failure
+                if now < self._next_retry_t:
+                    time.sleep(0.10)
+                    continue
+
+                # NEW: Grace period after becoming IDLE so other camera users can tear down (e.g., login)
+                if self._cam is None and (now - self._idle_since) < 1.0:
+                    time.sleep(0.10)
+                    continue
+
+                if self._cam is None:
+                    if not _open_cam():
+                        # libcamera still busy or mid-config → back off longer
+                        self._next_retry_t = time.time() + 2.5
+                        time.sleep(0.20)
+                        continue
+
+                # Try to capture a frame; if it fails, close + back off
+                try:
+                    frame_rgb = self._cam.capture_array()
+                except Exception:
+                    _close_cam()
+                    self._next_retry_t = time.time() + 2.5
+                    time.sleep(0.20)
+                    continue
+
                 if frame_rgb is None:
-                    time.sleep(0.05); continue
+                    time.sleep(0.05)
+                    continue
 
                 gray = cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2GRAY)
                 gray = cv2.equalizeHist(gray)
@@ -132,23 +212,17 @@ class FaceTracker:
                 )
 
                 if len(faces) > 0:
-                    # pick the largest face
                     x, y, w, h = max(faces, key=lambda r: r[2]*r[3])
                     cx = x + w/2.0
                     cy = y + h/2.0
 
-                    # Base mapping (image → degrees within your safe box)
-                    ud = 135.0 + (165.0 - 135.0) * (cy / float(self._H))  # up→135, down→165
-                    lr =  60.0 + (110.0 -  60.0) * (cx / float(self._W))  # left→60, right→110
-
-                    # EXTRA push of ±10° toward the direction (boost visibility), then clamp
-                    # if face is above mid, push UD upward (smaller number); if below, push downward (larger number)
+                    ud = 135.0 + (165.0 - 135.0) * (cy / float(self._H))
+                    lr =  60.0 + (110.0 -  60.0) * (cx / float(self._W))
                     ud += (-self._extra_deg) if (ud < self._ud_mid) else (+self._extra_deg)
                     lr += (-self._extra_deg) if (lr < self._lr_mid) else (+self._extra_deg)
                     ud = _clamp(ud, 135.0, 165.0)
                     lr = _clamp(lr,  60.0, 110.0)
 
-                    # PIXEL deadband (tiny jitters) AND HARD THROTTLE (min 1.5 s between commands)
                     now = time.time()
                     if (self._last_sent_ud is None or abs(ud - self._last_sent_ud) >= self._deadband or
                         self._last_sent_lr is None or abs(lr - self._last_sent_lr) >= self._deadband):
@@ -161,11 +235,11 @@ class FaceTracker:
                             except Exception as e:
                                 print("[TRACK] send gaze failed:", e)
 
-
-                # simple rate limit
+                # loop pacing
                 dt = time.time() - t0
                 sleep_left = self._period - dt
-                if sleep_left > 0: time.sleep(sleep_left)
+                if sleep_left > 0:
+                    time.sleep(sleep_left)
         finally:
-            try: cam.stop()
-            except: pass
+            _close_cam()
+
