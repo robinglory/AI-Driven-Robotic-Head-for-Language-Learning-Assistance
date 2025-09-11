@@ -373,8 +373,6 @@ class LessonScreen:
         # Drain TTS queue forever
         self.root.after(20, self._drain_tts_queue)
 
-
-
     # ---------- UI ----------
     def create_widgets(self):
         main_frame = ttk.Frame(self.root, padding=(20, 15))
@@ -670,6 +668,9 @@ class LessonScreen:
                 "4) Avoid the '*' character.\n"
                 "5) Do not invent names or facts not present in the LESSON TEXT.\n"
                 "6) Match the lesson type (Reading/Grammar/Vocabulary):\n"
+                "7) NO emojis. Remove any emoji if produced.\n"
+                "8) Do NOT start with 'In this lesson' or 'We will learn'. Reply directly.\n"
+
                 "   - Reading: give a brief, text‑based explanation + one comprehension question.\n"
                 "   - Grammar: explain the rule using examples from the text; avoid new rules not in text.\n"
                 "   - Vocabulary: define/illustrate only words appearing in the text.\n"
@@ -690,7 +691,14 @@ class LessonScreen:
             )
 
             # Cap history to last 6 messages (3 pairs) to keep latency low
-            recent_history = self.student_manager.conversation_history[-6:] if self.student_manager.conversation_history else []
+            recent_history = (self.student_manager.conversation_history[-4:]
+                  if self.student_manager.conversation_history else [])
+            recent_history = [
+                m for m in recent_history
+                if not (m.get("role")=="assistant" and isinstance(m.get("content"), str)
+                        and m["content"].strip().lower().startswith(("in this lesson","we will learn")))
+            ]
+
 
             messages = [
                 {"role": "system", "content": system_rules},

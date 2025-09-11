@@ -310,8 +310,9 @@ class VADRecorder:
 load_dotenv()
 
 SOFT_TIMEOUT_SECONDS = 6.0
-DEFAULT_MAX_TOKENS = 96
-DEFAULT_STOP = ["\n\n", "Question:", "Q:"]
+DEFAULT_MAX_TOKENS = 48
+DEFAULT_STOP = ["\n\n", "Question:", "Q:", "Lingo:", "You:"]
+
 
 # STT models (paths unchanged)
 FW_BASE = "/home/robinglory/Desktop/Thesis/STT/faster-whisper/fw-base.en"
@@ -332,6 +333,16 @@ class LLMHandler:
         self._reload_providers_from_profile()
         self.current_provider = 0
         self.client = self._create_client()
+    
+    def _max_tokens_for(self, messages):
+        try:
+            # If there is any system message, clamp to 48 for concise lesson replies
+            if any(m.get("role") == "system" for m in messages):
+                return 48
+        except Exception:
+            pass
+        return DEFAULT_MAX_TOKENS
+
 
     def _reload_providers_from_profile(self):
         keys = self.key_manager.get_keys()
@@ -404,31 +415,45 @@ class LLMHandler:
                     f"You are Lingo teaching {lesson_context['student_name']} (Level: {lesson_context['student_level']}). "
                     f"Current Lesson: {lesson_context['lesson_title']}\n"
                     f"Objective: {lesson_context['lesson_objective']}\n"
-                    "Guidelines:\n"
-                    "1. Reference the lesson content\n"
-                    "2. Personalize explanations\n"
-                    "3. Keep responses focused and don't use any emoji and avoid '*' character.\n"
-                    "4. Keep responses short (<=2 sentences, <=60 words) and end with one short question.\n"
+                    "Rules (MANDATORY):\n"
+                    "• BASE ANSWERS ONLY on lesson content the user is studying now. If not present, say: "
+                    "\"The lesson text doesn’t say yet.\" and ask a tiny guiding question.\n"
+                    "• 1–2 sentences MAX (≤40 words total) + end with ONE short question.\n"
+                    "• NO emojis. NO asterisks '*'.\n"
+                    "• Do NOT start with phrases like 'In this lesson,' 'We will learn,' or repeat prior lines.\n"
+                    "• Avoid repeating yourself or re-stating the same example.\n"
                 )
             else:
                 system_msg = (
-                    "You are Lingo, a friendly AI English Teacher. "
-                    "Have natural conversations and help with general English questions. "
-                    "Keep responses <=2 sentences (<=60 words) and end with one short question. "
-                    "Avoid the '*' character."
-                    "Don't use any emoji at all."
+                    "You are Lingo, a friendly AI English Teacher.\n"
+                    "Rules: 1–2 sentences (≤40 words) + end with ONE short question. "
+                    "No emojis. Avoid the '*' character. Do not repeat yourself."
                 )
+
 
             messages = [{"role": "system", "content": system_msg}]
             if conversation_history:
                 messages.extend(conversation_history[-4:])
+                messages = [
+                m for m in messages
+                if not (m.get("role") == "assistant"
+                        and isinstance(m.get("content"), str)
+                        and m["content"].strip().lower().startswith(("in this lesson", "we will learn")))
+]
+
             messages.append({"role": "user", "content": message})
 
         p = self.api_providers[self.current_provider]
         try:
+            # NEW: compute per-request max_tokens
+            max_tokens = self._max_tokens_for(messages)
+
             resp = self.client.chat.completions.create(
-                model=p["model"], messages=messages,
-                max_tokens=DEFAULT_MAX_TOKENS, temperature=0.4, stop=DEFAULT_STOP
+                model=p["model"],
+                messages=messages,
+                max_tokens=max_tokens,
+                temperature=0.4,
+                stop=DEFAULT_STOP
             )
             return resp.choices[0].message.content.strip()
         except Exception as e:
@@ -438,6 +463,7 @@ class LLMHandler:
             print(f"Error with {p['name']}: {emsg}")
             self._switch_provider()
             return "I'm having trouble connecting right now. Please try again."
+
 
     # ---------- Streaming + Hedge + first-token fallback ----------
     def stream_ai_response(self, message=None, conversation_history=None, lesson_context=None, messages=None):
@@ -451,39 +477,63 @@ class LLMHandler:
 
         FIRST_TOKEN_TIMEOUT = 8.0  # seconds
 
-        # Build messages if not supplied (unchanged prompt style)
+        # --- BUILD MESSAGES ONLY IF NOT PROVIDED ---
         if messages is None:
-            if message is None:
-                raise ValueError("Either message or messages must be provided")
+            if message is None and lesson_context is None and not conversation_history:
+                raise ValueError("Either `messages` or (`message` and optional context) must be provided")
 
             if lesson_context:
                 system_msg = (
                     f"You are Lingo teaching {lesson_context['student_name']} (Level: {lesson_context['student_level']}). "
                     f"Current Lesson: {lesson_context['lesson_title']}\n"
                     f"Objective: {lesson_context['lesson_objective']}\n"
-                    "Guidelines:\n"
-                    "1. Reference the lesson content\n"
-                    "2. Personalize explanations\n"
-                    "3. Keep responses focused and don't use any emoji and avoid '*' character.\n"
-                    "4. Keep responses short (<=2 sentences, <=60 words) and end with one short question.\n"
+                    "Rules (MANDATORY):\n"
+                    "• BASE ANSWERS ONLY on lesson content the user is studying now. If not present, say: "
+                    "\"The lesson text doesn’t say yet.\" and ask a tiny guiding question.\n"
+                    "• 1–2 sentences MAX (≤40 words total) + end with ONE short question.\n"
+                    "• NO emojis. NO asterisks '*'.\n"
+                    "• Do NOT start with phrases like 'In this lesson,' 'We will learn,' or repeat prior lines.\n"
+                    "• Avoid repeating yourself or re-stating the same example.\n"
                 )
             else:
                 system_msg = (
-                    "You are Lingo, a friendly AI English Teacher. "
-                    "Keep responses <=2 sentences (<=60 words) and end with one short question. "
-                    "Avoid the '*' character."
+                    "You are Lingo, a friendly AI English Teacher.\n"
+                    "Rules: 1–2 sentences (≤40 words) + end with ONE short question. "
+                    "No emojis. Avoid the '*' character. Do not repeat yourself."
                 )
 
             messages = [{"role": "system", "content": system_msg}]
             if conversation_history:
+                # keep ONLY last 2 exchanges
                 messages.extend(conversation_history[-4:])
-            messages.append({"role": "user", "content": message})
+                messages = [
+                    m for m in messages
+                    if not (m.get("role") == "assistant"
+                            and isinstance(m.get("content"), str)
+                            and m["content"].strip().lower().startswith(("in this lesson", "we will learn")))
+                ]
+            if message is not None:
+                messages.append({"role": "user", "content": message})
+        # NEW: compute per-request max_tokens once for all streams
+        _req_max_tokens = self._max_tokens_for(messages)
 
         idx_a = self.current_provider
         idx_b = (self.current_provider + 1) % len(self.api_providers)
         idx_c = (self.current_provider + 2) % len(self.api_providers)
 
         out_q: queue.Queue = queue.Queue()
+        import re
+        EMOJI_RE = re.compile(
+            r"[\U0001F300-\U0001F6FF\U0001F900-\U0001F9FF\U0001FA70-\U0001FAFF\U00002700-\U000027BF]+"
+        )
+
+        def sanitize_text(s: str) -> str:
+            if not s: return s
+            # strip emojis & stray asterisks, collapse spaces
+            s = EMOJI_RE.sub("", s)
+            s = s.replace("*", "")
+            return s
+
         winner_lock = threading.Lock()
         winner_idx = {"value": None}
         first_token_time = {"value": None}
@@ -497,11 +547,12 @@ class LLMHandler:
                 return client.chat.completions.create(
                     model=p["model"],
                     messages=messages,
-                    max_tokens=DEFAULT_MAX_TOKENS,
+                    max_tokens=_req_max_tokens,   # ← use the computed value
                     temperature=0.4,
                     stop=DEFAULT_STOP,
                     stream=True
                 )
+
             try:
                 stream = _open_stream()
                 for event in stream:
@@ -510,6 +561,8 @@ class LLMHandler:
                     delta = getattr(event.choices[0].delta, "content", None)
                     if not delta:
                         continue
+                    delta = sanitize_text(delta)
+
                     with winner_lock:
                         now = _time.time()
                         if winner_idx["value"] is None:
@@ -556,12 +609,29 @@ class LLMHandler:
 
         # Drain outputs from whichever wins
         finished = 0
+        # de-dup across stream: only emit NEW suffix beyond what we've already yielded
+        accumulated = ""
+
         while finished < sentinels_needed:
             item = out_q.get()
             if isinstance(item, tuple) and item[1] is None:
                 finished += 1
                 continue
-            yield item
+            # item is a chunk string
+            new_text = str(item)
+            # If provider glitch repeats earlier content, keep only the novel suffix
+            if new_text and accumulated:
+                # longest common prefix trim
+                common = 0
+                max_check = min(len(accumulated), len(new_text))
+                while common < max_check and accumulated[-max_check+common] == new_text[common]:
+                    common += 1
+            # simpler & faster: just drop if chunk is already fully contained at the end
+            if new_text and new_text in accumulated[-1024:]:
+                new_text = ""
+            if new_text:
+                accumulated += new_text
+                yield new_text
 
 # -------------------- GUI (kept style; TTS-first policy) --------------------
 class MainAIChat:
