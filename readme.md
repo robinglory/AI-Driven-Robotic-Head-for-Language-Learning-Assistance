@@ -20,6 +20,10 @@
 ---
 
 ## Overview
+### Experimental Setup
+1. **Final Setup Interface**  
+   *Lingo Laguage Learning Assistance*  
+   ![Ling](GUI/GUI_IMG/IMG_20250911_204801.png)
 
 The **AI Driven Robotic Head for Language Learning Assistance** (codenamed **Lingo**) is a combined **software + hardware platform** that delivers personalized English tutoring through natural conversation, interactive lessons, and human-like robotic expressions.  
 
@@ -77,7 +81,7 @@ The application features a **responsive Tkinter interface** with enhanced styles
 ### Main Components:
 1. **Main Chat Interface**  
    *Entry point for AI assistant chat*  
-   ![Main Page](GUI/GUI_IMG/main_page.png)
+   ![Main Page](GUI/GUI_IMG/IMG_20250911_204801.png)
 
 2. **Login Screen**  
    *Student authentication and profile loading*  
