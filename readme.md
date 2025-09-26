@@ -3,19 +3,20 @@
 ## Table of Contents
 1. [Overview](#overview)  
 2. [Hardware Integration](#hardware-integration)  
-3. [Software Components](#software-components)  
-4. [The UI Design](#guidesign)  
-5. [System Architecture](#system-architecture)  
-6. [Technical Specifications](#technical-specifications)  
-7. [Installation Guide](#installation-guide)  
-8. [Configuration](#configuration)  
-9. [Usage](#usage)  
-10. [API & AI Integration](#api--ai-integration)  
-11. [File Structure](#file-structure)  
-12. [Dependencies](#dependencies)  
-13. [Testing & Results](#testing--results)  
-14. [Known Issues](#known-issues)  
-15. [Future Enhancements](#future-enhancements)  
+3. [Software Components](#software-components)
+4. [Demo Videos](#demo-videos)
+5. [The UI Design](#guidesign)  
+6. [System Architecture](#system-architecture)  
+7. [Technical Specifications](#technical-specifications)  
+8. [Installation Guide](#installation-guide)  
+9. [Configuration](#configuration)  
+10. [Usage](#usage)  
+11. [API & AI Integration](#api--ai-integration)  
+12. [File Structure](#file-structure)  
+13. [Dependencies](#dependencies)  
+14. [Testing & Results](#testing--results)  
+15. [Known Issues](#known-issues)  
+16. [Future Enhancements](#future-enhancements)  
 
 ---
 
@@ -103,6 +104,21 @@ The application features a **responsive Tkinter interface** with enhanced styles
    *Our Lingo will teach ther user lots of essential vocabs.*  
    ![Vocabulary](GUI/GUI_IMG/vocab_lesson.png)
 
+---
+## Demo Videos
+
+See **Lingo – the AI-Driven Robotic Head for Language Learning Assistance** in action:
+
+- [▶️ Main Demo – General Teacher Mode](https://youtu.be/7IBsDtvbOOo)  
+- [👤 Face Recognition – Personalized Login](https://youtu.be/A4hE7prCXok)  
+- [📚 Personalized Teacher Mode – Lesson Enforcement](https://youtu.be/aG6oOYA1lXU)  
+
+---
+
+### 📌 Highlights
+- **Main Demo** – Ask questions, Lingo listens → thinks → answers.  
+- **Face Recognition** – Login with OpenCV (Haar + LBPH) to load your personal dashboard.  
+- **Personalized Teacher** – Strict lesson flow using TinyDB (Pre-Intermediate & Intermediate levels).  
 ---
 
 ## System Architecture
