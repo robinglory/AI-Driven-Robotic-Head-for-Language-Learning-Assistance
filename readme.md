@@ -1,31 +1,71 @@
 # AI Driven Robotic Head for Language Learning Assistance - Technical Documentation
 
 ## Table of Contents
-1. [Overview](#overview)
-2. [The UI Design](#guidesign)
-3. [System Architecture](#system-architecture)
-4. [Technical Specifications](#technical-specifications)
-5. [Installation Guide](#installation-guide)
-6. [Configuration](#configuration)
-7. [Usage](#usage)
-8. [API Integration](#api-integration)
-9. [File Structure](#file-structure)
-10. [Dependencies](#dependencies)
-11. [Known Issues](#known-issues)
-12. [Future Enhancements](#future-enhancements)
+1. [Overview](#overview)  
+2. [Hardware Integration](#hardware-integration)  
+3. [Software Components](#software-components)  
+4. [The UI Design](#guidesign)  
+5. [System Architecture](#system-architecture)  
+6. [Technical Specifications](#technical-specifications)  
+7. [Installation Guide](#installation-guide)  
+8. [Configuration](#configuration)  
+9. [Usage](#usage)  
+10. [API & AI Integration](#api--ai-integration)  
+11. [File Structure](#file-structure)  
+12. [Dependencies](#dependencies)  
+13. [Testing & Results](#testing--results)  
+14. [Known Issues](#known-issues)  
+15. [Future Enhancements](#future-enhancements)  
 
 ---
 
 ## Overview
 
-The **AI Driven Robotic Head for Language Learning Assistance** or **Lingo Language Tutor** is a modular Python application designed to deliver interactive English language instruction via a Tkinter-based graphical user interface. The system combines rule-based teaching, AI-powered explanations, student progress tracking, and digital textbook integration to create a personalized learning experience.
+The **AI Driven Robotic Head for Language Learning Assistance** (codenamed **Lingo**) is a combined **software + hardware platform** that delivers personalized English tutoring through natural conversation, interactive lessons, and human-like robotic expressions.  
 
-**Key Features:**
-- Multi-modal interaction (chat, lesson modules, digital textbook)
-- Student progress tracking with **TinyDB**
-- Adaptive lesson sequencing based on mastery
-- Dual-API fallback system for reliable AI responses
-- Export lessons to academic-style PDFs with cover pages
+The system runs on **Raspberry Pi 4** and integrates:  
+- **GUI Application (Tkinter)** for lessons, progress tracking, and digital textbooks.  
+- **AI Pipeline** with speech recognition (STT), large language models (LLM), and speech synthesis (TTS).  
+- **Robotic Head** powered by Arduino + PCA9685 servo controller for eyes, mouth, and neck gestures.  
+
+**Key Achievements & Features:**
+- Fully functional **GUI** with login, student dashboard, grammar, vocabulary, and reading lessons.  
+- **Voice interaction loop**: STT (Faster-Whisper) → LLM (OpenRouter) → TTS (Piper).  
+- **Persistent Piper engine** for streaming, low-latency text-to-speech.  
+- **TinyDB database** for storing students and lesson progress.  
+- **Face recognition login** (LBPH + Haar cascade).  
+- **Arduino-controlled robotic head** with lifelike gestures (listen, think, talk).  
+- **Servo limits & safety controls** for mouth, eyes, and neck.  
+- **Academic-style PDF export** for completed lessons.  
+
+---
+## Hardware Integration
+
+The robotic head is driven by **Arduino UNO + PCA9685** servo controller with external 12V → 6V regulated power.  
+
+**Servo Ranges (degrees):**  
+- Mouth: 25° → 60°  
+- Neck: 45° → 135°  
+- Eyes Left/Right: 50° → 120°  
+- Eyes Up/Down: 130° → 170°  
+
+**Features:**  
+- Event-driven serial commands (`listen`, `think`, `talk`, `stop`, etc.).  
+- Smooth return to **idle pose** after each gesture.  
+- Human-like **thinking**, **listening**, and **talking** animations.  
+- Integration with GUI stages (pause tracking during “think”/“talk”).  
+
+---
+
+## Software Components
+
+- **main.py** – Tkinter main app with login, dashboard, and lesson screens.  
+- **lesson.py** – Lesson mode with stricter system prompts and TTS-first pipeline.  
+- **gui_serial.py** – Serial bridge for controlling Arduino gestures.  
+- **FaceTracker** – Controls robot eye tracking during idle states.  
+- **VADRecorder** – WebRTC-based voice activity detection for clean STT.  
+- **LLMHandler** – Multi-provider LLM calls with failover & streaming hedge.  
+- **PiperEngine** – Persistent streaming TTS with auto sample-rate handling.  
 
 ---
 
@@ -85,13 +125,15 @@ The app follows an **MVC-like** pattern:
 
 ## Technical Specifications
 
-- **Platform**: Raspberry Pi 4 (4GB) compatible
-- **Python**: 3.9+
-- **GUI Framework**: Tkinter with ttk styling
-- **Database**: TinyDB (lightweight, file-based)
-- **APIs**: OpenRouter (Qwen primary, Mistral fallback)
-- **PDF Export**: ReportLab with academic formatting
-- **Data Persistence**: JSON + TinyDB
+- **Platform**: Raspberry Pi 4 (4GB RAM)  
+- **Python**: 3.9+  
+- **GUI**: Tkinter with ttk styling  
+- **Database**: TinyDB + JSON  
+- **STT**: Faster-Whisper (int8, tiny.en)  
+- **TTS**: Piper (streaming engine)  
+- **LLM**: OpenRouter (Qwen primary, Mistral/GPT fallback)  
+- **Face Recognition**: OpenCV LBPH + Haar cascades  
+- **Servo Control**: Arduino UNO + PCA9685  
 
 ---
 
@@ -139,20 +181,24 @@ python main.py
 ```
 
 **Workflow:**
-1. **Login** → Load/create student profile from TinyDB  
-2. **Dashboard** → Choose lesson or textbook chapter  
-3. **Lesson Delivery** → Content adapts to prior progress  
-4. **Progress Tracking** → Stores completion & mastery in TinyDB  
-5. **PDF Export** → Generate academic-style lesson PDFs with title page
+1. **Login** → Login via face recognition / new student signup. 
+2. **Dashboard** → Select lessons from dashboard.
+3. **Implement STT**  → Voice or text input.
+4. **Lingo Head Implement** → Robot responds with voice + gestures.
+5. **Lesson Delivery** → Content adapts to prior progress  
+6. **Progress Tracking** → Stores completion & mastery in TinyDB  
+7. **PDF Export** → Generate academic-style lesson PDFs with title page
 
 ---
 
-## API Integration
+## API & AI Integration
 
-**Primary API** – Qwen (OpenRouter)  
-**Secondary API** – Mistral 7B fallback
-
-Both are wrapped in `api_manager.py` with provider switching, retries, and graceful fallbacks.
+1. Speech Recognition: Faster-Whisper (local, int8).
+2. Language Model: OpenRouter (Qwen + Mistral failover).
+   **Primary API** – Qwen (OpenRouter)  
+   **Secondary API** – Mistral 7B fallback  (Both are wrapped in `api_manager.py` with provider switching, retries, and graceful fallbacks.)
+3. Speech Synthesis: Piper (streaming, low-latency).
+4. Face Recognition: OpenCV LBPH + Haar Cascade.
 
 ---
 
@@ -161,17 +207,19 @@ Both are wrapped in `api_manager.py` with provider switching, retries, and grace
 ```
 GUI/
 ├── main.py
+├── lesson.py
 ├── login.py
 ├── dashboard.py
-├── lesson.py
-├── textbook_viewer.py
-├── api_manager.py
+├── gui_serial.py
+├── face_tracker.py
 ├── student_manager.py
 ├── lesson_manager.py
-├── textbook_manager.py
 ├── styles.py
+├── conversations.json
+├── students.json
 ├── requirements.txt
 └── .env.example
+
 ```
 
 ---
@@ -186,29 +234,54 @@ Pillow==10.0.0
 requests==2.31.0
 tinydb==4.8.0
 reportlab==4.0.8
+faster-whisper
+webrtcvad
+sounddevice
+opencv-python
 ```
 
 **Purpose:**
-| Package | Purpose |
-|---------|---------|
-| python-dotenv | Environment management |
-| openai | LLM API |
-| Pillow | Image handling |
-| requests | HTTP requests |
-| tinydb | Student progress database |
-| reportlab | PDF export |
+| Package        | Purpose                        |
+| -------------- | ------------------------------ |
+| faster-whisper | Local STT                      |
+| webrtcvad      | Voice activity detection       |
+| sounddevice    | Audio playback/record          |
+| opencv-python  | Face recognition, Haar cascade |
+| python-dotenv  | Env var management             |
+| tinydb         | Student database               |
+| reportlab      | PDF export                     |
+| Pillow         | Image handling                 |
+| requests       | API HTTP calls                 |
 
 ---
 
+## Testing & Results
+Latency (Raspberry Pi 4)
+  1. STT: ~7.5s (tiny.en, int8)
+  2. LLM response: <3s (Qwen/Mistral)
+  3. TTS: <2s per chunk
+Gesture Control
+  1. Smooth servo transitions with PCA9685.
+  2. Realistic human-like “listen / think / talk” animations.
+Face Recognition
+  1. Reliable login using LBPH with 20+ training images per student.
+
+---
 ## Known Issues
-- UI may freeze on slow API calls (threading planned)
 - TinyDB file can grow if not periodically cleaned
 - PDF export speed depends on lesson length
+- GUI may hang during slow LLM calls (threading planned).
+- Whisper int8 still ~7s latency (could improve with faster models).
+- Piper voice selection limited to trained JSON configs.
+
 
 ---
 
 ## Future Enhancements
-- Voice-based interaction
+- Multi-language support (beyond English).
+- Web-based interface (Flask/React).
+- Rich media lessons (images, videos).
+- Improved latency with quantized STT/LLM models.
+- Servo gesture learning from real human data.
 - Animated lesson transitions
-- Rich media in lessons
 - Progress analytics dashboard
