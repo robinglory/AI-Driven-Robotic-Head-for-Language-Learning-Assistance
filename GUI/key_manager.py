@@ -64,14 +64,25 @@ class KeyManager:
     def get_active_label(self):
         return self.profiles[self.active_index].get("label", f"Profile {self.active_index+1}")
 
+#    def get_keys(self):
+#        """Return the 3 OpenRouter keys for the current profile as a dict."""
+#        with self._lock:
+#            return {
+#                "QWEN_API_KEY": self.profiles[self.active_index].get("QWEN_API_KEY", ""),
+#                "MISTRAL_API_KEY": self.profiles[self.active_index].get("MISTRAL_API_KEY", ""),
+#                "GPT_OSS_API_KEY": self.profiles[self.active_index].get("GPT_OSS_API_KEY", "")
+#            }
+            
     def get_keys(self):
         """Return the 3 OpenRouter keys for the current profile as a dict."""
         with self._lock:
+            profile = self.profiles[self.active_index]
             return {
-                "QWEN_API_KEY": self.profiles[self.active_index].get("QWEN_API_KEY", ""),
-                "MISTRAL_API_KEY": self.profiles[self.active_index].get("MISTRAL_API_KEY", ""),
-                "GPT_OSS_API_KEY": self.profiles[self.active_index].get("GPT_OSS_API_KEY", "")
+                "ARCEE_API_KEY": profile.get("ARCEE_API_KEY", ""),
+                "LIQUID_API_KEY": profile.get("LIQUID_API_KEY", ""),
+                "MOLMO_API_KEY": profile.get("MOLMO_API_KEY", "")
             }
+
 
     def switch_to(self, idx: int):
         with self._lock:
