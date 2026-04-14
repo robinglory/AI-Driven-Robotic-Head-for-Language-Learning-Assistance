@@ -16,7 +16,8 @@
 13. [Dependencies](#dependencies)  
 14. [Testing & Results](#testing--results)  
 15. [Known Issues](#known-issues)  
-16. [Future Enhancements](#future-enhancements)  
+16. [Future Enhancements](#future-enhancements)
+17. [Related Work & Global Context](#Related-Work-&-Global-Context)
 
 ---
 
@@ -305,3 +306,20 @@ Face Recognition
 - Servo gesture learning from real human data.
 - Animated lesson transitions
 - Progress analytics dashboard
+
+## Related Work & Global Context
+
+The development of AI-driven social robots and edge-based voice assistants is a highly active field of global research. To provide a fair and objective overview of this ecosystem, the table below compares **Lingo** (this repository) with other recent 2024–2025 academic projects from universities around the world. 
+
+Each project tackles the challenge of Human-Robot Interaction (HRI) with different goals, hardware constraints, and software architectures. 
+
+| Research / Project | Institution & Year | Hardware Platform | AI / Software Pipeline | Key Strengths | Limitations & Trade-offs |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **[Lingo: AI-Driven Robot Head for Language Learning](https://github.com/robinglory/AI-Driven-Robotic-Head-for-Language-Learning-Assistance)** *(This Repo)* | West Yangon Technological University (2026) | Raspberry Pi 4 (4GB), Arduino Mega, 4-DOF 3D-Printed Head | Faster-Whisper (Local STT), OpenRouter API (LLM), Piper (Local TTS), OpenCV/MediaPipe | **Mechatronic Sync:** Successfully syncs edge-AI speech outputs with physical 4-DOF servo motors (jaw/neck). Complete end-to-end educational GUI with local database tracking. | Relies on a cloud API for the LLM reasoning to maintain speed. ~15s latency loop due to running heavy local STT/TTS on a single Pi 4. |
+| **['Cor': The Social Robot](https://github.com/goga4/M12-Cor)** <br>*(BSc Thesis by A. Goga)* | University of Twente, Netherlands (2025) | Custom Outdoor Enclosure, Two Raspberry Pi 4s, Edge TPU | YOLOv8 (Vision), Sonic Pi (Voice Mimicry) | **Outdoor Robustness:** Highly optimized for outdoor, dynamic lighting environments. Excellent physical UX designed specifically to engage children in museum settings. | Uses two separate Pi 4s to handle the compute load. Lacks generative LLM conversations (relies on voice mimicry and predefined phrases). |
+| **[Voice Intelligence at the Brilliance Edge](https://github.com/ChuDucAnh242002/vibe)** <br>*(MSc Thesis by A. Chu)* | Tampere University, Finland (2025) | Raspberry Pi 5 | Local Gemma-3 (1B), RAG Pipeline, Wav2Vec2 (STT), Piper (TTS) | **100% Offline Privacy:** Runs the entire LLM and RAG pipeline locally on edge hardware without internet. Exceptional at retrieving strict factual data from manuals. | Lacks a physical robot body/actuators. Local LLM generation on Pi CPU is very slow (takes 10-20 seconds just for text generation). |
+| **[Social Robots for Second Language Learning](http://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-353683)** <br>*(MSc Thesis by E. Inoue)* | KTH Royal Institute of Technology, Sweden (2024) | Furhat Robot | GPT-4o (LLM), Google Cloud ASR, Amazon Polly (TTS) | **Pedagogical UX:** Deep statistical analysis on bilingual vs. monolingual teaching methods. Highly realistic and expressive 3D-projected face. | **High Cost:** Dependent on the Furhat commercial platform ($20k+). Completely reliant on continuous, high-speed internet for cloud APIs. |
+| **[Using an LLM Conversational Agent in Social Robot Mini](https://doi.org/10.1007/978-3-031-60615-1_2)** <br>*(I. Esteban-Lozano et al.)* | Universidad Carlos III de Madrid, Spain (2024) | "Mini" Social Robot | GPT-3.5-Turbo (LLM), Google Cloud ASR | **Software Architecture:** Excellent integration of a Decision-Making System (DMS) and HRI manager to handle multi-modal inputs for elderly companionship. | Introduces noticeable latency by relying on cloud computing for both ASR and LLM, making real-time interruptions difficult. |
+
+> **Conclusion on Trade-offs:** 
+> Building social robots is a balance between **Compute Power**, **Cost**, and **Physical Embodiment**. While commercial platforms (like Furhat) provide flawless interaction, they are highly expensive. 100% offline edge-LLMs (like the Tampere University research) provide maximum privacy but suffer from severe CPU generation latency. **Lingo** positions itself as a hybrid mechatronic middle-ground: proving that low-cost Raspberry Pi 4 hardware can physically drive 4-DOF servos and process local STT/TTS, while offloading only the LLM reasoning to an API to maintain a viable conversation speed for language learners.
