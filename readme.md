@@ -17,7 +17,7 @@
 14. [Testing & Results](#testing--results)  
 15. [Known Issues](#known-issues)  
 16. [Future Enhancements](#future-enhancements)
-17. [Related Work & Global Context](#Related-Work-&-Global-Context)
+17. [Related Work & Global Context](#related-work-with-global-context)
 
 ---
 
@@ -307,7 +307,7 @@ Face Recognition
 - Animated lesson transitions
 - Progress analytics dashboard
 
-## Related Work & Global Context
+## Related Work With Global Context
 
 The development of AI-driven social robots and edge-based voice assistants is a highly active field of global research. To provide a fair and objective overview of this ecosystem, the table below compares **Lingo** (this repository) with other recent 2024–2025 academic projects from universities around the world. 
 
