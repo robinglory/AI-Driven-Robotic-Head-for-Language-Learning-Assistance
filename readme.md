@@ -108,11 +108,21 @@ The application features a **responsive Tkinter interface** with enhanced styles
 ---
 ## Demo Videos
 
-See **Lingo – the AI-Driven Robotic Head for Language Learning Assistance** in action:
+See **Lingo – the AI-Driven Robotic Head for Language Learning Assistance** in action! Start with our high-level project overviews, then explore the specific testing and interaction results.
 
-- [▶️ Main Demo – General Teacher Mode](https://youtu.be/7IBsDtvbOOo)  
-- [👤 Face Recognition – Personalized Login](https://youtu.be/A4hE7prCXok)  
-- [📚 Personalized Teacher Mode – Lesson Enforcement](https://youtu.be/aG6oOYA1lXU)  
+### 🌟 Project Overviews
+
+| Meet Lingo: The AI-Driven Robot Tutor (Short Overview) | Deep Dive: Building Lingo (Detailed Breakdown) |
+| :---: | :---: |
+| [![Short Version](https://img.youtube.com/vi/bE_uEdicx6Y/0.jpg)](https://youtu.be/bE_uEdicx6Y) | [![Deep Dive Version](https://img.youtube.com/vi/27ZzGbhwjw0/0.jpg)](https://youtu.be/27ZzGbhwjw0) |
+
+---
+
+### 🔬 Testing & Interaction Results
+
+| ▶️ Main Demo – General Teacher Mode | 👤 Face Recognition – Personalized Login | 📚 Personalized Teacher Mode |
+| :---: | :---: | :---: |
+| [![General Teacher Mode](https://img.youtube.com/vi/7IBsDtvbOOo/0.jpg)](https://youtu.be/7IBsDtvbOOo) | [![Personalized Login](https://img.youtube.com/vi/A4hE7prCXok/0.jpg)](https://youtu.be/A4hE7prCXok) | [![Lesson Enforcement](https://img.youtube.com/vi/aG6oOYA1lXU/0.jpg)](https://youtu.be/aG6oOYA1lXU) |
 
 ---
 
